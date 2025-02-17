@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Projet.controllers.GestionFideliteController.FideliteController">
+
+        <AnchorPane prefHeight="800.0" prefWidth="1540.0" style="-fx-background-color: #e3e3e3;" stylesheets="@/Style/HomeStyle.css">
+            <fx:include source="/SideBar/navBarUser.fxml" />
+
+                <Pane layoutX="-1.0" layoutY="83.0" prefHeight="663.0" prefWidth="1542.0" style="-fx-background-color: #03045f;">
+
+                  <Pane layoutX="25.0" layoutY="26.0" prefHeight="610.0" prefWidth="1490.0" style="-fx-background-color: #e3e3e3; -fx-background-radius: 20;">
+
+                        <ImageView fitHeight="243.0" fitWidth="1487.0" layoutX="1.0" layoutY="1.0">
+                           <image>
+                               <Image url="@/Images/avrupada-ana-dili-ingilizce-olan-ulkeler-1200x554.jpg" />
+                           </image>
+                        </ImageView>
+                        <Pane layoutX="32.0" layoutY="292.0" prefHeight="240.0" prefWidth="700.0" style="-fx-background-radius: 20; -fx-background-color: white;">
+
+                              <Text layoutX="92.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre De Voyage Effectuée :" wrappingWidth="353.60003662109375">
+
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="97.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remise :" wrappingWidth="112.53327941894531">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Text>
+                                    <Text layoutX="95.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Point Fidélité :   " wrappingWidth="187.19998168945312">
+                                        <font>
+                                            <Font name="System Bold" size="20.0" />
+                                        </font>
+                                    </Text>
+                               <Text layoutX="458.0" layoutY="60.0" fx:id="txtNbVoyage" >
+                                   <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Text>
+                               <Text layoutX="275.0" layoutY="131.0" fx:id="txtPoints" >
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Text>
+                               <Text layoutX="215.0" layoutY="198.0" fx:id="txtRemise" >
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="52.0" layoutY="180.0">
+                                 <image>
+                                    <Image url="@/Images/discount-solid-36.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="54.0" layoutY="42.0">
+                                 <image>
+                                     <Image url="@/Images/airplane-travel-day-on-page-with-number-4-of-a-calendar.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="21.0" fitWidth="22.0" layoutX="55.0" layoutY="114.0">
+                                 <image>
+
+                                     <Image url="@/Images/card (1).png" />
+
+                                 </image>
+                              </ImageView>
+
+                        </Pane>
+                        <Pane layoutX="757.0" layoutY="290.0" prefHeight="240.0" prefWidth="700.0" style="-fx-background-radius: 20; -fx-background-color: white;">
+
+                              <Text layoutX="87.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RANK :" wrappingWidth="112.53327941894531">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                              </Text>
+                               <Text fill="#f5c702" layoutX="287.0" layoutY="130.0" fx:id="txtRank" >
+                                   <font>
+                                    <Font name="System Bold" size="30.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="445.0" layoutY="103.0">
+                                 <image>
+                                    <Image url="@/Images/high-quality (1).png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="46.0" layoutY="107.0">
+                                 <image>
+                                    <Image url="@/Images/rankings.png" />
+                                 </image>
+                              </ImageView>
+
+                        </Pane>
+                      <Text layoutX="1220.0" layoutY="585.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nb : 3 voyage = 1 Point De Fidélité" wrappingWidth="353.73329162597656"
+                            style="-fx-fill: #1a237e; -fx-font-size: 14px;" >
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Text>
+
+                  </Pane>
+
+                </Pane>
+
+
+
+            <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="830.0" layoutY="761.0">
+               <image>
+                  <Image url="@/Images/copyright.png" />
+               </image>
+            </ImageView>
+
+        </AnchorPane>
+
+</VBox>
