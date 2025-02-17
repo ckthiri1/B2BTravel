@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="546.0" prefWidth="621.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Reclamation.Controller.ListeReclamationController">
+    <children>
+        <Text layoutX="200.0" layoutY="50.0" text="Liste des Réclamations">
+            <font>
+                <Font size="24" />
+            </font>
+        </Text>
+
+        <TableView fx:id="reclamationTable" layoutX="21.0" layoutY="83.0" prefHeight="380.0" prefWidth="580.0" style="-fx-border-color: #bdc3c7;">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="50" text="ID">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="IDR" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="titreColumn" prefWidth="150" text="Titre">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="Titre" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="descriptionColumn" prefWidth="200" text="Description">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="Description" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="dateColumn" prefWidth="100" text="Date">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="DateR" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="actionsColumn" prefWidth="80" text="Actions" />
+                <TableColumn fx:id="modifierColumn" prefWidth="80" text="Modifier" />
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>
