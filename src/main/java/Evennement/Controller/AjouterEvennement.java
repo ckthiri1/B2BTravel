@@ -4,11 +4,16 @@ import Evennement.entities.Evennement;
 import Evennement.services.EvennementService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Date;
 
 public class AjouterEvennement {
@@ -53,6 +58,8 @@ public class AjouterEvennement {
         evennementService.add(newEvent);
         showAlert(Alert.AlertType.INFORMATION, "Succès", "Événement ajouté avec succès !");
         clearFields();
+        btnAjouter.getScene().getWindow().hide();
+
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {

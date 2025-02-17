@@ -45,7 +45,7 @@ public class UpdateEvennement {
     }
 
     @FXML
-    void updateEvennement(ActionEvent event) {
+    void updateEv(ActionEvent event) {
         if (selectedEvennement == null) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun événement sélectionné.");
             return;
