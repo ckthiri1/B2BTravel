@@ -14,7 +14,7 @@ public class MainFx extends Application {
     public void start(Stage primaryStage) {
         try {
             // Ensure the correct resource path
-            URL fxmlFile = getClass().getResource("/ListeEvennement.fxml");
+            URL fxmlFile = getClass().getResource("/homepage.fxml");
 
             if (fxmlFile == null) {
                 throw new RuntimeException("FXML file not found! Check the path");

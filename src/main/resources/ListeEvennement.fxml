@@ -7,10 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Evennement.Controller.ListeEvennement">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Evennement.Controller.ListeEvennement">
 
     <children>
         <!-- Include the Sidebar -->
@@ -25,13 +22,16 @@
                     </font>
                 </Label>
 
-                <TableView fx:id="tableView" layoutX="30.0" layoutY="80.0" prefHeight="647.0" prefWidth="975.0">
+                <TableView fx:id="tableView" layoutX="1.0" layoutY="84.0" prefHeight="647.0" prefWidth="1094.3">
                     <columns>
                         <TableColumn fx:id="colNom" prefWidth="168.8" text="Nom" />
                         <TableColumn fx:id="colLocal" prefWidth="228.8" text="Local" />
                         <TableColumn fx:id="colDate" prefWidth="240.8" text="Date" />
                         <TableColumn fx:id="colDes" prefWidth="335.9" text="Description" />
-
+                        <!-- Add a new column for the delete button -->
+                        <TableColumn fx:id="colAction" prefWidth="120.0" text="Action">
+                            <!-- No cellValueFactory or cellFactory defined here -->
+                        </TableColumn>
                     </columns>
                 </TableView>
 
@@ -41,16 +41,16 @@
                         <Font size="16.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnUpdate" layoutX="1076.0" layoutY="122.0" mnemonicParsing="false" onAction="#updateEvennement" text="Modifier">
+                <Button fx:id="btnUpdate" layoutX="1134.0" layoutY="268.0" mnemonicParsing="false" onAction="#InterfaceUpdate" text="Modifier">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnDelete" layoutX="1072.0" layoutY="186.0" mnemonicParsing="false" onAction="#deleteEvennement" text="Supprimer">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                </Button>
+            <Button fx:id="Ajout" layoutX="1138.0" layoutY="319.0" mnemonicParsing="false" onAction="#interfaceAjout" text="Ajouter">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
             </children>
         </AnchorPane>
     </children>
