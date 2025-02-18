@@ -1,0 +1,47 @@
+/* Cibler le TextField avec l'id prixT */
+#prixT {
+    -fx-background-color: #ffffff; /* Fond du champ de texte */
+    -fx-border-color: #808080; /* Bordure gris */
+    -fx-border-width: 1px; /* Bordure plus mince */
+    -fx-font-size: 14px; /* Taille de police */
+    -fx-text-fill: #333333; /* Couleur du texte */
+    -fx-padding: 5px; /* Espacement intérieur */
+}
+
+/* Cibler le TextField avec l'id idH */
+#idH {
+    -fx-background-color: #ffffff; /* Fond du champ de texte */
+    -fx-border-color: #808080; /* Bordure gris */
+    -fx-border-width: 1px; /* Bordure plus mince */
+    -fx-font-size: 14px; /* Taille de police */
+    -fx-text-fill: #333333; /* Couleur du texte */
+    -fx-padding: 5px; /* Espacement intérieur */
+}
+
+/* Cibler le DatePicker avec l'id dateT */
+#dateT {
+    -fx-background-color: #f0f0f0; /* Couleur de fond */
+    -fx-border-color: #808080; /* Bordure gris */
+    -fx-border-width: 1px; /* Bordure plus mince */
+    -fx-font-size: 14px; /* Taille de police */
+    -fx-text-fill: #333333; /* Couleur du texte */
+}
+
+/* Cibler le SplitMenuButton avec l'id statusT */
+#statusT {
+    -fx-background-color: #ffffff; /* Fond du bouton */
+    -fx-border-color: #808080; /* Bordure gris */
+    -fx-border-width: 1px; /* Bordure plus mince */
+    -fx-font-size: 14px; /* Taille de police */
+    -fx-text-fill: #333333; /* Couleur du texte */
+}
+
+#statusT .menu-item {
+    -fx-background-color: #ffffff; /* Fond des items du menu (blanc) */
+    -fx-text-fill: #808080; /* Couleur du texte des items en gris */
+}
+
+#statusT .menu-item:hover {
+    -fx-background-color: #13117D; /* Fond au survol */
+    -fx-text-fill: #ffffff; /* Couleur du texte au survol */
+}
