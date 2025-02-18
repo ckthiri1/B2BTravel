@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="mainContainer" prefHeight="800.0" prefWidth="1548.0" style="-fx-background-color: #e3e3e3;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Projet.controllers.GestionVoyageController.VoyageController">
+
+   <!-- SideBar -->
+   <fx:include source="/SideBar/SideBar.fxml" />
+
+   <!-- Voyage Container -->
+   <VBox fx:id="voyageContainer" layoutX="262.0" layoutY="94.0" spacing="10" />
+   <Text layoutX="321.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LIST VOYAGE">
+      <font>
+         <Font name="System Bold" size="30.0" />
+      </font>
+   </Text>
+   <Button fx:id="ajouterVoyageButton" layoutX="1292.0" layoutY="20.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="231.0" style="-fx-background-color: white;" text="AJOUTER VOYAGE" onAction="#handleAjouterVoyageButtonAction">
+      <font>
+         <Font name="System Bold" size="14.0" />
+      </font>
+   </Button>
+</AnchorPane>
