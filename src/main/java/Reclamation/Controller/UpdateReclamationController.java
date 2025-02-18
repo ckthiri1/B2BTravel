@@ -57,15 +57,12 @@ public class UpdateReclamationController {
         reclamationAModifier.setDescription(nouvelleDescription);
         reclamationAModifier.setDateR(nouvelleDate);
 
-        // Mettre à jour la réclamation dans la base de données
-        boolean isUpdated = reclamationServices.updateEntity(reclamationAModifier);
-        if (isUpdated) {
-            System.out.println("Réclamation mise à jour avec succès !");
-            // Fermer la fenêtre de modification
-            Stage stage = (Stage) titreTextField.getScene().getWindow();
-            stage.close();
-        } else {
-            System.out.println("Erreur lors de la mise à jour de la réclamation.");
-        }
+        // Appeler la méthode de mise à jour en passant l'ID et l'objet modifié
+        reclamationServices.updateEntity(reclamationAModifier.getIDR(), reclamationAModifier);
+        System.out.println("Réclamation mise à jour avec succès !");
+
+        // Fermer la fenêtre de modification
+        Stage stage = (Stage) titreTextField.getScene().getWindow();
+        stage.close();
     }
 }

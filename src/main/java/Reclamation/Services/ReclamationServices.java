@@ -3,6 +3,8 @@ package Reclamation.Services;
 import Reclamation.entities.Reclamation;
 import Reclamation.interfaces.Service;
 import Reclamation.tools.MyConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -79,8 +81,7 @@ public class ReclamationServices implements Service<Reclamation> {
         }
     }
 
-    @Override
-    public List<Reclamation> getAllData() {
+    public ObservableList<Reclamation> getAllData() {
         List<Reclamation> reclamations = new ArrayList<>();
         try {
             // SQL query to fetch all reclamations from the Reclamation table
@@ -112,11 +113,19 @@ public class ReclamationServices implements Service<Reclamation> {
         }
 
         // Return the list of reclamations
-        return reclamations;
+        return FXCollections.observableArrayList(reclamations);
     }
 
     public boolean updateEntity(Reclamation reclamationAModifier) {
         return true;
+    }
+
+    public Reclamation getById(int reclamationId) {
+        return null;
+    }
+
+    public Reclamation getReclamationById(int reclamationId) {
+        return null;
     }
 }
 

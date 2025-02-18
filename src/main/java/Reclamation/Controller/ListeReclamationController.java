@@ -2,11 +2,9 @@ package Reclamation.Controller;
 
 import Reclamation.entities.Reclamation;
 import Reclamation.Services.ReclamationServices;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -16,11 +14,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.io.IOException;
 
-public class ListeReclamationController implements Initializable {
+public class ListeReclamationController {
 
     @FXML
     private TableView<Reclamation> reclamationTable;
@@ -38,16 +34,20 @@ public class ListeReclamationController implements Initializable {
     private TableColumn<Reclamation, String> dateColumn;
 
     @FXML
-    private TableColumn<Reclamation, Void> actionsColumn; // Colonne pour le bouton "Supprimer"
+    private TableColumn<Reclamation, Void> actionsColumn;
 
     @FXML
-    private TableColumn<Reclamation, Void> modifierColumn; // Colonne pour le bouton "Modifier"
+    private TableColumn<Reclamation, Void> modifierColumn;
+
+    @FXML
+    private TableColumn<Reclamation, Void> repondreColumn;
 
     private final ReclamationServices reclamationServices = new ReclamationServices();
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Configurer les colonnes existantes
+    @FXML
+    public void initialize() {
+
+        // Configurer les colonnes
         idColumn.setCellValueFactory(new PropertyValueFactory<>("IDR"));
         titreColumn.setCellValueFactory(new PropertyValueFactory<>("Titre"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
@@ -61,6 +61,7 @@ public class ListeReclamationController implements Initializable {
                     private final Button deleteButton = new Button("Supprimer");
 
                     {
+                        deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
                         deleteButton.setOnAction(event -> {
                             Reclamation reclamation = getTableView().getItems().get(getIndex());
                             supprimerReclamation(reclamation);
@@ -88,9 +89,10 @@ public class ListeReclamationController implements Initializable {
                     private final Button editButton = new Button("Modifier");
 
                     {
+                        editButton.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
                         editButton.setOnAction(event -> {
                             Reclamation reclamation = getTableView().getItems().get(getIndex());
-                            ouvrirFormulaireModification(reclamation);
+                            modifierReclamation(reclamation);
                         });
                     }
 
@@ -107,50 +109,99 @@ public class ListeReclamationController implements Initializable {
             }
         });
 
-        // Charger toutes les réclamations au démarrage
-        loadReclamations();
-    }
+        // Configurer la colonne des actions (bouton de réponse)
+        repondreColumn.setCellFactory(new Callback<>() {
+            @Override
+            public TableCell<Reclamation, Void> call(final TableColumn<Reclamation, Void> param) {
+                return new TableCell<>() {
+                    private final Button repondreButton = new Button("Répondre");
 
-    @FXML
-    private void loadReclamations() {
-        List<Reclamation> reclamationsList = reclamationServices.getAllData();
-        ObservableList<Reclamation> observableList = FXCollections.observableArrayList(reclamationsList);
-        reclamationTable.setItems(observableList);
-    }
+                    {
+                        repondreButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+                        repondreButton.setOnAction(event -> {
+                            Reclamation reclamation = getTableView().getItems().get(getIndex());
+                            repondreAReclamation(reclamation);
+                        });
+                    }
 
-    public void refreshTable() {
-        loadReclamations();
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(repondreButton);
+                        }
+                    }
+                };
+            }
+        });
+
+        // Charger les données dans la TableView
+        reclamationTable.setItems(reclamationServices.getAllData());
     }
 
     private void supprimerReclamation(Reclamation reclamation) {
         boolean isDeleted = reclamationServices.deleteEntity(reclamation);
         if (isDeleted) {
-            loadReclamations();
+            reclamationTable.getItems().remove(reclamation);
             System.out.println("Réclamation supprimée avec succès !");
         } else {
             System.out.println("Erreur lors de la suppression de la réclamation.");
         }
     }
 
-    /**
-     * Ouvre le formulaire de modification pour la réclamation sélectionnée.
-     *
-     * @param reclamation La réclamation à modifier.
-     */
-    private void ouvrirFormulaireModification(Reclamation reclamation) {
+    private void modifierReclamation(Reclamation reclamation) {
         try {
+            // Load the update view
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateReclamation.fxml"));
+            Parent root = loader.load();
+
+            // Get the update controller and pass the selected reclamation
+            UpdateReclamationController updateController = loader.getController();
+            updateController.setReclamationAModifier(reclamation);
+
+            // Open the update window and wait until it closes
             Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier Réclamation");
+            stage.showAndWait();
 
-            // Passer la réclamation sélectionnée au contrôleur de modification
-            UpdateReclamationController controller = loader.getController();
-            controller.setReclamationAModifier(reclamation);
+            // Refresh the table view after modification
+            refreshTable();
 
-            stage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Erreur lors de l'ouverture du formulaire de modification : " + e.getMessage());
+            System.err.println("Erreur lors du chargement du fichier FXML pour la mise à jour de la réclamation : " + e.getMessage());
         }
+    }
+
+
+
+    private void repondreAReclamation(Reclamation reclamation) {
+        try {
+            // Charger la vue AjouterReponse.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterReponse.fxml"));
+            Parent root = loader.load();
+
+            // Passer l'ID de la réclamation au contrôleur AjouterReponseController
+            AjouterReponseController controller = loader.getController();
+            controller.setIDR(reclamation.getIDR());
+
+            // Afficher la nouvelle fenêtre
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Ajouter une réponse");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors du chargement de la vue AjouterReponse.fxml : " + e.getMessage());
+        }
+    }
+
+    public void refreshTable() {
+        // Clear and reload the data in the table
+        reclamationTable.getItems().clear();
+        reclamationTable.setItems(reclamationServices.getAllData());
     }
 }

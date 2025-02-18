@@ -111,4 +111,12 @@ public class ReponseServices {
         }
         return results;
     }
+
+    public Reponse getReponsesByReclamationId(int reclamationId) {
+        return null;
+    }
+
+    public Reponse getReponseByReclamationId(int reclamationId) {
+        return null;
+    }
 }

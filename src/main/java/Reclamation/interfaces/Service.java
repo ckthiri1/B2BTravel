@@ -11,6 +11,9 @@ public interface Service<T> {
 
 
     void updateEntity(int id, T t);
-    List<T> getAllData();
+
+    default List<Reclamation> getAllData() {
+        return null;
+    }
 }
 

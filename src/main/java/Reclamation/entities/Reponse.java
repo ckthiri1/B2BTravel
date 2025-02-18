@@ -1,6 +1,9 @@
 package Reclamation.entities;
 
 import java.time.LocalDate;
+import Reclamation.entities.Reclamation;
+import javafx.beans.binding.BooleanExpression;
+import javafx.beans.value.ObservableValue;
 
 public class Reponse {
     private int IDRep;
@@ -11,10 +14,26 @@ public class Reponse {
     // Constructeurs
     public Reponse() {}
 
-    public Reponse(int IDRep, String DescriptionRep, LocalDate DateRep, int IDR) {
+    // This property holds the response description.
+    private String reclamationTitre;
+
+    // Constructor used for display purposes.
+    public Reponse(String reclamationTitre, String descriptionRep) {
+        this.reclamationTitre = reclamationTitre;
+        this.DescriptionRep = descriptionRep;
+    }
+
+    public String getReclamationTitre() {
+        return reclamationTitre;
+    }
+
+
+
+    public Reponse(int IDRep, String DescriptionRep, LocalDate DateRep,String Titre, int IDR) {
         this.IDRep = IDRep;
         this.DescriptionRep = DescriptionRep;
         this.DateRep = DateRep;
+        Titre = Titre;
         this.IDR = IDR;
     }
 
@@ -24,6 +43,7 @@ public class Reponse {
         this.IDR = IDR;
     }
 
+
     // Getters & Setters
     public int getIDRep() {
         return IDRep;
@@ -32,6 +52,7 @@ public class Reponse {
     public void setIDRep(int IDRep) {
         this.IDRep = IDRep;
     }
+
 
     public String getDescriptionRep() {
         return DescriptionRep;
@@ -65,5 +86,17 @@ public class Reponse {
                 ", DateRep=" + DateRep +
                 ", IDR=" + IDR +
                 '}';
+    }
+
+    public BooleanExpression IDRepProperty() {
+        return null;
+    }
+
+    public ObservableValue<String> DescriptionRepProperty() {
+        return null;
+    }
+
+    public ObservableValue<LocalDate> DateRepProperty() {
+        return null;
     }
 }
