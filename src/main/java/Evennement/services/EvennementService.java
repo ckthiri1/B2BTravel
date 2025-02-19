@@ -1,116 +1,115 @@
 package Evennement.services;
+
 import Evennement.entities.Evennement;
+import Evennement.entities.Organisateur;
 import Evennement.interfaces.IService;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.sql.PreparedStatement;
 import Evennement.tools.MyConnection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class EvennementService implements IService <Evennement> {
+public class EvennementService implements IService<Evennement> {
 
     @Override
     public void add(Evennement e) {
-        String requete = "INSERT INTO Evennement (NomE, Local, DateE, DesE) VALUES (?, ?, ?, ?)";
-        try {
-            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
+        String requete = "INSERT INTO Evennement (NomE, Local, DateE, DesE, IDOr) VALUES (?,?,?,?,?)";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
             pst.setString(1, e.getNomE());
             pst.setString(2, e.getLocal());
-            pst.setTimestamp(3, new Timestamp(e.getDateE().getTime())); // Convert Date to Timestamp
+            pst.setTimestamp(3, (e.getDateE() != null) ? new Timestamp(e.getDateE().getTime()) : null); // Handle null DateE
             pst.setString(4, e.getDesE());
 
-            pst.executeUpdate();
-            System.out.println("Evennement ajouté");
+            // ✅ Ensure Organisateur is not null before inserting
+            if (e.getOrganisateur() != null && e.getOrganisateur().getIDOr() != 0) {
+                pst.setInt(5, e.getOrganisateur().getIDOr());
+                System.out.println("Organisateur ID: " + e.getOrganisateur().getIDOr());  // Debugging log
+            } else {
+                System.err.println("❌ Organisateur is null or has invalid ID! Event cannot be added.");
+                throw new IllegalArgumentException("Organisateur cannot be null or have ID 0 for an Evennement.");
+            }
 
+            pst.executeUpdate();
+            System.out.println("✅ Evennement ajouté avec succès!");
         } catch (SQLException exception) {
-            System.out.println("Error: " + exception.getMessage());
+            System.err.println("❌ SQL Error: " + exception.getMessage());
+            exception.printStackTrace();
+            throw new RuntimeException("Error adding event", exception);
         }
     }
 
     @Override
     public void update(Evennement e, int IDE) {
-        String requete = "UPDATE Evennement SET NomE = ?, Local = ?, DateE = ?, DesE = ? WHERE IDE = ?";
+        String requete = "UPDATE Evennement SET NomE = ?, Local = ?, DateE = ?, DesE = ?, IDOr = ? WHERE IDE = ?";
         try {
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, e.getNomE());
             pst.setString(2, e.getLocal());
-            pst.setTimestamp(3, new Timestamp(e.getDateE().getTime())); // Convert Date to Timestamp
+            pst.setTimestamp(3, new Timestamp(e.getDateE().getTime()));
             pst.setString(4, e.getDesE());
-            pst.setInt(5, IDE); // Use provided IDE parameter instead of e.getIDE()
+            pst.setInt(5, e.getOrganisateur().getIDOr()); // Update the foreign key
+            pst.setInt(6, IDE);
 
-            pst.executeUpdate();
-            System.out.println("✅ Evennement with ID " + IDE + " updated!");
+            int rowsUpdated = pst.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("✅ Evennement avec ID " + IDE + " mis à jour !");
+            } else {
+                System.out.println("⚠️ Aucun événement trouvé avec ID " + IDE);
+            }
         } catch (SQLException exception) {
             System.out.println("❌ SQL Error: " + exception.getMessage());
         }
     }
-
-
-
-
     @Override
     public void delete(int IDE) {
+        String requete = "DELETE FROM Evennement WHERE IDE = ?";
         try {
-            String requete = "DELETE FROM Evennement WHERE IDE = ?";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
-            pst.setInt(1, IDE); // Bind the event ID directly
+            pst.setInt(1, IDE);
             int rowsAffected = pst.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("✅ Event with ID " + IDE + " deleted successfully!");
+                System.out.println("✅ Evennement avec ID " + IDE + " supprimé avec succès!");
             } else {
-                System.out.println("⚠️ No event found with ID " + IDE);
+                System.out.println("⚠️ Aucun événement trouvé avec ID " + IDE);
             }
         } catch (SQLException exception) {
             System.out.println("❌ SQL Error: " + exception.getMessage());
         }
     }
 
-
     @Override
     public List<Evennement> getAllData() {
         List<Evennement> events = new ArrayList<>();
-        try {
-            // SQL query to fetch all events from the Evennement table
-            String query = "SELECT IDE, NomE, Local, DateE, DesE FROM Evennement";
+        String query = "SELECT e.IDE, e.NomE, e.Local, e.DateE, e.DesE, o.NomOr FROM Evennement e JOIN Organisateur o ON e.IDOr = o.IDOr";
 
-            // Create a statement
+        try {
             Statement stmt = MyConnection.getInstance().getCnx().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
-            // Process the result set and create Evennement objects
             while (rs.next()) {
                 int IDE = rs.getInt("IDE");
                 String nomE = rs.getString("NomE");
                 String local = rs.getString("Local");
                 String desE = rs.getString("DesE");
+                Date dateE = new Date(rs.getTimestamp("DateE").getTime());
+                String NomOr = rs.getString("NomOr");
 
-                // Get the date as java.sql.Date
-                java.sql.Date sqlDate = rs.getDate("DateE");
+                // Retrieve the Organisateur details
+                int IDOr = rs.getInt("IDOr"); // ✅ This should now work correctly
+                String nomOr = rs.getString("NomOr");
+                int Contact = rs.getInt("Contact");
 
-                // Convert java.sql.Date to java.util.Date
-                java.util.Date dateE = new java.util.Date(sqlDate.getTime());
+                Organisateur organisateur = new Organisateur(IDOr, nomOr, Contact);
 
-                // Create an Evennement object and add it to the list
-                Evennement evennement = new Evennement(nomE, local, desE, dateE);
-                evennement.setIDE(IDE); // Set the ID if it's not set in the constructor
+                Evennement evennement = new Evennement(nomE, local, desE, dateE, organisateur);
+                evennement.setIDE(IDE);
                 events.add(evennement);
             }
-
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error fetching data: " + e.getMessage());
+            System.out.println("❌ SQL Error while fetching events: " + e.getMessage());
         }
 
-        // Return the list of events
         return events;
     }
 }

@@ -4,39 +4,49 @@ public class Organisateur {
     private int IDOr;
     private String NomOr;
     private int Contact;
-    public Organisateur() {}
-    public Organisateur(String NomOr, int Contact) {
-        this.IDOr = IDOr;
-        this.NomOr = NomOr;
-        this.Contact = Contact;
-    }
-    public int getIDOr() {
-        return IDOr;
-    }
-    public void setIDOr(int IDOr) {
-        this.IDOr = IDOr;
-    }
-    public String getNomOr() {
-        return NomOr;
-    }
-    public void setNomOr(String NomOr) {
-        this.NomOr = NomOr;
-    }
-    public int getContact() {
-        return Contact;
-    }
-    public void setContact(int Contact) {
-        this.Contact = Contact;
-    }
-
-    @Override
-    public String toString() {
-        return "Organisateur{" +
-                "IDOr=" + IDOr +
-                ", NomOr='" + NomOr + '\'' +
-                ", Contact=" + Contact +
-                '}';
-    }
 
 
-}
+
+        // Constructor
+        public Organisateur(int IDOr, String nomOr, int contact) {
+            this.IDOr = IDOr;
+            NomOr = nomOr;
+            this.Contact = contact;
+        }
+        public Organisateur(String  NomOr, int contact) {
+            this.NomOr = NomOr;
+            this.Contact = contact;
+
+        }
+
+        // Getters and Setters
+        public int getIDOr() {
+            return IDOr;
+        }
+
+        public void setIDOr(int IDOr) {
+            this.IDOr = IDOr;
+        }
+
+        public String getNomOr() {
+            return NomOr;
+        }
+
+        public void setNomOr(String nomOr) {
+            this.NomOr = nomOr;
+        }
+
+        public int getContact() {
+            return Contact;
+        }
+
+        public void setContact(int contact) {
+            this.Contact = contact;
+        }
+
+        @Override
+        public String toString() {
+            return NomOr; // Display the name in the ComboBox
+        }
+    }
+

@@ -8,13 +8,29 @@ public class Evennement {
     private String Local;
     private Date DateE;
     private String DesE;
+    private Organisateur organisateur; // Reference to the Organisateur entity
 
-    public Evennement(String nomE, String local, String desE, java.util.Date dateE) {
-        this.IDE = IDE;
+    public Evennement(String nomE, String local, String desE, Date dateE, Organisateur organisateur) {
+        if (organisateur == null || organisateur.getIDOr() == 0) {
+            throw new IllegalArgumentException("Organisateur cannot be null or have ID 0");
+        }   this.IDE = IDE;
         NomE = nomE;
         Local = local;
+        DateE = dateE;
         DesE = desE;
-        this.DateE = dateE;
+        this.organisateur = organisateur;
+    }
+
+
+    public Evennement(int IDE, String nomE, String local, String desE, Date dateE, Organisateur organisateur) {
+        if (organisateur == null || organisateur.getIDOr() == 0) {
+            throw new IllegalArgumentException("Organisateur cannot be null or have ID 0");
+        }   this.IDE = IDE;
+        NomE = nomE;
+        Local = local;
+        DateE = dateE;
+        DesE = desE;
+        this.organisateur = organisateur;
     }
 
     public int getIDE() {
@@ -57,6 +73,17 @@ public class Evennement {
         DesE = desE;
     }
 
+    public Organisateur getOrganisateur() {
+        return organisateur;
+    }
+
+    public void setOrganisateur(Organisateur organisateur) {
+        this.organisateur = organisateur;
+    }
+
+    public String getNomOr() {
+        return organisateur != null ? organisateur.getNomOr() : null;
+    }
     @Override
     public String toString() {
         return "Evennement{" +
@@ -65,7 +92,7 @@ public class Evennement {
                 ", Local='" + Local + '\'' +
                 ", DateE=" + DateE +
                 ", DesE='" + DesE + '\'' +
+                ", Organisateur=" + (organisateur != null ? organisateur.getIDOr() : "null") +
                 '}';
     }
-
 }
