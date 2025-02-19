@@ -6,27 +6,29 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="790.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CRUD.controllers.ModifierReservationC">
    <children>
-      <Label layoutX="423.0" layoutY="205.0" text="Date :">
+      <Label layoutX="418.0" layoutY="154.0" text="Date :">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="423.0" layoutY="425.0" text="Status :">
+      <Label layoutX="418.0" layoutY="374.0" text="Status :">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="423.0" layoutY="538.0" text="Nom hebergement :">
+      <Label layoutX="418.0" layoutY="487.0" text="Nom hebergement :">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <SplitMenuButton fx:id="status" layoutX="423.0" layoutY="472.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" style="-fx-border-radius: 6;" text="Choisir" wrapText="true">
+      <SplitMenuButton fx:id="status" layoutX="418.0" layoutY="421.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" style="-fx-border-radius: 6;" text="Choisir" wrapText="true">
          <items>
             <MenuItem mnemonicParsing="false" text="EnAttente" />
             <MenuItem mnemonicParsing="false" text="Resolue" />
@@ -35,68 +37,53 @@
             <Font size="14.0" />
          </font>
       </SplitMenuButton>
-      <Button fx:id="modifier" layoutX="424.0" layoutY="664.0" mnemonicParsing="false" onAction="#modifier" prefHeight="38.0" prefWidth="250.0" style="-fx-background-color: #13117D; -fx-background-radius: 15;" text="Modifier" textFill="#fcfafa">
+      <Button fx:id="modifier" layoutX="419.0" layoutY="613.0" mnemonicParsing="false" onAction="#modifier" prefHeight="38.0" prefWidth="250.0" style="-fx-background-color: #13117D; -fx-background-radius: 15;" text="Modifier" textFill="#fcfafa">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <DatePicker fx:id="dateT" layoutX="422.0" layoutY="258.0" prefHeight="31.0" prefWidth="250.0" style="-fx-border-radius: 6;" stylesheets="@RS.css" />
-      <Label layoutX="423.0" layoutY="316.0" text="Prix :">
+
+      <DatePicker fx:id="dateT" layoutX="417.0" layoutY="207.0" prefHeight="31.0" prefWidth="250.0" style="-fx-border-radius: 6;" stylesheets="@RS.css" />
+      <Label layoutX="418.0" layoutY="265.0" text="Prix :">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="prixT" layoutX="423.0" layoutY="364.0" prefHeight="26.0" prefWidth="250.0" style="-fx-border-radius: 10;" />
-      <Button fx:id="retour" layoutX="424.0" layoutY="728.0" mnemonicParsing="false" onAction="#retour" prefHeight="38.0" prefWidth="250.0" style="-fx-background-color: #13117D; -fx-background-radius: 15;" text="Retour" textFill="#fcfafa">
+      <TextField fx:id="prixT" layoutX="418.0" layoutY="313.0" prefHeight="26.0" prefWidth="250.0" style="-fx-border-radius: 10;" />
+      <Button fx:id="retour" layoutX="417.0" layoutY="675.0" mnemonicParsing="false" onAction="#retour" prefHeight="38.0" prefWidth="250.0" style="-fx-background-color: #13117D; -fx-background-radius: 15;" text="Retour" textFill="#fcfafa">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <SplitMenuButton fx:id="idH" layoutX="422.0" layoutY="593.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Séléctionner un hébergement">
+      <SplitMenuButton fx:id="idH" layoutX="417.0" layoutY="542.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" text="Séléctionner un hébergement">
          <font>
             <Font size="14.0" />
          </font>
       </SplitMenuButton>
-      <Label layoutX="480.0" layoutY="130.0" text="Réservation">
+      <Label layoutX="408.0" layoutY="77.0" text="Modifier Réservation">
          <font>
             <Font name="Arial Black" size="24.0" />
          </font>
       </Label>
-      <AnchorPane layoutY="-7.0" prefHeight="815.0" prefWidth="270.0" style="-fx-background-color: #13117D;" />
-      <Button layoutX="8.0" layoutY="218.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Utilisateur" textFill="WHITE">
+      <fx:include source="SideBar.fxml" />
+      <Label fx:id="successMessage" layoutX="420.0" layoutY="752.0" prefHeight="16.0" prefWidth="46.0" textFill="#0222fa">
          <font>
-            <Font name="System Bold" size="17.0" />
+            <Font name="Arial" size="14.0" />
          </font>
-      </Button>
-      <Button layoutX="8.0" layoutY="298.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Voyage" textFill="#fafafa">
+      </Label>
+      <Label fx:id="msg1" layoutX="418.0" layoutY="247.0" prefHeight="18.0" prefWidth="323.0" textFill="#fa0303" />
+      <Label fx:id="msg2" layoutX="419.0" layoutY="352.0" prefHeight="18.0" prefWidth="310.0" textFill="#ef0404" />
+      <Label fx:id="msg3" layoutX="418.0" layoutY="468.0" prefHeight="18.0" prefWidth="310.0" textFill="#f70000" />
+      <Label fx:id="msg4" layoutX="417.0" layoutY="585.0" prefHeight="18.0" prefWidth="323.0" textFill="#f20707" />
+      <Label fx:id="successMessage1" layoutX="419.0" layoutY="729.0" prefHeight="18.0" prefWidth="309.0" textFill="#f70202">
          <font>
-            <Font name="System Bold" size="17.0" />
+            <Font name="Arial" size="14.0" />
          </font>
-      </Button>
-      <Button layoutX="8.0" layoutY="377.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Fidélité" textFill="#fafafa">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="7.0" layoutY="456.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Evénement" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="7.0" layoutY="535.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Réclamation" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="8.0" layoutY="617.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Réservation" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="59.0" layoutY="735.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #f6f6f6; -fx-background-radius: 10;" text="LOG OUT">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
+      </Label>
+      <ImageView fitHeight="310.0" fitWidth="382.0" layoutX="788.0" layoutY="254.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/reservation-removebg-preview.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

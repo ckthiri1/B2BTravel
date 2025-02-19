@@ -75,15 +75,21 @@ public class ReservationService  implements IService<Reservation> {
         }
 
         try {
-            // Step 1: Delete the reservation using its ID
+            // Mettre à jour les réservations pour dissocier l'hébergement avant la suppression
+            String updateQuery = "UPDATE reservation_heberge SET idH = NULL WHERE idH = ?";
+            PreparedStatement updatePst = MyConnection.getInstance().getCnx().prepareStatement(updateQuery);
+            updatePst.setInt(1, reservation.getHebergement_id());
+            updatePst.executeUpdate();
+
+            // Maintenant, supprimer l'hébergement
             String deleteQuery = "DELETE FROM reservation_heberge WHERE id_resH = ?";
             PreparedStatement deletePst = MyConnection.getInstance().getCnx().prepareStatement(deleteQuery);
             deletePst.setInt(1, reservation.getId_reservation());
 
             int rowsDeleted = deletePst.executeUpdate();
             if (rowsDeleted > 0) {
-                System.out.println("Réservation supprimée avec succès! (ID: " + reservation.getId_reservation() + ")");
-                return true; // Return true if deletion is successful
+                System.out.println("Réservation supprimée avec succès!");
+                return true;
             } else {
                 System.out.println("Erreur: La réservation n'a pas pu être supprimée.");
             }
@@ -92,6 +98,7 @@ public class ReservationService  implements IService<Reservation> {
         }
         return false;
     }
+
 
 
 
@@ -151,7 +158,4 @@ public class ReservationService  implements IService<Reservation> {
 
         return hebergements;
     }
-
-
-
 }

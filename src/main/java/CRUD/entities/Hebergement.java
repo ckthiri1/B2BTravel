@@ -7,11 +7,11 @@ public class Hebergement {
     private String type;
     private String description;
 
-    public Hebergement(String nom, String adresse, String type, String descriptioncription) {
+    public Hebergement(String nom, String adresse, String type, String description) {
         this.nom = nom;
         this.adresse = adresse;
         this.type = type;
-        this.description = descriptioncription;
+        this.description = description;
     }
 
     public Hebergement(int id_hebergement, String nom, String adresse, String type, String description) {
@@ -45,7 +45,7 @@ public class Hebergement {
         return type;
     }
 
-    public String getdescription() {
+    public String getDescription() {
         return description;
     }
 
@@ -65,7 +65,7 @@ public class Hebergement {
         this.type = type;
     }
 
-    public void setdescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

@@ -7,14 +7,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 public class ModifierReservationC {
@@ -38,103 +36,124 @@ public class ModifierReservationC {
     private SplitMenuButton status;
 
     @FXML
+    private Label successMessage, msg1, msg2, msg3, msg4;
+
+    private Reservation selectedReservation;
+
+    @FXML
     void modifier(ActionEvent event) {
         try {
-            // Retrieve and validate the selected date
+            // Validation de la date (doit être sélectionnée et ne pas être dans le passé)
             LocalDate date = dateT.getValue();
-            if (date == null) {
-                showAlert("Erreur", "Veuillez sélectionner une date.");
+            if (date == null || date.isBefore(LocalDate.now())) {
+                afficherMessageErreur(msg1, "Veuillez entrer une date valide (future ou aujourd'hui).");
                 return;
             }
-            LocalDateTime dateTime = date.atTime(LocalTime.now());
+            LocalDateTime dateTime = date.atStartOfDay(); // Ajout d'une heure par défaut
 
-            // Retrieve and validate the price
-            int prix = Integer.parseInt(prixT.getText());
+            // Validation du prix (doit être un nombre positif)
+            String prixTexte = prixT.getText().trim();
+            if (prixTexte.isEmpty() || !prixTexte.matches("\\d+")) {
+                afficherMessageErreur(msg2, "Veuillez entrer un prix valide.");
+                return;
+            }
+            int prix = Integer.parseInt(prixTexte);
 
-            // Retrieve and validate the selected hebergement
+            // Vérification qu'un hébergement est sélectionné
+            if (idH.getUserData() == null) {
+                afficherMessageErreur(msg4, "Veuillez sélectionner un hébergement.");
+                return;
+            }
             Integer idHValue = (Integer) idH.getUserData();
-            if (idHValue == null) {
-                showAlert("Erreur", "Veuillez sélectionner un hébergement.");
+
+            // Vérification qu'un statut est sélectionné
+            if (status.getUserData() == null) {
+                afficherMessageErreur(msg3, "Veuillez sélectionner un statut.");
                 return;
             }
+            String statusValue = (String) status.getUserData();
 
-            // Retrieve the selected status
-            String statusValue = status.getText();
-
-            // Update the reservation object
+            // Mise à jour de l'objet réservation
             selectedReservation.setDate_reservation(dateTime);
             selectedReservation.setPrix(prix);
             selectedReservation.setHebergement_id(idHValue);
-            selectedReservation.setHebergementName(idH.getText()); // Ensure the name is updated
+            selectedReservation.setHebergementName(idH.getText()); // Mise à jour du nom
             selectedReservation.setStatus(statusValue);
 
-            // Update the reservation in the database
+            // Mise à jour dans la base de données
             ReservationService reservationService = new ReservationService();
             reservationService.updateEntity(selectedReservation.getId_reservation(), selectedReservation);
 
-            // Close the current window
-            Stage stage = (Stage) modifier.getScene().getWindow();
-            stage.close();
+            // Affichage du message de succès
+            afficherMessageSucces("Réservation modifiée avec succès !");
 
-            // Refresh the reservation list in the parent controller
-            parentController.showReservations();
-
-        } catch (NumberFormatException e) {
-            showAlert("Erreur", "Le prix doit être un nombre valide.");
         } catch (Exception e) {
-            showAlert("Erreur", "Une erreur est survenue : " + e.getMessage());
+            afficherMessageErreur(successMessage, "Une erreur est survenue : " + e.getMessage());
         }
-
     }
 
-    private void showAlert(String erreur, String s) {
+    private void afficherMessageErreur(Label label, String message) {
+        label.setText(message);
+        label.setVisible(true);
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+                label.setVisible(false);
+            } catch (InterruptedException ignored) {}
+        }).start();
     }
 
-    private Reservation selectedReservation;
-    private AjouterReservationC parentController; // Référence pour rafraîchir la TableView
+    private void afficherMessageSucces(String message) {
+        successMessage.setText(message);
+        successMessage.setVisible(true);
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+                successMessage.setVisible(false);
+            } catch (InterruptedException ignored) {}
+        }).start();
+    }
 
-    public void initData(Reservation reservation, AjouterReservationC parent) {
+    public void initData(Reservation reservation, AffichageReservation tableCell) {
         selectedReservation = reservation;
-        parentController = parent;
 
-        // Set date and price
+        // Pré-remplissage des champs
         dateT.setValue(reservation.getDate_reservation().toLocalDate());
         prixT.setText(String.valueOf(reservation.getPrix()));
 
-        // Fetch available accommodations and populate menu
+        // Chargement des hébergements et du statut
         ReservationService reservationService = new ReservationService();
         List<Hebergement> hebergements = reservationService.getAllHebergements();
         setupHebergementMenu(hebergements);
+        setupStatusMenu();
 
-        // Pre-select the current accommodation
+        // Pré-sélectionner l'hébergement et le statut actuel
         idH.setText(reservation.getHebergementName());
         idH.setUserData(reservation.getHebergement_id());
-
-        // Set up status menu
-        setupStatusMenu();
+        status.setText(reservation.getStatus());
+        status.setUserData(reservation.getStatus());
     }
-    private void setupStatusMenu() {
-        status.getItems().clear(); // Clear existing items
 
-        // Add status options
-        String[] statusOptions = {"EnAttente","Resolue"};
+    private void setupStatusMenu() {
+        status.getItems().clear();
+        String[] statusOptions = {"EnAttente", "Resolue"};
         for (String option : statusOptions) {
             MenuItem item = new MenuItem(option);
             item.setOnAction(event -> {
-                status.setText(option); // Update the button's displayed text
-                status.setUserData(option); // Store the selected value
+                status.setText(option);
+                status.setUserData(option);
             });
             status.getItems().add(item);
         }
     }
-    private void setupHebergementMenu(List<Hebergement> hebergements) {
-        idH.getItems().clear(); // Clear existing items
 
+    private void setupHebergementMenu(List<Hebergement> hebergements) {
+        idH.getItems().clear();
         for (Hebergement hebergement : hebergements) {
             MenuItem item = new MenuItem(hebergement.getNom());
             item.setOnAction(event -> {
-                idH.setText(hebergement.getNom()); // Update displayed text
-                idH.setUserData(hebergement.getId_hebergement()); // Store the selected value
+                idH.setText(hebergement.getNom());
+                idH.setUserData(hebergement.getId_hebergement());
             });
             idH.getItems().add(item);
         }
@@ -143,15 +162,12 @@ public class ModifierReservationC {
     @FXML
     void retour(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Affichage.fxml")); // Page précédente
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Affichage.fxml"));
             Parent root = loader.load();
-
-            // Récupérer la scène actuelle et remplacer son contenu
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             stage.getScene().setRoot(root);
         } catch (IOException e) {
             System.out.println("Erreur lors du retour : " + e.getMessage());
         }
     }
-
 }

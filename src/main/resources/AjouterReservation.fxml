@@ -6,47 +6,14 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="803.0" prefWidth="1222.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CRUD.controllers.AjouterReservationC">
+<AnchorPane prefHeight="797.0" prefWidth="1222.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CRUD.controllers.AjouterReservationC">
    <children>
-      <AnchorPane prefHeight="803.0" prefWidth="270.0" style="-fx-background-color: #13117D;" />
-      <Button layoutX="8.0" layoutY="213.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Utilisateur" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="8.0" layoutY="293.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Voyage" textFill="#fafafa">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="8.0" layoutY="372.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Fidélité" textFill="#fafafa">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="7.0" layoutY="451.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Evénement" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="7.0" layoutY="530.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Réclamation" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="8.0" layoutY="612.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Réservation" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button layoutX="59.0" layoutY="730.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #f6f6f6; -fx-background-radius: 10;" text="LOG OUT">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
+      <fx:include source="SideBar.fxml" />
       <Label layoutX="419.0" layoutY="158.0" text="Date :">
          <font>
             <Font name="Arial Bold" size="18.0" />
@@ -83,7 +50,7 @@
          </font>
       </Label>
       <TextField fx:id="prixT" layoutX="419.0" layoutY="317.0" prefHeight="26.0" prefWidth="250.0" style="-fx-border-radius: 10;" />
-      <Label layoutX="464.0" layoutY="64.0" text="Réservation">
+      <Label layoutX="414.0" layoutY="79.0" text="Ajouter Réservation">
          <font>
             <Font name="Arial Black" size="24.0" />
          </font>
@@ -98,5 +65,19 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <Label fx:id="msg1" layoutX="419.0" layoutY="248.0" prefHeight="18.0" prefWidth="250.0" textFill="#fa0303" />
+      <Label fx:id="msg2" layoutX="420.0" layoutY="353.0" prefHeight="18.0" prefWidth="250.0" textFill="#ef0404" />
+      <Label fx:id="msg3" layoutX="419.0" layoutY="469.0" prefHeight="18.0" prefWidth="250.0" textFill="#f70000" />
+      <Label fx:id="msg4" layoutX="418.0" layoutY="593.0" prefHeight="18.0" prefWidth="250.0" textFill="#f20707" />
+      <Label fx:id="successMessage" layoutX="420.0" layoutY="730.0" prefHeight="18.0" prefWidth="309.0" textFill="#f70202">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="310.0" fitWidth="382.0" layoutX="778.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/reservation-removebg-preview.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

@@ -13,7 +13,7 @@ public class HebergementService implements IService<Hebergement> {
     public void addEntity(Hebergement hebergement) {
         try{
             String requette ="INSERT INTO hebergement(nom, adresse, type, description) " +
-                    "VALUES ('"+hebergement.getNom()+"','"+ hebergement.getAdresse()+"','"+hebergement.getType()+"','"+hebergement.getdescription()+"')";
+                    "VALUES ('"+hebergement.getNom()+"','"+ hebergement.getAdresse()+"','"+hebergement.getType()+"','"+hebergement.getDescription()+"')";
             Statement st = MyConnection.getInstance().getCnx().createStatement();
             st.executeUpdate(requette);
             System.out.println("Hebergement ajoutée");
@@ -32,7 +32,7 @@ public class HebergementService implements IService<Hebergement> {
             pst.setString(1, hebergement.getNom());
             pst.setString(2, hebergement.getAdresse());
             pst.setString(3, hebergement.getType());
-            pst.setString(4, hebergement.getdescription());
+            pst.setString(4, hebergement.getDescription());
 
             pst.executeUpdate();
             System.out.println("success!");
@@ -55,7 +55,7 @@ public class HebergementService implements IService<Hebergement> {
             pst.setString(1, hebergement.getNom());
             pst.setString(2, hebergement.getAdresse());
             pst.setString(3, hebergement.getType());
-            pst.setString(4, hebergement.getdescription());
+            pst.setString(4, hebergement.getDescription());
             pst.setInt(5, id);
 
             int rowsUpdated = pst.executeUpdate();
@@ -84,7 +84,7 @@ public class HebergementService implements IService<Hebergement> {
             getIdPst.setString(1, hebergement.getNom());
             getIdPst.setString(2, hebergement.getAdresse());
             getIdPst.setString(3, hebergement.getType());
-            getIdPst.setString(4, hebergement.getdescription());
+            getIdPst.setString(4, hebergement.getDescription());
 
             ResultSet rs = getIdPst.executeQuery();
             if (!rs.next()) {
@@ -125,7 +125,7 @@ public class HebergementService implements IService<Hebergement> {
                 p.setNom(rs.getString("nom"));
                 p.setAdresse(rs.getString("adresse"));
                 p.setType(rs.getString("type"));
-                p.setdescription(rs.getString("description"));
+                p.setDescription(rs.getString("description"));
                 results.add(p);
             }
         } catch (SQLException e) {
@@ -149,7 +149,7 @@ public class HebergementService implements IService<Hebergement> {
                 hebergement.setNom(rs.getString("nom"));
                 hebergement.setAdresse(rs.getString("adresse"));
                 hebergement.setType(rs.getString("type"));
-                hebergement.setdescription(rs.getString("description"));
+                hebergement.setDescription(rs.getString("description"));
             }
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());

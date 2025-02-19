@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="790.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CRUD.controllers.ModifierHebergement">
+    <children>
+        <fx:include source="SideBar.fxml" />
+      <Label layoutX="425.0" layoutY="59.0" text="Modifier Hébergement">
+         <font>
+            <Font name="Arial Black" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="436.0" layoutY="160.0" text="Nom :">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="439.0" layoutY="374.0" text="Type :">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <SplitMenuButton fx:id="TypeM" layoutX="439.0" layoutY="421.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0" style="-fx-border-radius: 6;" text="Choisir" wrapText="true">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Hotel" />
+            <MenuItem mnemonicParsing="false" text="Hostel" />
+            <MenuItem mnemonicParsing="false" text="Maison" />
+         </items>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </SplitMenuButton>
+      <Button fx:id="modifier" layoutX="440.0" layoutY="633.0" mnemonicParsing="false" onAction="#Modifier" prefHeight="38.0" prefWidth="250.0" style="-fx-background-color: #13117D; -fx-background-radius: 15;" text="Modifier" textFill="#fcfafa">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="439.0" layoutY="265.0" text="Adresse :">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="AdresseM" layoutX="439.0" layoutY="313.0" prefHeight="26.0" prefWidth="250.0" style="-fx-border-radius: 10;" />
+      <Button fx:id="listButton" layoutX="439.0" layoutY="689.0" mnemonicParsing="false" onAction="#listeH" prefHeight="38.0" prefWidth="250.0" style="-fx-background-color: #13117D; -fx-background-radius: 15;" text="Consulter Liste" textFill="#fcfafa">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <TextField fx:id="NomM" layoutX="440.0" layoutY="213.0" prefHeight="26.0" prefWidth="250.0" style="-fx-border-radius: 10;" />
+      <Label layoutX="439.0" layoutY="489.0" text="Description :">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="successMessage" layoutX="440.0" layoutY="759.0" prefHeight="18.0" prefWidth="250.0" textAlignment="CENTER">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="successMessage1" layoutX="440.0" layoutY="759.0" prefHeight="18.0" prefWidth="293.0" textAlignment="CENTER" textFill="#f70505">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="msg1" layoutX="439.0" layoutY="242.0" prefHeight="18.0" prefWidth="318.0" textFill="#f70505" />
+      <Label fx:id="msg2" layoutX="440.0" layoutY="347.0" prefHeight="18.0" prefWidth="336.0" textFill="#f70505" />
+      <Label fx:id="msg3" layoutX="439.0" layoutY="463.0" prefHeight="18.0" prefWidth="302.0" textFill="#f70505" />
+      <Label fx:id="msg4" layoutX="440.0" layoutY="607.0" prefHeight="18.0" prefWidth="336.0" textFill="#f70505" />
+      <TextArea fx:id="desM" layoutX="440.0" layoutY="521.0" prefHeight="78.0" prefWidth="250.0" />
+      <ImageView fitHeight="310.0" fitWidth="382.0" layoutX="798.0" layoutY="264.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/hebergement-removebg-preview.png" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>
