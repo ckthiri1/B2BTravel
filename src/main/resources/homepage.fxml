@@ -5,28 +5,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Evennement.Controller.homepage">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Evennement.Controller.homepage">
 
     <children>
         <!-- Include the Sidebar -->
         <fx:include source="SideBar.fxml" />
 
         <!-- Main Content for Listing Evennements -->
-        <AnchorPane layoutX="260.0" prefHeight="794.0" prefWidth="1226.0" style="-fx-background-color: white;">
+        <AnchorPane layoutX="260.0" prefHeight="1072.0" prefWidth="1662.0" style="-fx-background-color: white;">
             <children>
                 <Label layoutX="44.0" layoutY="30.0" text="Home Page">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
                 </Label>
-            <Button layoutX="215.0" layoutY="329.0" mnemonicParsing="false" prefHeight="117.0" prefWidth="260.0" text="Evennements" onAction="#interfaceEvennement">
+            <Button fx:id="evennement" layoutX="324.0" layoutY="373.0" mnemonicParsing="false" onAction="#interfaceEvennement" prefHeight="91.0" prefWidth="314.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Des Evennements" textFill="#fafafa">
                <font>
-                  <Font size="31.0" />
+                  <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button layoutX="734.0" layoutY="329.0" mnemonicParsing="false" prefHeight="118.0" prefWidth="279.0" text="Organisateurs" onAction="#interfaceOrganisateur">
+            <Button fx:id="organisateur" layoutX="868.0" layoutY="373.0" mnemonicParsing="false" onAction="#interfaceOrganisateur" prefHeight="91.0" prefWidth="314.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Des Organisateurs" textFill="#fafafa">
                <font>
-                  <Font size="28.0" />
+                  <Font name="System Bold" size="17.0" />
                </font>
             </Button>
 

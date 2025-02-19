@@ -1,11 +1,11 @@
 package org.example;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 
 import java.net.URL;
 
@@ -17,6 +17,7 @@ public class MainFx extends Application {
             // Ensure the correct resource path
             URL fxmlFile = getClass().getResource("/homepage.fxml");
 
+
             if (fxmlFile == null) {
                 throw new RuntimeException("FXML file not found! Check the path");
             }
@@ -24,7 +25,7 @@ public class MainFx extends Application {
             FXMLLoader loader = new FXMLLoader(fxmlFile);
             Parent root = loader.load();
 
-            primaryStage.setTitle("Ajouter Événement");
+            primaryStage.setTitle("Liste des Événements"); // Changed title to match the context of listing events
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
 

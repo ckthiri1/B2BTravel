@@ -24,6 +24,7 @@ public class homepage {
             stage.setScene(new Scene(root));
             stage.setTitle("Liste des Événements");
             stage.show();
+            stage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Erreur", "Impossible d'ouvrir l'interface des événements.");

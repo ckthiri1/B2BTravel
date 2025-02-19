@@ -6,34 +6,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Evennement.Controller.UpdateOrganisateur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Evennement.Controller.UpdateOrganisateur">
 
     <children>
         <!-- Include the Sidebar -->
         <fx:include source="SideBar.fxml" />
 
         <!-- Main Content for AjouterEvennement -->
-        <AnchorPane layoutX="260.0" prefHeight="791.0" prefWidth="897.0" style="-fx-background-color: white;">
+        <AnchorPane layoutX="260.0" prefHeight="1080.0" prefWidth="1653.0" style="-fx-background-color: white;">
             <children>
                 <Label layoutX="44.0" layoutY="62.0" prefHeight="56.0" prefWidth="411.0" text="Update Organisateur">
                     <font>
                         <Font name="System Bold" size="30.0" />
                     </font>
                 </Label>
-                <Label layoutX="265.0" layoutY="234.0" text="Nom Organisateur">
+                <Label layoutX="803.0" layoutY="329.0" text="Nom Organisateur">
                     <font>
                         <Font name="System Bold Italic" size="18.0" />
                     </font>
                 </Label>
-                <TextField fx:id="txtnomo" layoutX="266.0" layoutY="268.0" />
-                <TextField fx:id="txtcontacto" layoutX="265.0" layoutY="337.0" />
+                <TextField fx:id="txtnomo" layoutX="804.0" layoutY="363.0" />
+                <TextField fx:id="txtcontacto" layoutX="803.0" layoutY="432.0" />
 
-                <Button fx:id="btnUpdateOrganisateur" layoutX="285.0" layoutY="396.0" mnemonicParsing="false" onAction="#updateOr" prefWidth="112.0" text="Update">
+                <Button fx:id="btnUpdateOrganisateur" layoutX="823.0" layoutY="491.0" mnemonicParsing="false" onAction="#updateOr" prefWidth="112.0" text="Update">
                     <font>
                         <Font size="17.0" />
                     </font>
                 </Button>
-            <Label layoutX="303.0" layoutY="307.0" text="Contact">
+            <Label layoutX="841.0" layoutY="402.0" text="Contact">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
