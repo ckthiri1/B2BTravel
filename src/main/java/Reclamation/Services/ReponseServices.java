@@ -32,39 +32,56 @@ public class ReponseServices {
         return generatedId;
     }
 
-    public void deleteEntity(Reponse reponse) {
+    public boolean deleteEntity(Reponse reponse) {
         String requete = "DELETE FROM Reponse WHERE IDRep = ?";
         try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
             pst.setInt(1, reponse.getIDRep());
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Réponse supprimée avec succès !");
+                return true;  // Retourne true si la suppression a réussi
             } else {
                 System.out.println("Aucune réponse correspondante trouvée.");
+                return false;
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la suppression de la réponse : " + e.getMessage());
+            return false;
         }
     }
 
-    public void updateEntity(int id, Reponse reponse) {
+
+    public boolean updateEntity(int id, Reponse reponse) {
         String requete = "UPDATE Reponse SET DescriptionRep = ?, DateRep = ?, IDR = ? WHERE IDRep = ?";
         try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
+
             pst.setString(1, reponse.getDescriptionRep());
-            pst.setDate(2, java.sql.Date.valueOf(reponse.getDateRep()));
+
+            // ✅ Vérification pour éviter NullPointerException
+            if (reponse.getDateRep() != null) {
+                pst.setDate(2, java.sql.Date.valueOf(reponse.getDateRep()));
+            } else {
+                pst.setNull(2, java.sql.Types.DATE);
+                System.out.println("⚠ DateRep est NULL, mise à jour avec NULL en BDD.");
+            }
+
             pst.setInt(3, reponse.getIDR());
             pst.setInt(4, id);
 
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Réponse mise à jour avec succès !");
+                System.out.println("✅ Réponse mise à jour avec succès !");
+                return true;
             } else {
-                System.out.println("Aucune réponse correspondante trouvée.");
+                System.out.println("❌ Aucune réponse correspondante trouvée.");
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la mise à jour de la réponse : " + e.getMessage());
+            System.err.println("🚨 Erreur lors de la mise à jour de la réponse : " + e.getMessage());
         }
+        return false;
     }
+
+
 
     public List<Reponse> getAllData() {
         List<Reponse> results = new ArrayList<>();
@@ -118,5 +135,9 @@ public class ReponseServices {
 
     public Reponse getReponseByReclamationId(int reclamationId) {
         return null;
+    }
+
+    public boolean updateEntity(Reponse reponseToUpdate) {
+        return true;
     }
 }

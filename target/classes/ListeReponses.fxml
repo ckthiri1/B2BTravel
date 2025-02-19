@@ -20,23 +20,29 @@
         <!-- TableView pour afficher la liste des réponses -->
         <TableView fx:id="reponsesTable" layoutX="14.0" layoutY="187.0" prefHeight="200.0" prefWidth="700.0">
             <columns>
-                <!-- Colonne pour l'ID de la réponse -->
-                <TableColumn fx:id="colRec" prefWidth="350" text="Titre Reclamation">
+                <!-- Colonne pour le titre de la réclamation -->
+                <TableColumn fx:id="colRec" prefWidth="250" text="Réponse">
                     <cellValueFactory>
-                        <PropertyValueFactory property="IDRep" />
+                        <PropertyValueFactory property="reclamationTitre" />
                     </cellValueFactory>
                 </TableColumn>
 
-                <!-- Colonne pour la date de la réponse -->
-                <TableColumn fx:id="colRep" prefWidth="350" text="Reponse">
+                <!-- Colonne pour la description de la réponse -->
+                <TableColumn fx:id="colRep" prefWidth="250" text="Titre réclamation">
                     <cellValueFactory>
-                        <PropertyValueFactory property="DateRep" />
+                        <PropertyValueFactory property="descriptionRep" />
                     </cellValueFactory>
                 </TableColumn>
+
+                <!-- Colonne pour le bouton "Modifier" -->
+                <TableColumn fx:id="colModifier" prefWidth="100" text="Modifier" />
+
+                <!-- Colonne pour le bouton "Supprimer" -->
+                <TableColumn fx:id="colSupprimer" prefWidth="100" text="Supprimer" />
             </columns>
         </TableView>
 
-        <!-- Bouton pour retourner à la liste des réclamations -->
+        <!-- Bouton pour retourner à la vue AjouterReponse -->
         <Button layoutX="59.0" layoutY="447.0" onAction="#retour" text="Ajouter Reponse" />
     </children>
 </AnchorPane>

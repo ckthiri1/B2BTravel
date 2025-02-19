@@ -10,28 +10,33 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 public class ListeReponseController {
 
     @FXML
     private TableView<Reponse> reponsesTable;
 
-    // Column to display the reclamation title (retrieved via join)
     @FXML
     private TableColumn<Reponse, String> colRec;
 
-    // Column to display the response description
     @FXML
     private TableColumn<Reponse, String> colRep;
+
+    @FXML
+    private TableColumn<Reponse, Void> colSupprimer;
+
+    @FXML
+    private TableColumn<Reponse, Void> colModifier;
 
     private final ReponseServices reponseServices = new ReponseServices();
     private int reclamationId;
@@ -39,12 +44,8 @@ public class ListeReponseController {
     @FXML
     void retour(ActionEvent event) {
         try {
-            // Charger la vue AjouterReponse.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterReponse.fxml"));
             Parent root = loader.load();
-
-
-            // Afficher la nouvelle fenêtre
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Ajouter une réponse");
@@ -57,31 +58,121 @@ public class ListeReponseController {
 
     @FXML
     public void initialize() {
-        // Bind the columns to the corresponding properties of Reponse.
         colRec.setCellValueFactory(new PropertyValueFactory<>("reclamationTitre"));
         colRep.setCellValueFactory(new PropertyValueFactory<>("descriptionRep"));
 
-        // Optionally, load all responses if no specific reclamation is selected.
+        addModifyButtonToTable();
+        addDeleteButtonToTable();
+
         if (reclamationId <= 0) {
             loadEvennements();
         }
     }
 
-    /**
-     * Loads all responses with their reclamation title.
-     */
+    private void addDeleteButtonToTable() {
+        Callback<TableColumn<Reponse, Void>, TableCell<Reponse, Void>> cellFactory = param -> new TableCell<>() {
+            private final Button btn = new Button("Supprimer");
+
+            {
+                btn.setOnAction(event -> {
+                    Reponse reponse = getTableView().getItems().get(getIndex());
+                    supprimerReponse(reponse);
+                });
+            }
+
+            @Override
+            public void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btn);
+                }
+            }
+        };
+
+        colSupprimer.setCellFactory(cellFactory);
+    }
+
+    private void addModifyButtonToTable() {
+        Callback<TableColumn<Reponse, Void>, TableCell<Reponse, Void>> cellFactory = param -> new TableCell<>() {
+            private final Button btn = new Button("Modifier");
+
+            {
+                btn.setOnAction(event -> {
+                    Reponse reponse = getTableView().getItems().get(getIndex());
+                    modifierReponse(reponse);
+                });
+            }
+
+            @Override
+            public void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btn);
+                }
+            }
+        };
+
+        colModifier.setCellFactory(cellFactory);
+    }
+
+    private void supprimerReponse(Reponse reponse) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Supprimer la réponse");
+        alert.setContentText("Êtes-vous sûr de vouloir supprimer cette réponse ?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            boolean isDeleted = reponseServices.deleteEntity(reponse);
+            if (isDeleted) {
+                reponsesTable.getItems().remove(reponse);
+                System.out.println("Réponse supprimée avec succès.");
+            } else {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Erreur");
+                errorAlert.setHeaderText("Suppression échouée");
+                errorAlert.setContentText("Une erreur est survenue lors de la suppression de la réponse.");
+                errorAlert.showAndWait();
+            }
+        }
+    }
+
+    private void modifierReponse(Reponse reponse) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierReponse.fxml"));
+            Parent root = loader.load();
+
+            ModifierReponseController controller = loader.getController();
+            controller.setReponse(reponse); // Pass the whole object
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier Réponse");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors de l'ouverture de ModifierReponse.fxml : " + e.getMessage());
+        }
+    }
+
     private ObservableList<Reponse> loadEvennements() {
         ObservableList<Reponse> reponses = FXCollections.observableArrayList();
-        String query = "SELECT rec.Titre AS reclamationTitre, r.DescriptionRep " +
+        String query = "SELECT r.IDRep, rec.Titre AS reclamationTitre, r.DescriptionRep " +
                 "FROM Reponse r " +
                 "JOIN Reclamation rec ON r.IDR = rec.IDR";
         try (Statement stmt = MyConnection.getInstance().getCnx().createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
+                int IDRep = rs.getInt("IDRep"); // Fetching the ID
                 String reclamationTitre = rs.getString("reclamationTitre");
                 String descriptionRep = rs.getString("DescriptionRep");
-                Reponse reponse = new Reponse(reclamationTitre, descriptionRep);
+
+                Reponse reponse = new Reponse(IDRep, reclamationTitre, descriptionRep);
                 reponses.add(reponse);
             }
 
@@ -94,22 +185,16 @@ public class ListeReponseController {
         return reponses;
     }
 
-    /**
-     * Loads the responses for a specific reclamation.
-     */
+
     private void chargerDonnees() {
         ObservableList<Reponse> reponses = FXCollections.observableArrayList(
                 reponseServices.getReponsesByReclamation(reclamationId)
         );
         System.out.println("Loaded responses for reclamation " + reclamationId + ": " + reponses.size());
         reponsesTable.setItems(reponses);
+
     }
 
-    /**
-     * Sets the reclamation ID and refreshes the table.
-     *
-     * @param idr the reclamation ID passed from the previous page.
-     */
     public void setReclamationId(int idr) {
         this.reclamationId = idr;
         chargerDonnees();

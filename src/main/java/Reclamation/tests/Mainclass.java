@@ -55,9 +55,12 @@ public class Mainclass {
                         ", Description : " + rec.getDescription() +
                         ", Date : " + rec.getDateR() +
                         ", Statut : " + rec.getStatus());
-
+            }
+        }
+    }
+}
                 // 2. Tester la gestion des réponses
-
+/*
 // Ajouter une réponse pour la réclamation 1
                 int idReclamation1 = rec.getIDR();
                 Reponse reponse1 = new Reponse("yap", LocalDate.of(2024, 2, 12), idReclamation1);
@@ -97,4 +100,6 @@ public class Mainclass {
     }
     }
 
-
+}
+}
+*/

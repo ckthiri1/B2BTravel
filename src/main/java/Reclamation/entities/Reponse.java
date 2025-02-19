@@ -23,6 +23,12 @@ public class Reponse {
         this.DescriptionRep = descriptionRep;
     }
 
+    public Reponse(int IDRep, String descriptionRep, String reclamationTitre) {
+        this.IDRep = IDRep;
+        DescriptionRep = descriptionRep;
+        this.reclamationTitre = reclamationTitre;
+    }
+
     public String getReclamationTitre() {
         return reclamationTitre;
     }
