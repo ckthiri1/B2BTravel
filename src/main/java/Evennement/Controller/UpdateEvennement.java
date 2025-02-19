@@ -18,7 +18,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-
 public class UpdateEvennement {
 
     @FXML
@@ -43,23 +42,30 @@ public class UpdateEvennement {
     private EvennementService evennementService = new EvennementService();
     private OrganisateurService organisateurService = new OrganisateurService();  // Assuming you have a service for Organisateur
 
-    // Set the current Evennement data into the form and load Organisateurs into the ComboBox
-    public void setEvennementData(Evennement evennement) {
+    // Setter for the Evennement to be updated
+    public void setEvennement(Evennement evennement) {
         this.selectedEvennement = evennement;
-        txtNomE.setText(evennement.getNomE());
-        txtLocal.setText(evennement.getLocal());
-        txtDesE.setText(evennement.getDesE());
+        setEvennementData();
+    }
 
-        // Convert Date to LocalDate for DatePicker
-        LocalDate localDate = new java.sql.Date(evennement.getDateE().getTime()).toLocalDate();
-        datePickerDateE.setValue(localDate);
+    // Set the current Evennement data into the form and load Organisateurs into the ComboBox
+    public void setEvennementData() {
+        if (selectedEvennement != null) {
+            txtNomE.setText(selectedEvennement.getNomE());
+            txtLocal.setText(selectedEvennement.getLocal());
+            txtDesE.setText(selectedEvennement.getDesE());
 
-        // Load Organisateurs into ComboBox
-        loadOrganisateurs();
+            // Convert Date to LocalDate for DatePicker
+            LocalDate localDate = new java.sql.Date(selectedEvennement.getDateE().getTime()).toLocalDate();
+            datePickerDateE.setValue(localDate);
 
-        // Select the Organisateur that is currently assigned to the Evennement
-        Organisateur selectedOrganisateur = evennement.getOrganisateur(); // Get the Organisateur from Evennement
-        comboOrganisateurUpdate.setValue(selectedOrganisateur);
+            // Load Organisateurs into ComboBox
+            loadOrganisateurs();
+
+            // Select the Organisateur that is currently assigned to the Evennement
+            Organisateur selectedOrganisateur = selectedEvennement.getOrganisateur(); // Get the Organisateur from Evennement
+            comboOrganisateurUpdate.setValue(selectedOrganisateur);
+        }
     }
 
     // Load all Organisateurs into the ComboBox

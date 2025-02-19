@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class UpdateOrganisateur {
 
@@ -27,7 +28,7 @@ public class UpdateOrganisateur {
      *
      * @param organisateur The organizer to update.
      */
-    public void setEvennementData(Organisateur organisateur) {
+    public void setOrganisateurData(Organisateur organisateur) {
         this.selectedOrganisateur = organisateur;
         txtnomo.setText(organisateur.getNomOr());
         txtcontacto.setText(String.valueOf(organisateur.getContact()));
@@ -64,18 +65,30 @@ public class UpdateOrganisateur {
         selectedOrganisateur.setNomOr(nomOr);
         selectedOrganisateur.setContact(contact);
 
-        // Call the update function
-        organisateurService.update(selectedOrganisateur, selectedOrganisateur.getIDOr());
+        try {
+            // Call the update function
+            organisateurService.update(selectedOrganisateur, selectedOrganisateur.getIDOr());
 
-        // Show success message
-        showAlert(Alert.AlertType.INFORMATION, "Succès", "Organisateur mis à jour avec succès !");
+            // Show success message
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Organisateur mis à jour avec succès !");
+        } catch (Exception e) {
+            // Show error message in case of failure (e.g., database issue)
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de la mise à jour.");
+            e.printStackTrace();
+            return;
+        }
 
         // Close the window after update
-        btnUpdateOrganisateur.getScene().getWindow().hide();
+        closeWindow();
     }
 
-
-
+    /**
+     * Closes the current window.
+     */
+    private void closeWindow() {
+        Stage stage = (Stage) btnUpdateOrganisateur.getScene().getWindow();
+        stage.close();
+    }
 
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
