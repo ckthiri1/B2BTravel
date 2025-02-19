@@ -65,13 +65,6 @@ public class AjouterOrganisateur {
         ((Node) event.getSource()).getScene().getWindow().hide();
     }
 
-    /**
-     * Displays an alert dialog.
-     *
-     * @param type    The type of alert (e.g., ERROR, INFORMATION).
-     * @param title   The title of the alert.
-     * @param content The content message of the alert.
-     */
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -80,9 +73,6 @@ public class AjouterOrganisateur {
         alert.showAndWait();
     }
 
-    /**
-     * Clears all input fields.
-     */
     private void clearFields() {
         txtnomor.clear();
         txtcontact.clear();

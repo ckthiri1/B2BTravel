@@ -1,7 +1,9 @@
 package Evennement.Controller;
 
 import Evennement.entities.Evennement;
+import Evennement.entities.Organisateur;
 import Evennement.services.EvennementService;
+import Evennement.tools.MyConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +17,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListeEvennement {
@@ -33,6 +40,8 @@ public class ListeEvennement {
 
     @FXML
     private TableColumn<Evennement, String> colDes;
+    @FXML
+    private TableColumn<Evennement, String> NomOr;
 
     @FXML
     private TableColumn<Evennement, Void> colAction; // New column for the delete button
@@ -46,20 +55,60 @@ public class ListeEvennement {
         colLocal.setCellValueFactory(new PropertyValueFactory<>("local"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("dateE"));
         colDes.setCellValueFactory(new PropertyValueFactory<>("desE"));
-
-        // Initialize the action column with a custom cell factory
         colAction.setCellFactory(createButtonCellFactory());
+        NomOr.setCellValueFactory(new PropertyValueFactory<>("NomOr"));
+
+
 
         // Load events when the controller initializes
         loadEvennements();
     }
 
     @FXML
-    private void loadEvennements() {
-        List<Evennement> evennementsList = evennementService.getAllData();
-        ObservableList<Evennement> observableList = FXCollections.observableArrayList(evennementsList);
-        tableView.setItems(observableList);
+    private List<Evennement> loadEvennements() {
+        List<Evennement> events = new ArrayList<>();
+        String query = "SELECT e.IDE, e.NomE, e.Local, e.DateE, e.DesE, o.IDOr, o.NomOr, o.Contact " +
+                "FROM Evennement e " +
+                "JOIN Organisateur o ON e.IDOr = o.IDOr";
+
+        try {
+            Statement stmt = MyConnection.getInstance().getCnx().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                int IDE = rs.getInt("IDE");
+                String nomE = rs.getString("NomE");
+                String local = rs.getString("Local");
+                String desE = rs.getString("DesE");
+                Date dateE = new Date(rs.getTimestamp("DateE").getTime());
+
+                // Retrieve the Organisateur details
+                int IDOr = rs.getInt("IDOr");
+                String nomOr = rs.getString("NomOr");
+                int Contact = rs.getInt("Contact");
+
+                // Create Organisateur object with IDOr, nomOr, and Contact
+                Organisateur organisateur = new Organisateur(IDOr, nomOr, Contact);
+
+                // Create Evennement object and set its properties
+                Evennement evennement = new Evennement(nomE, local, desE, dateE, organisateur);
+                evennement.setIDE(IDE); // Set the Evennement ID
+
+                // Add the event to the list
+                events.add(evennement);
+            }
+
+            // Create ObservableList and set the TableView items
+            ObservableList<Evennement> observableList = FXCollections.observableArrayList(events);
+            tableView.setItems(observableList); // Ensure tableView is the correct TableView instance
+
+        } catch (SQLException e) {
+            System.out.println("❌ SQL Error while fetching events: " + e.getMessage());
+        }
+
+        return events;
     }
+
 
     @FXML
     private void interfaceAjout(ActionEvent event) {

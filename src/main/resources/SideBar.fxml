@@ -6,10 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="250.0" style="-fx-background-color: #13117D;"
-            xmlns="http://javafx.com/javafx/8.0"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Evennement.Controller.SideBarController">
+<AnchorPane onMouseDragOver="#handleMouseDragOver" prefHeight="800.0" prefWidth="250.0" style="-fx-background-color: #13117D;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Evennement.Controller.SideBarController">
 
     <children>
         <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="23.0" layoutY="11.0">
@@ -18,66 +15,43 @@
             </image>
         </ImageView>
 
-        <Button layoutX="-2.0" layoutY="203.0" mnemonicParsing="false"
-                prefHeight="50.0" prefWidth="250.0"
-                style="-fx-background-color: #03045f; -fx-background-radius: 20;"
-                text="Gestion Utilisateur" textFill="WHITE">
+        <Button fx:id="button_user" layoutX="-2.0" layoutY="203.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0"   onMouseEntered="#handleMouseEntereduser" onMouseExited="#handleMouseExitedUser" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Utilisateur" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="17.0" />
             </font>
         </Button>
 
-        <Button layoutX="-2.0" layoutY="283.0" mnemonicParsing="false"
-                prefHeight="50.0" prefWidth="250.0"
-                style="-fx-background-color: #03045f; -fx-background-radius: 20;"
-                text="Gestion Voyage" textFill="#fafafa"
-                onAction="#NavigateToGestionVoyage">
+        <Button fx:id="button_voyage" layoutX="-2.0" layoutY="283.0" mnemonicParsing="false" onMouseDragOver="#handleMouseDragOver" onMouseEntered="#handleMouseEnteredvoyage" onMouseExited="#handleMouseExitedVoyage" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Voyage" textFill="#fafafa">
             <font>
                 <Font name="System Bold" size="17.0" />
             </font>
         </Button>
 
-        <Button layoutX="-2.0" layoutY="362.0" mnemonicParsing="false"
-                prefHeight="50.0" prefWidth="250.0"
-                style="-fx-background-color: #03045f; -fx-background-radius: 20;"
-                text="Gestion Fidélité" textFill="#fafafa"
-                onAction="#NavigateToGestionFidelite">
+        <Button fx:id="button_fidelite" layoutX="-2.0" layoutY="362.0" mnemonicParsing="false" onMouseDragOver="#handleMouseDragOver" onMouseEntered="#handleMouseEnteredFidelite" onMouseExited="#handleMouseExitedFidelite" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Fidélité" textFill="#fafafa">
             <font>
                 <Font name="System Bold" size="17.0" />
             </font>
         </Button>
 
-        <Button layoutX="-3.0" layoutY="441.0" mnemonicParsing="false"
-                prefHeight="50.0" prefWidth="250.0"
-                style="-fx-background-color: #03045f; -fx-background-radius: 20;"
-                text="Gestion Evénement" textFill="WHITE">
+        <Button fx:id="button_evennement" alignment="CENTER" layoutX="27.0" layoutY="441.0" mnemonicParsing="false" onMouseDragOver="#handleMouseDragOver" onMouseEntered="#handleMouseEnteredEvent" onMouseExited="#handleMouseExitedEvent" prefHeight="50.0" prefWidth="192.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Evénement" textFill="WHITE">
+            <font>
+                <Font name="System Italic" size="17.0" />
+            </font>
+        </Button>
+
+        <Button fx:id="button_reclamation" layoutX="-3.0" layoutY="520.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0"  onMouseDragOver="#handleMouseDragOver" onMouseEntered="#handleMouseEnteredReclamation" onMouseExited="#handleMouseExitedReclamation" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Réclamation" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="17.0" />
             </font>
         </Button>
 
-        <Button layoutX="-3.0" layoutY="520.0" mnemonicParsing="false"
-                prefHeight="50.0" prefWidth="250.0"
-                style="-fx-background-color: #03045f; -fx-background-radius: 20;"
-                text="Gestion Réclamation" textFill="WHITE">
+        <Button fx:id="button_reservation" layoutX="-2.0" layoutY="602.0" mnemonicParsing="false"  onMouseDragOver="#handleMouseDragOver" onMouseEntered="#handleMouseEnteredReservation" onMouseExited="#handleMouseExitedReservation" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Gestion Réservation" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="17.0" />
             </font>
         </Button>
 
-        <Button layoutX="-2.0" layoutY="602.0" mnemonicParsing="false"
-                prefHeight="50.0" prefWidth="250.0"
-                style="-fx-background-color: #03045f; -fx-background-radius: 20;"
-                text="Gestion Réservation" textFill="WHITE">
-            <font>
-                <Font name="System Bold" size="17.0" />
-            </font>
-        </Button>
-
-        <Button layoutX="49.0" layoutY="720.0" mnemonicParsing="false"
-                prefHeight="50.0" prefWidth="150.0"
-                style="-fx-background-color: #f6f6f6; -fx-background-radius: 10;"
-                text="LOG OUT">
+        <Button fx:id="log_out" layoutX="49.0" layoutY="720.0"  onMouseDragOver="#handleMouseDragOver" onMouseEntered="#handleMouseEnteredlogout" onMouseExited="#handleMouseExitedLogout" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #f6f6f6; -fx-background-radius: 10;" text="LOG OUT">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>

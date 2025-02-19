@@ -49,9 +49,16 @@ public class ListeOrganisateur {
 
     @FXML
     private void loadOrganisateurs() {
-        List<Organisateur> organisateursList = organisateurService.getAllData();
-        ObservableList<Organisateur> observableList = FXCollections.observableArrayList(organisateursList);
-        tableViewOrganisateur.setItems(observableList);
+        ObservableList<Organisateur> organisateurList = FXCollections.observableArrayList();
+        List<Organisateur> data = organisateurService.getAllData();
+
+        // ***DEBUGGING - Print to check the data***
+        for (Organisateur org : data) {
+            System.out.println("Organisateur from DB: " + org);
+        }
+
+        organisateurList.addAll(data);
+        tableViewOrganisateur.setItems(organisateurList);
     }
 
     private Callback<TableColumn<Organisateur, Void>, TableCell<Organisateur, Void>> createButtonCellFactory() {

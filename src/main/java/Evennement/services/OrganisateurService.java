@@ -60,32 +60,25 @@ public class OrganisateurService implements IService <Organisateur>{
         }
     }
 
-    @Override
     public List<Organisateur> getAllData() {
         List<Organisateur> organisateurs = new ArrayList<>();
-        try {
+        String query = "SELECT IDOr, NomOr, Contact FROM Organisateur";
 
-            String query = "SELECT IDOr, NomOr, Contact FROM organisateur";
-            Statement stmt = MyConnection.getInstance().getCnx().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+        try (Statement stmt = MyConnection.getInstance().getCnx().createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
 
-            // Process the result set and create Evennement objects
             while (rs.next()) {
                 int IDOr = rs.getInt("IDOr");
-                String NomOr = rs.getString("NomOr");
-              int Contact = rs.getInt("Contact");
+                String nomOr = rs.getString("NomOr");
+                int contact = rs.getInt("Contact");
 
-               Organisateur organisateur = new Organisateur(NomOr, Contact);
-               organisateur.setIDOr(IDOr); // Set the ID if it's not set in the constructor
+                Organisateur organisateur = new Organisateur(IDOr, nomOr, contact);
                 organisateurs.add(organisateur);
             }
-
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error fetching data: " + e.getMessage());
+            System.out.println("❌ SQL Error while fetching organisateurs: " + e.getMessage());
         }
 
-        // Return the list of events
         return organisateurs;
     }
 }
