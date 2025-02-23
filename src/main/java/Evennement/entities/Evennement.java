@@ -49,7 +49,8 @@ public class Evennement {
         DesE = desE;
         this.organisateur = organisateur;
         this.event_type = event_type; // Assign event type
-    }public Evennement(String nomE, String local, String desE, Date dateE, Organisateur organisateur, EventType eventType) {
+    }
+    public Evennement(String nomE, String local, String desE, Date dateE, Organisateur organisateur, EventType eventType) {
         this.NomE = nomE;
         this.Local = local;
         this.DateE = dateE;

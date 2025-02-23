@@ -2,6 +2,7 @@ package Evennement.Controller;
 
 import Evennement.entities.Evennement;
 import Evennement.entities.Organisateur;
+import Evennement.entities.EventType;  // Import EventType
 import Evennement.services.EvennementService;
 import Evennement.services.OrganisateurService;
 import javafx.collections.FXCollections;
@@ -36,19 +37,18 @@ public class UpdateEvennement {
     private Button btnUpdate;
 
     @FXML
-    private ComboBox<Organisateur> comboOrganisateurUpdate;  // ComboBox for selecting an Organisateur
+    private ComboBox<Organisateur> comboOrganisateurUpdate;
+
+    @FXML
+    private ComboBox<EventType> comboEventUpdate;
 
     private Evennement selectedEvennement;
     private EvennementService evennementService = new EvennementService();
-    private OrganisateurService organisateurService = new OrganisateurService();  // Assuming you have a service for Organisateur
-
-    // Setter for the Evennement to be updated
+    private OrganisateurService organisateurService = new OrganisateurService();
     public void setEvennement(Evennement evennement) {
         this.selectedEvennement = evennement;
         setEvennementData();
     }
-
-    // Set the current Evennement data into the form and load Organisateurs into the ComboBox
     public void setEvennementData() {
         if (selectedEvennement != null) {
             txtNomE.setText(selectedEvennement.getNomE());
@@ -59,23 +59,35 @@ public class UpdateEvennement {
             LocalDate localDate = new java.sql.Date(selectedEvennement.getDateE().getTime()).toLocalDate();
             datePickerDateE.setValue(localDate);
 
-            // Load Organisateurs into ComboBox
+            // Load Organisateurs and EventTypes into ComboBoxes
             loadOrganisateurs();
+            loadEventTypes();
 
-            // Select the Organisateur that is currently assigned to the Evennement
-            Organisateur selectedOrganisateur = selectedEvennement.getOrganisateur(); // Get the Organisateur from Evennement
-            comboOrganisateurUpdate.setValue(selectedOrganisateur);
+            // Select the Organisateur and EventType that are currently assigned to the Evennement
+            comboOrganisateurUpdate.setValue(selectedEvennement.getOrganisateur());
+            comboEventUpdate.setValue(selectedEvennement.getEventType()); // Set the selected EventType
+
+            // Debugging: Verify the initial EventType
+            System.out.println("Initial EventType in ComboBox: " + selectedEvennement.getEventType());
+
+            // Add a listener to the ComboBox
+            comboEventUpdate.valueProperty().addListener((observable, oldValue, newValue) -> {
+                System.out.println("ComboBox EventType changed from " + oldValue + " to " + newValue);
+            });
         }
     }
 
-    // Load all Organisateurs into the ComboBox
     private void loadOrganisateurs() {
-        List<Organisateur> organisateurs = organisateurService.getAllData();  // Fetch all Organisateurs
+        List<Organisateur> organisateurs = organisateurService.getAllData();
         ObservableList<Organisateur> observableList = FXCollections.observableArrayList(organisateurs);
         comboOrganisateurUpdate.setItems(observableList);
+    }private void loadEventTypes() {
+        ObservableList<EventType> eventTypes = FXCollections.observableArrayList(EventType.values());
+        comboEventUpdate.setItems(eventTypes);
     }
 
-    // Handle the update action when the button is clicked
+
+
     @FXML
     void updateEv(ActionEvent event) {
         if (selectedEvennement == null) {
@@ -88,10 +100,15 @@ public class UpdateEvennement {
         String local = txtLocal.getText().trim();
         LocalDate dateE = datePickerDateE.getValue();
         String desE = txtDesE.getText().trim();
-        Organisateur organisateur = comboOrganisateurUpdate.getValue();  // Get the selected Organisateur
+        Organisateur organisateur = comboOrganisateurUpdate.getValue();
+        EventType eventType = comboEventUpdate.getValue();
+
+
+        // Debugging: Verify the selected EventType
+        System.out.println("Selected EventType from ComboBox: " + eventType);
 
         // Validate input fields
-        if (nomE.isEmpty() || local.isEmpty() || dateE == null || desE.isEmpty() || organisateur == null) {
+        if (nomE.isEmpty() || local.isEmpty() || dateE == null || desE.isEmpty() || organisateur == null || eventType == null) {
             showAlert(Alert.AlertType.ERROR, "Champs vides", "Veuillez remplir tous les champs.");
             return;
         }
@@ -102,9 +119,13 @@ public class UpdateEvennement {
         // Update the selected Evennement with the new values
         selectedEvennement.setNomE(nomE);
         selectedEvennement.setLocal(local);
-        selectedEvennement.setDateE(new Date(timestampDateE.getTime())); // Convert Timestamp to Date
+        selectedEvennement.setDateE(new Date(timestampDateE.getTime()));
         selectedEvennement.setDesE(desE);
-        selectedEvennement.setOrganisateur(organisateur);  // Set the selected Organisateur
+        selectedEvennement.setOrganisateur(organisateur);
+        selectedEvennement.setEventType(eventType); // Set the selected EventType
+
+        // Debugging: Verify the eventType set in Evennement
+        System.out.println("EventType set in Evennement object: " + selectedEvennement.getEventType());
 
         // Call the service method to update the Evennement in the database
         evennementService.update(selectedEvennement, selectedEvennement.getIDE());
@@ -115,7 +136,14 @@ public class UpdateEvennement {
         btnUpdate.getScene().getWindow().hide();
     }
 
-    // Helper method to show alerts
+
+
+
+
+
+
+
+
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
