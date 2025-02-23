@@ -1,0 +1,10 @@
+/* Define the style for a floating pane */
+.floating-pane {
+    -fx-background-color: #ffffff; /* Background color */
+    -fx-background-radius: 15px; /* Rounded corners */
+    -fx-border-radius: 15px; /* Rounded corners for the border */
+    -fx-border-color: #cccccc; /* Border color */
+    -fx-border-width: 1px; /* Border width */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 0); /* Shadow effect */
+    -fx-padding: 20px; /* Padding inside the pane */
+}

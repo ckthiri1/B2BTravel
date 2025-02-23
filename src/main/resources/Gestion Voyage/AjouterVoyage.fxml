@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ComboBox?>
+
+<VBox stylesheets="@/Style/AjouterVoyage.css" alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Projet.controllers.GestionVoyageController.VoyageController">
+    <children>
+        <AnchorPane   prefHeight="800.0" prefWidth="1548.0" style="-fx-background-color: #e3e3e3;">
+            <children>
+
+                <!-- SideBar -->
+                <fx:include source="/SideBar/SideBar.fxml" />
+
+                <Text layoutX="349.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AJOUTER VOYAGE" wrappingWidth="335.199951171875">
+                    <font>
+                        <Font name="System Bold" size="30.0" />
+                    </font>
+                </Text>
+
+                <Pane layoutX="302.0" layoutY="115.0" prefHeight="626.0" prefWidth="1200.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;">
+                    <children>
+
+                        <Button layoutX="880.0" layoutY="526.0" mnemonicParsing="false"
+                                onAction="#addVoyage"
+                                fx:id="btnAdd"
+                                prefHeight="62.0" prefWidth="300.0"
+                                style="-fx-background-color: transparent;
+               -fx-background-radius: 10;
+               -fx-border-color: white;
+               -fx-border-width: 2;
+               -fx-font-size: 16px;
+               -fx-font-weight: bold;
+               -fx-text-fill: white;
+               -fx-cursor: hand;">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                            <text>AJOUTER VOYAGE</text>
+                        </Button>
+
+
+
+
+                        <!-- ComboBox: Depart -->
+                        <ComboBox fx:id="Depart" layoutX="387.0" layoutY="122.0" prefHeight="40.0" prefWidth="700.0" promptText="Sélectionner le lieu de départ..." />
+                        <Label fx:id="departError" layoutX="387.0" layoutY="167.0" text="" style="-fx-text-fill: red; -fx-font-size: 12px;" />
+
+                        <!-- ComboBox: Destination -->
+                        <ComboBox fx:id="Destination" layoutX="388.0" layoutY="222.0" prefHeight="40.0" prefWidth="700.0" promptText="Sélectionner le lieu d'arrivée..." />
+                        <Label fx:id="destinationError" layoutX="388.0" layoutY="267.0" text="" style="-fx-text-fill: red; -fx-font-size: 12px;" />
+
+                        <!-- TextArea: Description -->
+                        <TextArea fx:id="Description" layoutX="388.0" layoutY="324.0" prefHeight="117.0" prefWidth="700.0" promptText="Entrer La Description Du Voyage Ici..." style="-fx-background-radius: 20; -fx-border-radius: 30;" />
+                        <Label fx:id="descriptionError" layoutX="388.0" layoutY="452.0" text="" style="-fx-text-fill: red; -fx-font-size: 12px;" />
+
+                        <!-- Labels -->
+                        <Text fill="WHITE" layoutX="78.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LIEU DE DÉPART" wrappingWidth="308.79998779296875">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Text>
+
+                        <Text fill="WHITE" layoutX="78.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LIEU D'ARRIVÉE" wrappingWidth="308.79998779296875">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Text>
+
+                        <Text fill="WHITE" layoutX="78.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DESCRIPTION DE VOYAGE" wrappingWidth="308.79998779296875">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Text>
+
+                    </children>
+                </Pane>
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>

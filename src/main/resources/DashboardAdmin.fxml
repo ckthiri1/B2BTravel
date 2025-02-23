@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1548.0" style="-fx-background-color: #F4F4F8;"
+            xmlns="http://javafx.com/javafx/8.0"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Projet.controllers.Dashboards.DashboardadminController"
+            stylesheets="@Style/dashboard.css">
+
+   <children>
+
+      <!-- Sidebar -->
+      <fx:include source="/SideBar/SideBar.fxml" />
+
+      <!-- Title -->
+      <Label layoutX="300.0" layoutY="30.0" text="Dashboard Admin" textFill="#03045f"
+             style="-fx-font-size: 30px; -fx-font-weight: bold;" />
+
+      <!-- Main Content Pane -->
+      <Pane layoutX="280.0" layoutY="80.0" prefHeight="625.0" prefWidth="1220.0" style="-fx-background-color: #03045f;">
+
+         <VBox spacing="30" layoutX="210.0" layoutY="100.0" prefWidth="850.0">
+
+            <HBox spacing="30">
+               <Pane prefHeight="180.0" prefWidth="370.0" style="-fx-background-color: #03045f;"
+                     styleClass="pane-card pane-blue"   fx:id="paneUsers" onMouseClicked="#NavigateToUser">
+                  <Label layoutX="20.0" layoutY="20.0" text="Users" textFill="white" style="-fx-font-size: 20px;"/>
+                  <Label layoutX="20.0" layoutY="60.0" text="250+" textFill="white" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+               </Pane>
+
+               <Pane prefHeight="180.0" prefWidth="370.0" style="-fx-background-color: #0077b6;"
+                     styleClass="pane-card pane-lightblue"  onMouseClicked="#NavigateToVoyage">
+                  <Label layoutX="20.0" layoutY="20.0" text="Voyages" textFill="white" style="-fx-font-size: 20px;"/>
+                  <Label layoutX="20.0" layoutY="60.0" text="120+" textFill="white" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+               </Pane>
+
+               <Pane prefHeight="180.0" prefWidth="370.0" style="-fx-background-color: #00b4d8;"
+                     styleClass="pane-card pane-cyan"  onMouseClicked="#NavigateToFidelite">
+                  <Label layoutX="20.0" layoutY="20.0" text="Fidelity Points" textFill="white" style="-fx-font-size: 20px;"/>
+                  <Label layoutX="20.0" layoutY="60.0" text="10,000+" textFill="white" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+               </Pane>
+            </HBox>
+
+            <HBox spacing="30">
+               <Pane prefHeight="180.0" prefWidth="370.0" style="-fx-background-color: #ffb703;"
+                     styleClass="pane-card pane-yellow"  onMouseClicked="#NavigateToUser">
+                  <Label layoutX="20.0" layoutY="20.0" text="Reservations" textFill="white" style="-fx-font-size: 20px;"/>
+                  <Label layoutX="20.0" layoutY="60.0" text="500+" textFill="white" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+               </Pane>
+
+               <Pane prefHeight="180.0" prefWidth="370.0" style="-fx-background-color: #fb8500;"
+                     styleClass="pane-card pane-orange" onMouseClicked="#NavigateToUser">
+                  <Label layoutX="20.0" layoutY="20.0" text="Events" textFill="white" style="-fx-font-size: 20px;"/>
+                  <Label layoutX="20.0" layoutY="60.0" text="30+" textFill="white" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+               </Pane>
+
+               <Pane prefHeight="180.0" prefWidth="370.0" style="-fx-background-color: #d00000;"
+                     styleClass="pane-card pane-red"  onMouseClicked="#NavigateToUser">
+                  <Label layoutX="20.0" layoutY="20.0" text="Complaints" textFill="white" style="-fx-font-size: 20px;"/>
+                  <Label layoutX="20.0" layoutY="60.0" text="15" textFill="white" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+               </Pane>
+            </HBox>
+
+         </VBox>
+
+      </Pane>
+
+   </children>
+</AnchorPane>

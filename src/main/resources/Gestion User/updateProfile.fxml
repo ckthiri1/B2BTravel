@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1548.0" stylesheets="@../Style/GUIProfile.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Projet.controllers.GestionUserController.UpdateProfile">
+   <children>
+      <fx:include source="../SideBar/navBarUser.fxml" />
+      <Pane layoutX="38.0" layoutY="81.0" prefHeight="638.0" prefWidth="1471.0" style="-fx-background-color: #e3e3e3; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5);">
+         <children>
+            <Pane layoutX="168.0" layoutY="57.0" prefHeight="524.0" prefWidth="297.0" style="-fx-background-color: white;" styleClass="floating-pane" stylesheets="@../Style/GuiLogin.css">
+               <children>
+                  <ImageView fx:id="imageView" fitHeight="89.0" fitWidth="146.0" layoutX="63.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="Nom_Label" layoutX="69.0" layoutY="235.0" prefHeight="20.0" prefWidth="150.0" style="-fx-text-fill: black;" text="Nom_user" />
+                  <Label layoutX="69.0" layoutY="274.0" prefHeight="20.0" prefWidth="92.0" style="-fx-text-fill: black;" text="Rank : Gold" />
+                  <Button fx:id="Delete" layoutX="64.0" layoutY="360.0" mnemonicParsing="false" onAction="#Delete" text="Supprimer le compte" />
+                  <Button fx:id="Confirm" layoutX="97.0" layoutY="407.0" mnemonicParsing="false" onAction="#Confirm" text="Modifier" />
+                  <Button fx:id="Upload" layoutX="77.0" layoutY="144.0" mnemonicParsing="false" onAction="#Upload" text="Ajouter Image" />
+               </children>
+            </Pane>
+            <Pane layoutX="643.0" layoutY="57.0" prefHeight="524.0" prefWidth="593.0" style="-fx-background-color: white;" styleClass="floating-pane" stylesheets="@../Style/GuiLogin.css">
+               <children>
+                  <Label layoutX="42.0" layoutY="47.0" prefHeight="45.0" prefWidth="265.0" style="-fx-font-size: 30; -fx-text-fill: black;" text="Modifier le profile" textFill="#e7e2e2">
+                     <font>
+                        <Font size="38.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="42.0" layoutY="202.0" prefHeight="20.0" prefWidth="77.0" style="-fx-text-fill: black;" text="Nom :" />
+                  <Label layoutX="42.0" layoutY="268.0" style="-fx-text-fill: black;" text="Prenom :" />
+                  <Label layoutX="42.0" layoutY="339.0" style="-fx-text-fill: black;" text="Email :" />
+      
+                  <Label layoutX="64.0" layoutY="128.0" prefHeight="45.0" prefWidth="280.0" style="-fx-font-size: 25; -fx-text-fill: black;" text="Detaille de profile :" textFill="#e7e2e2">
+                     <font>
+                        <Font size="38.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="Prenom_textfield" layoutX="264.0" layoutY="262.0" prefHeight="33.0" prefWidth="259.0" style="-fx-background-color: white; -fx-font-size: 14; -fx-text-fill: black;" />
+                  <TextField fx:id="Email_textfield" layoutX="264.0" layoutY="333.0" prefHeight="33.0" prefWidth="259.0" style="-fx-background-color: white; -fx-font-size: 14; -fx-text-fill: black;" />
+                  <TextField fx:id="Nom_textfield" layoutX="264.0" layoutY="196.0" prefHeight="33.0" prefWidth="259.0" style="-fx-background-color: white; -fx-font-size: 14; -fx-text-fill: black;" stylesheets="@../Style/GUIProfile.css" />
+                  <Label layoutX="42.0" layoutY="405.0" style="-fx-text-fill: black;" text="Mot de passe :" />
+                  <TextField fx:id="password_textField" layoutX="264.0" layoutY="399.0" prefHeight="33.0" prefWidth="259.0" style="-fx-background-color: white; -fx-font-size: 14; -fx-text-fill: black;" />
+                  <Label layoutX="42.0" layoutY="459.0" style="-fx-text-fill: black;" text="Confirmer mot de passe :" />
+                  <TextField fx:id="Confirmpassword_textField" layoutX="264.0" layoutY="453.0" prefHeight="33.0" prefWidth="259.0" style="-fx-background-color: white; -fx-font-size: 14; -fx-text-fill: black;" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

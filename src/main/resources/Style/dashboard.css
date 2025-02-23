@@ -1,0 +1,13 @@
+.pane-card {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);
+    -fx-cursor: hand; /* Set the cursor to hand */
+    -fx-transition: all 0.3s ease-in-out; /* Smooth transition effect */
+}
+
+.pane-card:hover {
+    -fx-opacity: 0.85; /* Make it slightly transparent on hover */
+    -fx-scale-x: 1.05; /* Slightly enlarge */
+    -fx-scale-y: 1.05;
+}

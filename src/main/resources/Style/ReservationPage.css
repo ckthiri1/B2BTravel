@@ -1,0 +1,230 @@
+/* Page Title */
+.page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 0;
+    -fx-text-fill: #000080;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+
+/* ScrollPane Styling */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 5;
+}
+
+.scroll-pane > .scroll-bar:vertical > .thumb {
+    -fx-background-color: #000080;
+    -fx-background-radius: 5;
+}
+
+.scroll-pane > .scroll-bar:vertical > .track {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 5;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: transparent;
+}
+
+/* Main Container */
+.reservation-container {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+
+/* Reservation Item */
+.reservation-item {
+    -fx-background-color: white;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+    -fx-background-radius: 10;
+    -fx-min-height: 120;
+    -fx-max-height: 140;
+}
+
+/* Flight Info Section */
+.flight-info-section {
+    -fx-min-width: 200;
+    -fx-spacing: 8;
+}
+
+.info-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6c757d;
+    -fx-font-weight: bold;
+}
+
+.info-value {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Time and Date Section */
+.time-date-section {
+    -fx-padding: 0 30;
+    -fx-border-width: 0 1 0 1;
+    -fx-border-color: #e9ecef;
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+.time-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000080;
+}
+
+.date-container {
+    -fx-padding: 8;
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 8;
+    -fx-alignment: center;
+    -fx-spacing: 5;
+}
+
+.date-box {
+    -fx-padding: 5;
+    -fx-spacing: 3;
+    -fx-alignment: center;
+}
+
+.date-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #6c757d;
+    -fx-font-weight: bold;
+}
+
+.date-value {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.arrow-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #000080;
+    -fx-padding: 0 10;
+}
+
+/* Price Section */
+.price-section {
+    -fx-min-width: 150;
+    -fx-alignment: center;
+    -fx-spacing: 8;
+}
+
+.price-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000080;
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #dc3545;
+    -fx-border-color: #dc3545;
+    -fx-border-radius: 5;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.delete-button:hover {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(220,53,69,0.2), 3, 0, 0, 1);
+}
+
+/* Total Price Section */
+.total-price-section {
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, -2);
+    -fx-background-radius: 10;
+    -fx-spacing: 50;
+}
+
+.total-price-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.total-price-value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000080;
+}
+
+/* Reserve Button */
+.reserve-button {
+    -fx-background-color: #000080;
+    -fx-text-fill: white;
+    -fx-padding: 12 24;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+.reserve-button:hover {
+    -fx-background-color: #000066;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,128,0.2), 3, 0, 0, 1);
+}
+
+/* Hover Effects for Reservation Items */
+.reservation-item:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,128,0.1), 10, 0, 0, 3);
+    -fx-translate-y: -1;
+}
+
+/* Focus Styles */
+.delete-button:focused,
+.reserve-button:focused {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,128,0.3), 3, 0, 0, 0);
+}
+
+/* Transition Effects */
+.reservation-item {
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+.delete-button,
+.reserve-button {
+    -fx-transition: all 0.15s ease-in-out;
+}
+
+
+.historique-button {
+    -fx-background-color: #023e8a;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 10px;
+    -fx-pref-width: 100px;
+
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.3, 0, 2);
+}
+
+.historique-button:hover {
+    -fx-background-color: #023e8a;
+}
+
+.historique-button:pressed {
+    -fx-background-color: #03045e;
+}

@@ -1,0 +1,13 @@
+#btnAdd {
+    -fx-text-fill: white; /* Ensures text is always visible */
+}
+
+#btnAdd:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.2); /* Light transparent white */
+    -fx-border-color: white; /* Keeps border white */
+    -fx-text-fill: white; /* Keeps text white */
+    -fx-cursor: hand; /* Pointer cursor */
+    -fx-scale-x: 1.05; /* Slight enlargement */
+    -fx-scale-y: 1.05;
+    -fx-transition: all 0.3s ease-in-out;
+}

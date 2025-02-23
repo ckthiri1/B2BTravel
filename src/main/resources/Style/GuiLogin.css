@@ -1,0 +1,178 @@
+/* Button Styling */
+.button {
+    -fx-background-color: #007bff; /* Blue background */
+    -fx-text-fill: white;         /* White text */
+    -fx-font-size: 14px;           /* Smaller font size */
+    -fx-padding: 5px 15px;         /* Reduced padding (smaller height) */
+    -fx-background-radius: 50px;   /* Rounded corners for the background */
+    -fx-cursor: hand;              /* Cursor changes to hand on hover */
+}
+
+.button:hover {
+    -fx-background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Text Field Styling */
+.text-field {
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #ddd;        /* Light gray border */
+    -fx-border-radius: 50px;        /* Rounded corners */
+    -fx-padding: 5px 10px;          /* Reduced padding (smaller height) */
+    -fx-font-size: 14px;           /* Font size */
+    -fx-pref-height: 30px;         /* Set preferred height */
+}
+
+.text-field:focused {
+    -fx-border-color: #007bff;
+    -fx-border-color: #021135;
+
+
+}
+
+/* Label Styling */
+.label {
+    -fx-font-size: 14px;           /* Font size */
+    -fx-text-fill: #333;           /* Dark gray text color */
+    -fx-font-weight: bold;         /* Bold text */
+}
+
+/* SplitMenuButton Styling */
+.split-menu-button {
+    -fx-background-color: #007bff; /* Blue background */
+    -fx-text-fill: white;         /* White text */
+    -fx-font-size: 14px;         /* Font size */
+    -fx-padding: 5px 15px;       /* Reduced padding (smaller height) */
+    -fx-background-radius: 50px; /* Rounded corners for the background */
+    -fx-cursor: hand;            /* Cursor changes to hand on hover */
+}
+
+.split-menu-button .arrow-button {
+    -fx-background-color: transparent; /* Transparent background for the arrow */
+    -fx-padding: 0 5px;               /* Padding for the arrow button */
+}
+
+.split-menu-button .arrow {
+    -fx-background-color: white; /* White arrow */
+}
+
+.split-menu-button:hover {
+    -fx-background-color: #0056b3; /* Darker blue on hover */
+}
+
+.split-menu-button .menu-item {
+    -fx-background-color: #0056b3; /* White background for menu items */
+    -fx-text-fill: #0056b3;           /* Dark gray text color */
+    -fx-font-size: 14px;           /* Font size */
+    -fx-padding: 5px 10px;         /* Padding for menu items */
+}
+
+.split-menu-button .menu-item:hover {
+    -fx-background-color: #f0f0f0; /* Light gray background on hover */
+    -fx-text-fill: #007bff;        /* Blue text on hover */
+}
+
+.split-menu-button .context-menu {
+    -fx-background-color: #ffffff; /* White background for the context menu */
+    -fx-border-color: #ddd;        /* Light gray border */
+    -fx-border-radius: 5px;         /* Slightly rounded corners for the context menu */
+    -fx-padding: 5px;               /* Padding for the context menu */
+}
+
+/* TableView Styling */
+.table-view {
+    -fx-background-color: #ffffff;  /* White background */
+    -fx-border-color: #ddd;         /* Light gray border */
+    -fx-border-radius: 10px;        /* Rounded corners */
+    -fx-padding: 10px;              /* Padding around the table */
+    -fx-background-radius: 10px;    /* Rounded corners */
+    -fx-selection-bar: #007bff;     /* Blue selection color */
+    -fx-selection-bar-non-focused: #cccccc; /* Gray selection when not focused */
+}
+
+/* Table Header Styling */
+.table-view .column-header {
+    -fx-background-color: #f5f5f5;  /* Light gray background for headers */
+    -fx-border-color: #ddd;         /* Border color for headers */
+    -fx-border-width: 0 0 1px 0;    /* Border at the bottom of headers */
+    -fx-padding: 8px;               /* Padding for header cells */
+    -fx-font-weight: bold;          /* Bold text for headers */
+    -fx-text-fill: #333;            /* Dark gray text */
+    -fx-background-radius: 10px 10px 0 0; /* Rounded top corners */
+}
+
+/* Table Cell Styling */
+.table-view .cell {
+    -fx-padding: 10px;              /* Padding for each cell */
+    -fx-border-width: 0 0 1px 0;    /* Border at the bottom of cells */
+    -fx-border-color: #eee;         /* Light border color */
+    -fx-font-size: 14px;            /* Font size for cells */
+    -fx-text-fill: #333;            /* Text color for cells */
+}
+
+/* Alternate Row Colors */
+.table-row-cell:odd {
+    -fx-background-color: #fafafa;  /* Slightly darker background for odd rows */
+}
+
+.table-row-cell:even {
+    -fx-background-color: #ffffff;  /* White background for even rows */
+}
+
+/* Row Hover Effect */
+.table-row-cell:hover {
+    -fx-background-color: #e6f2ff;  /* Light blue background on hover */
+}
+
+/* Selected Row */
+.table-row-cell:selected {
+    -fx-background-color: #007bff;  /* Blue background for selected row */
+    -fx-text-fill: white;           /* White text for selected row */
+}
+
+/* Scroll Bar Styling */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #cccccc;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+/* Tooltip for Cell */
+.table-cell:hover .tooltip {
+    -fx-background-color: #333;     /* Dark background for tooltip */
+    -fx-text-fill: white;           /* White text for tooltip */
+    -fx-padding: 5px;               /* Padding for tooltip */
+    -fx-background-radius: 5px;     /* Rounded corners for tooltip */
+}
+/* Style for the button to look like a hyperlink */
+.button-link {
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-border-color: transparent;    /* No border */
+    -fx-text-fill: #0073e6;           /* Blue text color (like a link) */
+    -fx-underline: true;              /* Underline the text */
+    -fx-padding: 0;                   /* Remove padding */
+    -fx-font-size: 14px;              /* Font size */
+    -fx-cursor: hand;                 /* Change cursor to hand on hover */
+}
+
+/* Hover effect for the button */
+.button-link:hover {
+    -fx-text-fill: #005bb5;           /* Darker blue on hover */
+}
+
+/* Pressed effect for the button */
+.button-link:pressed {
+    -fx-text-fill: #004080;           /* Even darker blue when pressed */
+}
+

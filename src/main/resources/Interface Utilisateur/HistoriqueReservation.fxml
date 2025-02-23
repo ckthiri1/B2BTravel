@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1540.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Projet.controllers.GestionReservationController.HistoriqueReservationController"
+            stylesheets="@/Style/ReservationPage.css">
+
+
+    <fx:include source="/SideBar/navBarUser.fxml" />
+
+
+    <HBox alignment="CENTER" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Label text="HISTORIQUE DES RÉSERVATIONS" styleClass="page-title"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" styleClass="scroll-pane"
+                AnchorPane.topAnchor="150.0"
+                AnchorPane.leftAnchor="20.0"
+                AnchorPane.rightAnchor="20.0"
+                AnchorPane.bottomAnchor="100.0">
+        <VBox fx:id="reservationContainer" spacing="15" styleClass="reservation-container"/>
+    </ScrollPane>
+
+    <HBox alignment="CENTER_RIGHT" spacing="50" styleClass="total-price-section"
+          AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+        <Label text="PRIX TOTAL:" styleClass="total-price-label"/>
+        <Label fx:id="totalPriceValue" text="0 DT" styleClass="total-price-value"/>
+    </HBox>
+</AnchorPane>

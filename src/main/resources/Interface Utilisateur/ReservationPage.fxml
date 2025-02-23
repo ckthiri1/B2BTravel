@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="mainPane"  prefHeight="800.0" prefWidth="1540.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Projet.controllers.GestionReservationController.ReservationUserController"
+            stylesheets="@/Style/ReservationPage.css">
+
+
+    <fx:include source="/SideBar/navBarUser.fxml" />
+
+
+        <Label text="RESERVATION" styleClass="page-title"  alignment="CENTER" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+
+        <Button fx:id="historiqueButton" text="HISTORIQUE" styleClass="historique-button"  alignment="CENTER_RIGHT" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="1420.0" AnchorPane.rightAnchor="30.0"
+                onAction="#NavigateToHistoriqueReservation"/>
+
+
+
+    <ScrollPane fitToWidth="true" styleClass="scroll-pane"
+                AnchorPane.topAnchor="150.0"
+                AnchorPane.leftAnchor="20.0"
+                AnchorPane.rightAnchor="20.0"
+                AnchorPane.bottomAnchor="100.0">
+        <VBox fx:id="reservationContainer" spacing="15" styleClass="reservation-container"/>
+    </ScrollPane>
+
+
+    <HBox alignment="CENTER_RIGHT" spacing="50" styleClass="total-price-section"
+          AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+        <Label text="PRIX TOTAL:" styleClass="total-price-label"/>
+        <Label fx:id="totalPriceValue" text="0 DT" styleClass="total-price-value"/>
+        <Button fx:id="reserveButton" text="RESERVER VOL" styleClass="reserve-button"/>
+    </HBox>
+</AnchorPane>
