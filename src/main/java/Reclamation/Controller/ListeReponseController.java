@@ -199,4 +199,16 @@ public class ListeReponseController {
         this.reclamationId = idr;
         chargerDonnees();
     }
+    private void refreshTable() {
+        // Clear the current items in the TableView
+        reponsesTable.getItems().clear();
+
+        // Reload the data from the database
+        ObservableList<Reponse> reponses = FXCollections.observableArrayList(
+                reponseServices.getReponsesByReclamation(reclamationId)
+        );
+
+        // Set the updated data in the TableView
+        reponsesTable.setItems(reponses);
+    }
 }

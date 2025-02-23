@@ -29,6 +29,7 @@ public class Reponse {
         this.reclamationTitre = reclamationTitre;
     }
 
+
     public String getReclamationTitre() {
         return reclamationTitre;
     }

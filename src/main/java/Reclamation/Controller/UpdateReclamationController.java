@@ -21,6 +21,7 @@ public class UpdateReclamationController {
     private DatePicker datePicker; // Champ pour la date
 
     private Reclamation reclamationAModifier; // La réclamation à modifier
+    private ListeReclamationController listeReclamationController; // Référence au contrôleur principal
     private final ReclamationServices reclamationServices = new ReclamationServices(); // Service pour interagir avec la base de données
 
     /**
@@ -33,6 +34,15 @@ public class UpdateReclamationController {
         titreTextField.setText(reclamation.getTitre());
         descriptionTextField.setText(reclamation.getDescription());
         datePicker.setValue(reclamation.getDateR());
+    }
+
+    /**
+     * Définit la référence du contrôleur principal.
+     *
+     * @param controller Le contrôleur principal.
+     */
+    public void setListeReclamationController(ListeReclamationController controller) {
+        this.listeReclamationController = controller;
     }
 
     /**
@@ -58,11 +68,20 @@ public class UpdateReclamationController {
         reclamationAModifier.setDateR(nouvelleDate);
 
         // Appeler la méthode de mise à jour en passant l'ID et l'objet modifié
-        reclamationServices.updateEntity(reclamationAModifier.getIDR(), reclamationAModifier);
-        System.out.println("Réclamation mise à jour avec succès !");
+        boolean isUpdated = reclamationServices.updateEntity(reclamationAModifier.getIDR(), reclamationAModifier);
+        if (isUpdated) {
+            System.out.println("Réclamation mise à jour avec succès !");
 
-        // Fermer la fenêtre de modification
-        Stage stage = (Stage) titreTextField.getScene().getWindow();
-        stage.close();
+            // Rafraîchir le tableau dans le contrôleur principal
+            if (listeReclamationController != null) {
+                listeReclamationController.refreshTable(); // Appel correct de la méthode void
+            }
+
+            // Fermer la fenêtre de modification
+            Stage stage = (Stage) titreTextField.getScene().getWindow();
+            stage.close();
+        } else {
+            System.out.println("Erreur : La réclamation n'a pas pu être mise à jour.");
+        }
     }
 }

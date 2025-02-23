@@ -21,16 +21,9 @@ public class ModifierReponseController {
     private final ReponseServices reponseServices = new ReponseServices();
     private Reponse reponse;
 
-    private static final Logger LOGGER = Logger.getLogger(ModifierReponseController.class.getName());
-
     public void setReponse(Reponse reponse) {
-        this.reponse = reponse;
-        txtDescription.setText(reponse.getDescriptionRep());
-
-        // Ensure DateRep is not null
-        if (reponse.getDateRep() == null) {
-            reponse.setDateRep(LocalDate.now()); // Set a default date
-        }
+        this.reponse = reponse; // Stocker l'objet Reponse
+        txtDescription.setText(reponse.getDescriptionRep()); // Initialiser avec la description de la réponse
     }
 
     @FXML
@@ -44,20 +37,10 @@ public class ModifierReponseController {
                 return;
             }
 
-            // Mise à jour des valeurs
+            // Mise à jour de la description de la réponse
             reponse.setDescriptionRep(newDescription);
 
-            // Vérification et affectation de la date si elle est null
-            if (reponse.getDateRep() == null) {
-                LOGGER.warning("⚠️ DateRep est null, affectation de la date actuelle.");
-                reponse.setDateRep(LocalDate.now());
-            }
-
-            // Debug log
-            LOGGER.info("Modification en cours pour IDRep: " + reponse.getIDRep() +
-                    ", Nouvelle description: " + reponse.getDescriptionRep() +
-                    ", Date: " + reponse.getDateRep());
-
+            // Mettre à jour la réponse dans la base de données
             boolean success = reponseServices.updateEntity(reponse.getIDRep(), reponse);
 
             if (success) {

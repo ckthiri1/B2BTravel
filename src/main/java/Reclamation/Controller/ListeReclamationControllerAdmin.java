@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
-public class ListeReclamationController {
+public class ListeReclamationControllerAdmin {
 
     @FXML
     private VBox reclamationContainer; // VBox pour contenir les lignes de réclamations
@@ -52,20 +52,16 @@ public class ListeReclamationController {
         Label dateLabel = new Label(reclamation.getDateR().toString());
         dateLabel.setPrefWidth(100); // Largeur correspondant à l'en-tête
 
-        // Créer des boutons pour les actions
-        Button deleteButton = new Button("Supprimer");
-        deleteButton.setPrefWidth(75); // Largeur du bouton Supprimer
+        // Créer un bouton pour répondre
+        Button respondButton = new Button("Répondre");
+        respondButton.setPrefWidth(150); // Largeur correspondant à l'en-tête
 
-        Button editButton = new Button("Modifier");
-        editButton.setPrefWidth(75); // Largeur du bouton Modifier
+        // Définir l'action du bouton Répondre
+        respondButton.setOnAction(event -> repondreAReclamation(reclamation));
 
-        // Définir les actions des boutons
-        deleteButton.setOnAction(event -> supprimerReclamation(reclamation));
-        editButton.setOnAction(event -> modifierReclamation(reclamation));
-
-        // Créer une HBox pour contenir les labels et les boutons
+        // Créer une HBox pour contenir les labels et le bouton
         HBox row = new HBox(10); // 10 est l'espacement entre les éléments
-        row.getChildren().addAll(titreLabel, descriptionLabel, dateLabel, deleteButton, editButton);
+        row.getChildren().addAll(titreLabel, descriptionLabel, dateLabel, respondButton);
 
         // Appliquer un style à la ligne
         row.setStyle("-fx-border-color: #bdc3c7; -fx-border-width: 1px; -fx-padding: 10px;");
@@ -73,37 +69,24 @@ public class ListeReclamationController {
         return row;
     }
 
-    private void supprimerReclamation(Reclamation reclamation) {
-        // Logique pour supprimer la réclamation
-        boolean isDeleted = reclamationServices.deleteEntity(reclamation);
-        if (isDeleted) {
-            loadReclamations(); // Recharger la liste après la suppression
-        }
-    }
-
-    private void modifierReclamation(Reclamation reclamation) {
+    private void repondreAReclamation(Reclamation reclamation) {
         try {
-            // Charger la fenêtre de modification
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateReclamation.fxml"));
+            // Charger la vue AjouterReponse.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterReponse.fxml"));
             Parent root = loader.load();
 
-            // Obtenir le contrôleur de la fenêtre de modification
-            UpdateReclamationController controller = loader.getController();
-            controller.setReclamationAModifier(reclamation); // Passer la réclamation à modifier
-            controller.setListeReclamationController(this); // Passer une référence de ce contrôleur
+            // Passer l'ID de la réclamation au contrôleur AjouterReponseController
+            AjouterReponseController controller = loader.getController();
+            controller.setIDR(reclamation.getIDR()); // Utilisez setIDR pour définir l'ID
 
-            // Créer une nouvelle scène et afficher la fenêtre
+            // Afficher la nouvelle fenêtre
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Modifier une Réclamation");
+            stage.setTitle("Ajouter une réponse");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Erreur lors du chargement de la fenêtre de modification.");
+            System.err.println("Erreur lors du chargement de AjouterReponse.fxml : " + e.getMessage());
         }
-    }
-
-    public void refreshTable() {
-        loadReclamations(); // Recharge les réclamations depuis la base de données
     }
 }

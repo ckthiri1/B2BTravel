@@ -52,35 +52,27 @@ public class ReponseServices {
 
 
     public boolean updateEntity(int id, Reponse reponse) {
-        String requete = "UPDATE Reponse SET DescriptionRep = ?, DateRep = ?, IDR = ? WHERE IDRep = ?";
+        String requete = "UPDATE Reponse SET DescriptionRep = ?, DateRep = ? WHERE IDRep = ?";
         try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
-
             pst.setString(1, reponse.getDescriptionRep());
 
-            // ✅ Vérification pour éviter NullPointerException
+            // Gestion des dates null
             if (reponse.getDateRep() != null) {
                 pst.setDate(2, java.sql.Date.valueOf(reponse.getDateRep()));
             } else {
-                pst.setNull(2, java.sql.Types.DATE);
-                System.out.println("⚠ DateRep est NULL, mise à jour avec NULL en BDD.");
+                pst.setNull(2, Types.DATE); // Set the date column to NULL in the database
             }
 
-            pst.setInt(3, reponse.getIDR());
-            pst.setInt(4, id);
+            pst.setInt(3, id);
 
             int rowsAffected = pst.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("✅ Réponse mise à jour avec succès !");
-                return true;
-            } else {
-                System.out.println("❌ Aucune réponse correspondante trouvée.");
-            }
+            return rowsAffected > 0;
         } catch (SQLException e) {
-            System.err.println("🚨 Erreur lors de la mise à jour de la réponse : " + e.getMessage());
+            System.err.println("Erreur lors de la mise à jour de la réponse : " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
-
 
 
     public List<Reponse> getAllData() {

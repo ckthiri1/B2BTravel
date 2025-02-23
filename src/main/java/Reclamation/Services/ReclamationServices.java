@@ -60,7 +60,7 @@ public class ReclamationServices implements Service<Reclamation> {
     }
 
     @Override
-    public void updateEntity(int id, Reclamation reclamation) {
+    public boolean updateEntity(int id, Reclamation reclamation) {
         String requete = "UPDATE Reclamation SET Titre = ?, Description = ?, DateR = ?, Status = ? WHERE IDR = ?";
         try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
 
@@ -79,6 +79,7 @@ public class ReclamationServices implements Service<Reclamation> {
         } catch (SQLException e) {
             System.err.println("Erreur lors de la mise à jour de la réclamation : " + e.getMessage());
         }
+        return true;
     }
 
     public ObservableList<Reclamation> getAllData() {

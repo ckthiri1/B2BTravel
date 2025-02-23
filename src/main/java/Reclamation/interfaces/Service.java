@@ -10,7 +10,7 @@ public interface Service<T> {
 
 
 
-    void updateEntity(int id, T t);
+    boolean updateEntity(int id, T t);
 
     default List<Reclamation> getAllData() {
         return null;

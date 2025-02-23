@@ -18,7 +18,7 @@ public class mainFX extends Application {
     public void start(Stage primaryStage) {
 
         try {
-            Parent parent =  FXMLLoader.load(getClass().getResource("/AjouterReclamation.fxml"));
+            Parent parent =  FXMLLoader.load(getClass().getResource("/ListeReclamationsAdmin.fxml"));
             Scene scene = new Scene(parent);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Ajouter Reclamation");
