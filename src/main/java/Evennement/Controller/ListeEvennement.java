@@ -181,6 +181,9 @@ public class ListeEvennement {
         }
     }
 
+
+
+
     private void deleteEvennement(Evennement evennement) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation de suppression");
