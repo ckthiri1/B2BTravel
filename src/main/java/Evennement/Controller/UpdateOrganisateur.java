@@ -76,10 +76,12 @@ public class UpdateOrganisateur {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de la mise à jour.");
             e.printStackTrace();
             return;
+
         }
+        closeWindow();
 
         // Close the window after update
-        closeWindow();
+
     }
 
     /**

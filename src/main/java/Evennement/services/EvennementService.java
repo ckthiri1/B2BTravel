@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EvennementService implements IService<Evennement> {
-
     @Override
     public void add(Evennement e) {
-        String requete = "INSERT INTO Evennement (NomE, Local, DateE, DesE, IDOr) VALUES (?,?,?,?,?)";
+        String requete = "INSERT INTO Evennement (NomE, Local, DateE, DesE, IDOr, event_type) VALUES (?,?,?,?,?,?)";
         try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete)) {
             pst.setString(1, e.getNomE());
             pst.setString(2, e.getLocal());
@@ -23,11 +22,12 @@ public class EvennementService implements IService<Evennement> {
             // ✅ Ensure Organisateur is not null before inserting
             if (e.getOrganisateur() != null && e.getOrganisateur().getIDOr() != 0) {
                 pst.setInt(5, e.getOrganisateur().getIDOr());
-                System.out.println("Organisateur ID: " + e.getOrganisateur().getIDOr());  // Debugging log
             } else {
-                System.err.println("❌ Organisateur is null or has invalid ID! Event cannot be added.");
                 throw new IllegalArgumentException("Organisateur cannot be null or have ID 0 for an Evennement.");
             }
+
+            // ✅ Insert event type as a string
+            pst.setString(6, (e.getEventType() != null) ? e.getEventType().name() : null);
 
             pst.executeUpdate();
             System.out.println("✅ Evennement ajouté avec succès!");
@@ -37,7 +37,6 @@ public class EvennementService implements IService<Evennement> {
             throw new RuntimeException("Error adding event", exception);
         }
     }
-
     @Override
     public void update(Evennement e, int IDE) {
         String requete = "UPDATE Evennement SET NomE = ?, Local = ?, DateE = ?, DesE = ?, IDOr = ? WHERE IDE = ?";

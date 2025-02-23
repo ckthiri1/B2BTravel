@@ -16,6 +16,11 @@ import java.text.SimpleDateFormat;
 public class MainClass {
     public static void main(String[] args) throws ParseException {
         MyConnection myConn = new MyConnection();
+        MyConnection myConn1 = new MyConnection();
+        System.out.println(myConn);
+        System.out.println(myConn1);
+
+
 
         ////////////////////////////////////AJOUT EVENNEMENT///////////////////////////////
       /* EvennementService service = new EvennementService();

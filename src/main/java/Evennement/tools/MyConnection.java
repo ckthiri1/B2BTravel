@@ -10,7 +10,7 @@ public class MyConnection {
     private String login="root";
     private String pwd="";
     private static MyConnection instance;
-    Connection cnx;
+    private Connection cnx;
 
     public Connection getCnx() {
         return cnx;
@@ -29,16 +29,6 @@ public class MyConnection {
             System.out.println("Connection established");
         } catch (SQLException e) {
             System.out.println("Error connecting to database"+e.getMessage());
-        }
-    }
-    public void closeConnection() {
-        try {
-            if (cnx != null && !cnx.isClosed()) {
-                cnx.close();
-                System.out.println("Connection closed");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error closing connection: " + e.getMessage());
         }
     }
 
