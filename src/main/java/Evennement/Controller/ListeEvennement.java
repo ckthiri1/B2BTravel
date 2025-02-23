@@ -1,6 +1,7 @@
 package Evennement.Controller;
 
 import Evennement.entities.Evennement;
+import Evennement.entities.EventType;
 import Evennement.entities.Organisateur;
 import Evennement.services.EvennementService;
 import Evennement.tools.MyConnection;
@@ -21,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ListeEvennement {
@@ -32,19 +34,20 @@ public class ListeEvennement {
 
     @FXML
     public void initialize() {
+
         loadEvennements(); // Load events dynamically
     }
-
     @FXML
     private void loadEvennements() {
-        eventListContainer.getChildren().clear(); // Clear previous events
-
-        List<Evennement> events = new ArrayList<>();
-        String query = "SELECT e.IDE, e.NomE, e.Local, e.DateE, e.DesE, o.IDOr, o.NomOr, o.Contact " +
-                "FROM Evennement e " +
-                "JOIN Organisateur o ON e.IDOr = o.IDOr";
-
         try {
+            eventListContainer.getChildren().clear();
+
+            List<Evennement> events = new ArrayList<>();
+            String query = "SELECT e.IDE, e.NomE, e.Local, e.DateE, e.DesE, e.event_type, " +
+                    "o.IDOr, o.NomOr, o.Contact " +
+                    "FROM Evennement e " +
+                    "JOIN Organisateur o ON e.IDOr = o.IDOr";
+
             Statement stmt = MyConnection.getInstance().getCnx().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -55,35 +58,84 @@ public class ListeEvennement {
                 String desE = rs.getString("DesE");
                 Date dateE = new Date(rs.getTimestamp("DateE").getTime());
 
-                // Retrieve Organisateur details
+                // Retrieve event type and handle invalid or null cases
+                String eventTypeString = rs.getString("event_type");
+
+                // Normalize the event type string to match the enum values
+                if (eventTypeString != null) {
+                    eventTypeString = eventTypeString.toUpperCase(); // Convert to uppercase
+                }
+
+                EventType eventType = null;
+                if (eventTypeString != null) {
+                    try {
+                        eventType = EventType.valueOf(eventTypeString);  // Convert String to EventType enum
+                        System.out.println("Successfully converted to EventType: " + eventType); // Debugging log
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("❌ Invalid event type: " + eventTypeString);
+                        System.out.println("Valid event types are: " + Arrays.toString(EventType.values())); // Log all valid enum values
+                    }
+                }
+
+                if (eventType == null) {
+                    eventType = EventType.DEFAULT; // Default event type
+                    System.out.println("Event type set to default: " + eventType); // Debugging log
+                }
+
                 int IDOr = rs.getInt("IDOr");
                 String nomOr = rs.getString("NomOr");
                 int contact = rs.getInt("Contact");
 
-                // Create Organisateur object
                 Organisateur organisateur = new Organisateur(IDOr, nomOr, contact);
-
-                // Create Evennement object and set its properties
-                Evennement evennement = new Evennement(nomE, local, desE, dateE, organisateur);
+                Evennement evennement = new Evennement(nomE, local, desE, dateE, organisateur, eventType);
                 evennement.setIDE(IDE);
 
-                // Add event to VBox dynamically
+                // Debugging: Verify the event type set in Evennement
+                System.out.println("EventType set in Evennement: " + evennement.getEventType());
+
+                // Dynamically add event to VBox
                 eventListContainer.getChildren().add(createEventItem(evennement));
             }
         } catch (SQLException e) {
             System.out.println("❌ SQL Error while fetching events: " + e.getMessage());
+            showAlert("Erreur", "Erreur lors de la récupération des événements.");
+        } catch (Exception e) {
+            System.out.println("❌ Unexpected error: " + e.getMessage());
+            showAlert("Erreur", "Une erreur inattendue est survenue.");
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     private HBox createEventItem(Evennement evennement) {
         HBox eventBox = new HBox(20);
         eventBox.setStyle("-fx-padding: 10; -fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;");
 
+        // Create labels for event information
         Label nameLabel = new Label("📌 " + evennement.getNomE());
         Label locationLabel = new Label("📍 " + evennement.getLocal());
         Label dateLabel = new Label("📅 " + evennement.getDateE().toString());
         Label organizerLabel = new Label("👤 " + evennement.getOrganisateur().getNomOr());
 
+        // New label for event type
+        Label eventTypeLabel;
+        if (evennement.getEventType() != null) {
+            eventTypeLabel = new Label("📅 Type: " + evennement.getEventType().toString());
+        } else {
+            eventTypeLabel = new Label("📅 Type: Unknown");
+        }
+
+        // Buttons for modifying and deleting the event
         Button updateButton = new Button("Modifier");
         updateButton.setStyle("-fx-background-color: blue; -fx-text-fill: white;");
         updateButton.setOnAction(e -> InterfaceUpdate(evennement));
@@ -92,9 +144,11 @@ public class ListeEvennement {
         deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
         deleteButton.setOnAction(e -> deleteEvennement(evennement));
 
-        eventBox.getChildren().addAll(nameLabel, locationLabel, dateLabel, organizerLabel, updateButton, deleteButton);
+        // Add all elements to the event box
+        eventBox.getChildren().addAll(nameLabel, locationLabel, dateLabel, organizerLabel, eventTypeLabel, updateButton, deleteButton);
         return eventBox;
     }
+
 
     @FXML
     private void InterfaceUpdate(Evennement evennement) {
@@ -121,14 +175,11 @@ public class ListeEvennement {
 
             // Close current window (optional)
             Stage currentStage = (Stage) eventListContainer.getScene().getWindow();
-
-
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Erreur", "Impossible d'ouvrir l'interface de mise à jour.");
         }
     }
-
 
     private void deleteEvennement(Evennement evennement) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
