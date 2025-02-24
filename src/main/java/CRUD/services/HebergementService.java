@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HebergementService implements IService<Hebergement> {
+
     @Override
     public void addEntity(Hebergement hebergement) {
         try{
@@ -156,6 +157,18 @@ public class HebergementService implements IService<Hebergement> {
         }
         return hebergement;
     }
+    private List<Hebergement> hebergements;
+    public List<Hebergement> searchData(String query) {
+        List<Hebergement> filteredList = new ArrayList<>();
 
+        // Use getNom() to match the search term
+        for (Hebergement hebergement : hebergements) {
+            if (hebergement.getNom().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(hebergement);
+            }
+        }
+
+        return filteredList;
+    }
 
 }

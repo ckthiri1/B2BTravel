@@ -17,7 +17,7 @@ public class mainFx extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Affichage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MeteoU.fxml"));
         try {
             Parent parent = loader.load();
             Scene scene = new Scene(parent);

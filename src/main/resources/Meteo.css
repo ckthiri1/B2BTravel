@@ -1,0 +1,20 @@
+#emoji {
+    -fx-font-size: 40px;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 2);
+    -fx-padding: 10px;
+    -fx-transition: translateX 3s ease-in-out infinite;
+}
+
+@keyframes moveClouds {
+    0% {
+        -fx-translate-x: -8%;
+    }
+    50% {
+        -fx-translate-x: 10%;
+    }
+    100% {
+        -fx-translate-x: -10%;
+    }
+}

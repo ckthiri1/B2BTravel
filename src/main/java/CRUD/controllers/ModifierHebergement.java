@@ -137,11 +137,6 @@ public class ModifierHebergement {
         desM.setText(String.valueOf(hebergement.getDescription()));
 
 
-
-
-
-
-
         // Set up status menu
 
     }
