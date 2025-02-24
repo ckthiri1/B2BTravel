@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.ColumnConstraints?>
 
-<AnchorPane prefHeight="735.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Reclamation.Controller.ListeReclamationController">
+<AnchorPane prefHeight="735.0" prefWidth="699.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Reclamation.Controller.ListeReclamationController">
+
     <children>
         <!-- Titre de la page -->
         <Text layoutX="230.0" layoutY="50.0" text="Liste des Réclamations">
             <font>
-                <Font size="24" />
+                <Font size="24"/>
             </font>
         </Text>
 
-        <!-- VBox pour afficher les réclamations -->
-        <VBox fx:id="reclamationContainer" layoutX="50.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0" spacing="10" style="-fx-border-color: #bdc3c7; -fx-border-width: 1px; -fx-padding: 10px;">
-            <!-- En-tête de la table -->
-            <HBox spacing="10" style="-fx-background-color: #3498db; -fx-padding: 10px;">
-                <Label text="Titre" prefWidth="150" style="-fx-text-fill: white; -fx-font-weight: bold;" />
-                <Label text="Description" prefWidth="200" style="-fx-text-fill: white; -fx-font-weight: bold;" />
-                <Label text="Date" prefWidth="100" style="-fx-text-fill: white; -fx-font-weight: bold;" />
-                <Label text="Actions" prefWidth="150" style="-fx-text-fill: white; -fx-font-weight: bold;" />
-            </HBox>
-        </VBox>
+        <!-- Table des réclamations -->
+        <GridPane fx:id="reclamationGrid" layoutX="50.0" layoutY="100.0"
+                  prefHeight="600.0" prefWidth="600.0"
+                  style="-fx-border-color: #bdc3c7; -fx-border-width: 1px; -fx-padding: 10px; -fx-background-color: #ecf0f1;">
+
+            <!-- Définition des colonnes pour assurer un bon alignement -->
+            <columnConstraints>
+                <ColumnConstraints prefWidth="150.0"/>
+                <ColumnConstraints prefWidth="200.0"/>
+                <ColumnConstraints prefWidth="100.0"/>
+                <ColumnConstraints prefWidth="150.0"/>
+            </columnConstraints>
+
+        </GridPane>
     </children>
 </AnchorPane>

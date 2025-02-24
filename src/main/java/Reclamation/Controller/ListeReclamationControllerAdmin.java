@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -18,7 +18,7 @@ import java.util.List;
 public class ListeReclamationControllerAdmin {
 
     @FXML
-    private VBox reclamationContainer; // VBox pour contenir les lignes de réclamations
+    private VBox reclamationsGrid; // VBox contenant les réclamations sous forme de GridPane
 
     private final ReclamationServices reclamationServices = new ReclamationServices();
 
@@ -28,65 +28,59 @@ public class ListeReclamationControllerAdmin {
     }
 
     private void loadReclamations() {
-        // Vider le conteneur avant de charger de nouvelles données
-        reclamationContainer.getChildren().clear();
+        reclamationsGrid.getChildren().clear();
 
-        // Récupérer la liste des réclamations depuis le service
         List<Reclamation> reclamations = reclamationServices.getAllData();
 
-        // Créer une HBox pour chaque réclamation
+        int rowIndex = 0;
         for (Reclamation reclamation : reclamations) {
-            HBox row = createReclamationRow(reclamation);
-            reclamationContainer.getChildren().add(row);
+            GridPane row = createReclamationRow(reclamation);
+            reclamationsGrid.getChildren().add(row);
+            rowIndex++;
         }
     }
 
-    private HBox createReclamationRow(Reclamation reclamation) {
-        // Créer des labels pour chaque champ (sans l'ID)
+    private GridPane createReclamationRow(Reclamation reclamation) {
+        GridPane row = new GridPane();
+        row.setHgap(10);
+        row.setVgap(5);
+        row.setStyle("-fx-border-color: #bdc3c7; -fx-border-width: 1px; -fx-padding: 10px;");
+
         Label titreLabel = new Label(reclamation.getTitre());
-        titreLabel.setPrefWidth(150); // Largeur correspondant à l'en-tête
+        titreLabel.setPrefWidth(150);
 
         Label descriptionLabel = new Label(reclamation.getDescription());
-        descriptionLabel.setPrefWidth(200); // Largeur correspondant à l'en-tête
+        descriptionLabel.setPrefWidth(200);
 
         Label dateLabel = new Label(reclamation.getDateR().toString());
-        dateLabel.setPrefWidth(100); // Largeur correspondant à l'en-tête
+        dateLabel.setPrefWidth(100);
 
-        // Créer un bouton pour répondre
         Button respondButton = new Button("Répondre");
-        respondButton.setPrefWidth(150); // Largeur correspondant à l'en-tête
-
-        // Définir l'action du bouton Répondre
+        respondButton.setPrefWidth(150);
         respondButton.setOnAction(event -> repondreAReclamation(reclamation));
 
-        // Créer une HBox pour contenir les labels et le bouton
-        HBox row = new HBox(10); // 10 est l'espacement entre les éléments
-        row.getChildren().addAll(titreLabel, descriptionLabel, dateLabel, respondButton);
-
-        // Appliquer un style à la ligne
-        row.setStyle("-fx-border-color: #bdc3c7; -fx-border-width: 1px; -fx-padding: 10px;");
+        row.add(titreLabel, 0, 0);
+        row.add(descriptionLabel, 1, 0);
+        row.add(dateLabel, 2, 0);
+        row.add(respondButton, 3, 0);
 
         return row;
     }
 
     private void repondreAReclamation(Reclamation reclamation) {
         try {
-            // Charger la vue AjouterReponse.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterReponse.fxml"));
             Parent root = loader.load();
 
-            // Passer l'ID de la réclamation au contrôleur AjouterReponseController
             AjouterReponseController controller = loader.getController();
-            controller.setIDR(reclamation.getIDR()); // Utilisez setIDR pour définir l'ID
+            controller.setIDR(reclamation.getIDR());
 
-            // Afficher la nouvelle fenêtre
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Ajouter une réponse");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Erreur lors du chargement de AjouterReponse.fxml : " + e.getMessage());
         }
     }
 }

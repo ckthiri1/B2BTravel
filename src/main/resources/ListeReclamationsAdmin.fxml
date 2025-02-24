@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="735.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Reclamation.Controller.ListeReclamationControllerAdmin">
     <children>
 
-        <!-- VBox pour afficher les réclamations -->
-        <VBox fx:id="reclamationContainer" layoutX="50.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0" spacing="10" style="-fx-border-color: #bdc3c7; -fx-border-width: 1px; -fx-padding: 10px;">
-            <!-- En-tête de la table -->
-            <HBox spacing="10" style="-fx-background-color: #3498db; -fx-padding: 10px;">
-                <Label text="Titre" prefWidth="150" style="-fx-text-fill: white; -fx-font-weight: bold;" />
-                <Label text="Description" prefWidth="200" style="-fx-text-fill: white; -fx-font-weight: bold;" />
-                <Label text="Date" prefWidth="100" style="-fx-text-fill: white; -fx-font-weight: bold;" />
-                <Label text="Actions" prefWidth="150" style="-fx-text-fill: white; -fx-font-weight: bold;" />
-            </HBox>
+        <!-- VBox contenant le tableau -->
+        <VBox fx:id="reclamationContainer" layoutX="50.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0" spacing="10">
+
+            <!-- En-tête du tableau -->
+            <GridPane hgap="10" vgap="10" style="-fx-background-color: #3498db; -fx-padding: 10px;">
+                <Label text="Titre" GridPane.columnIndex="0" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                <Label text="Description" GridPane.columnIndex="1" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                <Label text="Date" GridPane.columnIndex="2" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                <Label text="Actions" GridPane.columnIndex="3" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+            </GridPane>
+
+            <!-- Conteneur pour les réclamations -->
+            <VBox fx:id="reclamationsGrid" spacing="5" />
         </VBox>
     </children>
 </AnchorPane>

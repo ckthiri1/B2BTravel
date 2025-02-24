@@ -8,8 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,81 +18,73 @@ import java.util.List;
 public class ListeReclamationController {
 
     @FXML
-    private VBox reclamationContainer; // VBox pour contenir les lignes de réclamations
+    private GridPane reclamationGrid; // GridPane pour contenir les réclamations
 
     private final ReclamationServices reclamationServices = new ReclamationServices();
 
     @FXML
     public void initialize() {
-        loadReclamations(); // Charger les réclamations au démarrage
+        loadReclamations(); // Charger les réclamations dès l'ouverture de la fenêtre
     }
 
     private void loadReclamations() {
-        // Vider le conteneur avant de charger de nouvelles données
-        reclamationContainer.getChildren().clear();
+        reclamationGrid.getChildren().clear(); // Nettoyer avant de recharger
 
-        // Récupérer la liste des réclamations depuis le service
+        // Ajouter l'en-tête
+        reclamationGrid.addRow(0,
+                createHeaderLabel("Titre", 150),
+                createHeaderLabel("Description", 200),
+                createHeaderLabel("Date", 100),
+                createHeaderLabel("Actions", 150)
+        );
+
+        // Récupérer la liste des réclamations
         List<Reclamation> reclamations = reclamationServices.getAllData();
 
-        // Créer une HBox pour chaque réclamation
-        for (Reclamation reclamation : reclamations) {
-            HBox row = createReclamationRow(reclamation);
-            reclamationContainer.getChildren().add(row);
+        for (int i = 0; i < reclamations.size(); i++) {
+            Reclamation reclamation = reclamations.get(i);
+            int rowIndex = i + 1;
+
+            // Création des cellules
+            Label titreLabel = createCellLabel(reclamation.getTitre(), 150);
+            Label descriptionLabel = createCellLabel(reclamation.getDescription(), 200);
+            Label dateLabel = createCellLabel(reclamation.getDateR().toString(), 100);
+
+            // Création des boutons d'actions
+            Button deleteButton = createActionButton("Supprimer", "#e74c3c");
+            Button editButton = createActionButton("Modifier", "#f39c12");
+
+            deleteButton.setOnAction(event -> supprimerReclamation(reclamation));
+            editButton.setOnAction(event -> modifierReclamation(reclamation));
+
+            // Conteneur pour les boutons
+            HBox actionBox = new HBox(10, deleteButton, editButton);
+
+            // Ajouter la ligne à la grille
+            reclamationGrid.addRow(rowIndex, titreLabel, descriptionLabel, dateLabel, actionBox);
         }
     }
 
-    private HBox createReclamationRow(Reclamation reclamation) {
-        // Créer des labels pour chaque champ (sans l'ID)
-        Label titreLabel = new Label(reclamation.getTitre());
-        titreLabel.setPrefWidth(150); // Largeur correspondant à l'en-tête
-
-        Label descriptionLabel = new Label(reclamation.getDescription());
-        descriptionLabel.setPrefWidth(200); // Largeur correspondant à l'en-tête
-
-        Label dateLabel = new Label(reclamation.getDateR().toString());
-        dateLabel.setPrefWidth(100); // Largeur correspondant à l'en-tête
-
-        // Créer des boutons pour les actions
-        Button deleteButton = new Button("Supprimer");
-        deleteButton.setPrefWidth(75); // Largeur du bouton Supprimer
-
-        Button editButton = new Button("Modifier");
-        editButton.setPrefWidth(75); // Largeur du bouton Modifier
-
-        // Définir les actions des boutons
-        deleteButton.setOnAction(event -> supprimerReclamation(reclamation));
-        editButton.setOnAction(event -> modifierReclamation(reclamation));
-
-        // Créer une HBox pour contenir les labels et les boutons
-        HBox row = new HBox(10); // 10 est l'espacement entre les éléments
-        row.getChildren().addAll(titreLabel, descriptionLabel, dateLabel, deleteButton, editButton);
-
-        // Appliquer un style à la ligne
-        row.setStyle("-fx-border-color: #bdc3c7; -fx-border-width: 1px; -fx-padding: 10px;");
-
-        return row;
-    }
-
+    // Méthode pour supprimer une réclamation
     private void supprimerReclamation(Reclamation reclamation) {
-        // Logique pour supprimer la réclamation
         boolean isDeleted = reclamationServices.deleteEntity(reclamation);
         if (isDeleted) {
-            loadReclamations(); // Recharger la liste après la suppression
+            loadReclamations(); // Rafraîchir la table après suppression
         }
     }
 
+    // Méthode pour modifier une réclamation
     private void modifierReclamation(Reclamation reclamation) {
         try {
-            // Charger la fenêtre de modification
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateReclamation.fxml"));
             Parent root = loader.load();
 
-            // Obtenir le contrôleur de la fenêtre de modification
+            // Charger le contrôleur de la fenêtre de modification
             UpdateReclamationController controller = loader.getController();
-            controller.setReclamationAModifier(reclamation); // Passer la réclamation à modifier
-            controller.setListeReclamationController(this); // Passer une référence de ce contrôleur
+            controller.setReclamationAModifier(reclamation);
+            controller.setListeReclamationController(this);
 
-            // Créer une nouvelle scène et afficher la fenêtre
+            // Afficher la fenêtre de modification
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Modifier une Réclamation");
@@ -103,7 +95,50 @@ public class ListeReclamationController {
         }
     }
 
+    // Méthode pour créer les labels d'en-tête bien alignés
+    private Label createHeaderLabel(String text, double width) {
+        Label label = new Label(text);
+        label.setPrefWidth(width);
+        label.setStyle(
+                "-fx-text-fill: white; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-background-color: #2980b9; " +
+                        "-fx-padding: 10px; " +
+                        "-fx-border-color: #2980b9; " +
+                        "-fx-alignment: CENTER;"
+        );
+        return label;
+    }
+
+    // Méthode pour créer les cellules bien alignées
+    private Label createCellLabel(String text, double width) {
+        Label label = new Label(text);
+        label.setPrefWidth(width);
+        label.setStyle(
+                "-fx-padding: 10px; " +
+                        "-fx-border-color: #bdc3c7; " +
+                        "-fx-border-width: 0 0 1px 0; " +
+                        "-fx-alignment: CENTER-LEFT;"
+        );
+        return label;
+    }
+
+    // Méthode pour créer les boutons d'action avec une couleur spécifique
+    private Button createActionButton(String text, String color) {
+        Button button = new Button(text);
+        button.setPrefWidth(90);
+        button.setStyle(
+                "-fx-background-color: " + color + "; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-border-radius: 5px; " +
+                        "-fx-padding: 5px;"
+        );
+        return button;
+    }
+
+    // Rafraîchir la table après modification
     public void refreshTable() {
-        loadReclamations(); // Recharge les réclamations depuis la base de données
+        loadReclamations();
     }
 }

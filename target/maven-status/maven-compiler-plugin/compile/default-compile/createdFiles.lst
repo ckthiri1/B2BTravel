@@ -1,6 +1,5 @@
 Reclamation\Controller\ListeReclamationControllerAdmin.class
 Reclamation\Controller\AjouterReclamationController.class
-Reclamation\Controller\ListeReponseController$1.class
 Reclamation\Services\ReponseServices.class
 Reclamation\Controller\ListeReponseController.class
 Reclamation\Services\ReclamationServices.class
@@ -9,7 +8,6 @@ Reclamation\entities\Reclamation.class
 Reclamation\tools\MyConnection.class
 Reclamation\Controller\SideBarController.class
 Reclamation\Controller\ListeReclamationController.class
-Reclamation\Controller\ListeReponseController$2.class
 Reclamation\Controller\AjouterReponseController.class
 Reclamation\entities\Reponse.class
 Reclamation\tests\Mainclass.class

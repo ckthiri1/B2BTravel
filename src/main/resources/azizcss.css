@@ -1,0 +1,33 @@
+/* style.css */
+
+.header-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d3e50;
+}
+
+.row-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #4e5b6e;
+    -fx-padding: 5px;
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 5px;
+    -fx-font-size: 12px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.delete-button {
+    -fx-background-color: #f44336;
+}
+
+.delete-button:hover {
+    -fx-background-color: #e53935;
+}
