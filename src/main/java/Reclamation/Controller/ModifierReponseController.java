@@ -19,6 +19,9 @@ public class ModifierReponseController {
     private final ReponseServices reponseServices = new ReponseServices();
     private Reponse reponse; // The response to modify
 
+    // Rappel (callback) pour rafraîchir la liste des réponses
+    private Runnable onModificationSuccess;
+
     /**
      * Initializes the controller with the selected Reponse object.
      *
@@ -27,6 +30,15 @@ public class ModifierReponseController {
     public void setReponse(Reponse reponse) {
         this.reponse = reponse;
         txtDescription.setText(reponse.getDescriptionRep()); // Set the description in the TextArea
+    }
+
+    /**
+     * Sets the callback to be executed after a successful modification.
+     *
+     * @param onModificationSuccess The callback to run after a successful modification.
+     */
+    public void setOnModificationSuccess(Runnable onModificationSuccess) {
+        this.onModificationSuccess = onModificationSuccess;
     }
 
     /**
@@ -51,6 +63,12 @@ public class ModifierReponseController {
 
             if (success) {
                 afficherAlerte(Alert.AlertType.INFORMATION, "Succès", "Réponse modifiée avec succès !");
+
+                // Exécuter le rappel (callback) pour rafraîchir la liste
+                if (onModificationSuccess != null) {
+                    onModificationSuccess.run();
+                }
+
                 fermerFenetre(); // Close the window after saving
             } else {
                 afficherAlerte(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la modification de la réponse.");

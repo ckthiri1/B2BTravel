@@ -4,6 +4,7 @@ import Reclamation.entities.Reponse;
 import Reclamation.tools.MyConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,8 @@ public class ReponseServices {
             if (reponse.getDateRep() != null) {
                 pst.setDate(2, java.sql.Date.valueOf(reponse.getDateRep()));
             } else {
-                pst.setNull(2, Types.DATE); // Set the date column to NULL in the database
+                // Si la date est null, définir une valeur par défaut (par exemple, la date actuelle)
+                pst.setDate(2, java.sql.Date.valueOf(LocalDate.now()));
             }
 
             pst.setInt(3, id);
