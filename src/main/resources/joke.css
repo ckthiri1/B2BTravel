@@ -1,0 +1,34 @@
+.main-pane {
+    -fx-background-color: linear-gradient(to bottom right, #FF6B6B, #FFE66D);
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-width: 3;
+    -fx-border-color: #4ECDC4;
+}
+
+.title-label {
+    -fx-text-fill: #2D3436;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 1);
+}
+
+.joke-text {
+    -fx-font-family: 'Comic Sans MS';
+    -fx-font-size: 16px;
+    -fx-text-fill: #2D3436;
+    -fx-background-color: rgba(255,255,255,0.5);
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+}
+
+.fun-button {
+    -fx-background-color: #4ECDC4;
+    -fx-background-radius: 15;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.fun-button:hover {
+    -fx-background-color: #45B7AF;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 2);
+}

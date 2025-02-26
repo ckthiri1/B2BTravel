@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Reclamation.Controller.AjouterReclamationController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Reclamation.Controller.AjouterReclamationController">
     <children>
         <!-- Insertion du SideBar -->
         <fx:include source="SideBar.fxml" />
@@ -33,5 +33,8 @@
 
         <!-- Bouton Ajouter -->
         <Button layoutX="350.0" layoutY="280.0" onAction="#ajouterReclamation" text="Ajouter" />
+
+        <!-- Bouton Blague Aléatoire -->
+        <Button fx:id="blagueButton" layoutX="350.0" layoutY="340.0" onAction="#showRandomJoke" text="Blague Aléatoire" />
     </children>
 </AnchorPane>

@@ -1,0 +1,20 @@
+/* style.css */
+#blagueButton {
+    -fx-background-color: #FF6B6B;
+    -fx-text-fill: white;
+    -fx-font-family: 'Comic Sans MS';
+    -fx-font-size: 14px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+#blagueButton:hover {
+    -fx-background-color: #FF5252;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 2);
+}
+
+#blagueButton:disabled {
+    -fx-background-color: #9E9E9E;
+    -fx-text-fill: #FFFFFF;
+}

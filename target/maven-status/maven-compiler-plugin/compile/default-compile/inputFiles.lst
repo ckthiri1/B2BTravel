@@ -2,7 +2,10 @@ C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Co
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\org\example\mainFX.java
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Controller\SideBarController.java
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\entities\Reclamation.java
+C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Utils\AnimationUtil.java
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\interfaces\Service.java
+C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Utils\ClipboardUtil.java
+C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\API\JokeAPI.java
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Controller\UpdateReclamationController.java
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Controller\ListeReponseController.java
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Controller\AjouterReclamationController.java
@@ -12,5 +15,6 @@ C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Co
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\tests\Mainclass.java
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Services\ReclamationServices.java
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Services\ReponseServices.java
+C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Controller\JokeController.java
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\Controller\AjouterReponseController.java
 C:\Users\azizl\OneDrive\Desktop\Gestion_Reclamation\src\main\java\Reclamation\tools\MyConnection.java

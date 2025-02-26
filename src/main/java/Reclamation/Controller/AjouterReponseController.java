@@ -38,6 +38,7 @@ public class AjouterReponseController {
 
     @FXML
     private void enregistrerReponse() {
+        // Récupérer les valeurs des champs
         String DescriptionRep = DescriptionRepTextField.getText().trim();
         LocalDate date = datePicker.getValue();
 
@@ -45,8 +46,15 @@ public class AjouterReponseController {
         logger.log(Level.INFO, "Date saisie : " + date);
         logger.log(Level.INFO, "ID de la réclamation : " + this.IDR);
 
+        // Contrôle de saisie : vérifier que tous les champs sont remplis
         if (DescriptionRep.isEmpty() || date == null) {
             showAlert("Erreur", "Tous les champs doivent être remplis !");
+            return;
+        }
+
+        // Contrôle de saisie : vérifier si la date est celle d'aujourd'hui
+        if (!date.isEqual(LocalDate.now())) {
+            showAlert("Erreur", "La date doit être celle d'aujourd'hui !");
             return;
         }
 
@@ -55,35 +63,31 @@ public class AjouterReponseController {
             return;
         }
 
+        // Créer et enregistrer la réponse
         Reponse reponse = new Reponse(DescriptionRep, date, this.IDR);
         int generatedId = reponseServices.addEntity(reponse);
 
-        try {
-            // Charger la vue AjouterReponse.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListeReponses.fxml"));
-            Parent root = loader.load();
-
-
-            // Afficher la nouvelle fenêtre
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Ajouter une réponse");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Erreur lors du chargement de la vue AjouterReponse.fxml : " + e.getMessage());
-        }
-
-        //naviguerVersListeReponse(this.IDR);
         if (generatedId != -1) {
             showAlert("Succès", "Réponse ajoutée avec succès !");
 
+            // Naviguer vers la liste des réponses
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListeReponses.fxml"));
+                Parent root = loader.load();
+
+                // Afficher la nouvelle fenêtre
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Liste des Réponses");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println("Erreur lors du chargement de la vue ListeReponses.fxml : " + e.getMessage());
+            }
         } else {
             showAlert("Erreur", "Erreur lors de l'ajout de la réponse.");
         }
-
     }
-
     /*private void naviguerVersListeReponse(int IDR) {
         try {
             // Charger la vue ListeReponse.fxml
@@ -109,9 +113,12 @@ public class AjouterReponseController {
     }*/
 
     private void showAlert(String title, String message) {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
-
     @FXML
     public void ajouterReponse(ActionEvent actionEvent) {
         enregistrerReponse();

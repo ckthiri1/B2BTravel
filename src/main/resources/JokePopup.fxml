@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@/joke.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Reclamation.Controller.JokeController">
+    <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <!-- En-tête avec emojis animés -->
+        <HBox alignment="CENTER" spacing="15.0">
+            <ImageView fx:id="emoji1" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@Images/laughing_emoji.png" />
+            </ImageView>
+            <Label text="🤣 Blague du Moment 🤣" styleClass="title-label">
+                <font>
+                    <Font name="Comic Sans MS" size="24.0" />
+                </font>
+            </Label>
+            <ImageView fx:id="emoji2" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@Images/rolling_emoji.png" />
+            </ImageView>
+        </HBox>
+
+        <!-- Zone de texte avec effet de défilement -->
+        <TextArea fx:id="jokeArea" editable="false" prefHeight="200.0" prefWidth="500.0" wrapText="true" styleClass="joke-text" />
+
+        <!-- Boutons interactifs -->
+        <HBox alignment="CENTER" spacing="30.0">
+            <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copyJoke" styleClass="fun-button">
+                <graphic>
+                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@Images/copy_icon.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closePopup" styleClass="fun-button">
+                <graphic>
+                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@Images/close_icon.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+    </VBox>
+</AnchorPane>
