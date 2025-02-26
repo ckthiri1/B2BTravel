@@ -2,6 +2,9 @@ package Projet.controllers.GestionUserController;
 
 import Projet.entities.User;
 import Projet.services.UserService;
+import Projet.services.VoiceAuthService;
+import Projet.services.VoiceEnrollmentException;
+import Projet.tools.AudioRecorder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,8 +21,11 @@ import javafx.scene.image.ImageView;
 import javax.management.relation.Role;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.stage.FileChooser;
@@ -72,6 +78,43 @@ public class SignUp implements Initializable {
 
     private File selectedImageFile;
 
+    private static final String PYTHON_PATH = System.getProperty("os.name").toLowerCase().contains("win")
+            ? "C:\\Users\\Acer\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"  // Windows
+            : "/usr/bin/python3";         // Linux/Mac
+    // or full path to python.exe
+    private static final String TEMP_AUDIO_PATH = "temp_voice.wav";
+    private List<List<Double>> voiceSamples = new ArrayList<>();
+
+    @FXML
+    void recordVoiceSample() {
+        try {
+            if (voiceSamples.size() >= 3) {
+                showAlert("Maximum 3 voice samples already recorded");
+                return;
+            }
+
+            File audioFile = AudioRecorder.recordVoice(TEMP_AUDIO_PATH, 3);
+
+            // Verify audio file
+            if (!audioFile.exists() || audioFile.length() == 0) {
+                throw new IOException("Empty or invalid audio file");
+            }
+
+            List<Double> features = VoiceAuthService.enrollUser(PYTHON_PATH, audioFile);
+
+            // Validate features
+            if (features.size() != 13) {
+                throw new Exception("Invalid feature vector size: " + features.size());
+            }
+
+            voiceSamples.add(features);
+            showSuccessMessage("Voice sample " + voiceSamples.size() + "/3 recorded");
+
+        } catch (Exception e) {
+            showAlert("Voice recording error: " + e.getMessage());
+        }
+    }
+
     private boolean isPasswordVisible = false;
     private boolean isConfirmPasswordVisible = false;
 
@@ -119,6 +162,10 @@ public class SignUp implements Initializable {
     @FXML
     void signUp(ActionEvent event) throws SQLException, FileNotFoundException {
         if(!validateInputsAndProceed()) return;
+        if(voiceSamples.size() < 3) {
+            showAlert("Please record 3 voice samples");
+            return;
+        }
         String Nom = nom.getText();
         String Prenom = prenom.getText();
         String Email = email.getText();
@@ -146,7 +193,7 @@ public class SignUp implements Initializable {
             if (selectedImageFile != null) {
                 user.setImage_url(selectedImageFile.toURI().toString());
             }
-
+            user.setVoiceFeatures(voiceSamples);
             serviceUser.addEntity2(user);
             showSuccessMessage("Votre inscription a été enregistrée avec succès");
 

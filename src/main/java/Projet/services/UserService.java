@@ -5,7 +5,10 @@ import Projet.interfaces.IUserService;
 import Projet.tools.MyConnection;
 import Projet.tools.PassSecurity;
 import Projet.tools.UserSession;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -184,20 +187,23 @@ public class UserService implements IUserService {
         }
     }
 
-    public void addEntity2(User user)throws SQLException {
+    public void addEntity2(User user) throws SQLException {
         byte[] salt = ps.generateSalt();
-        //hash the password withe salt
-        if(emailExists(user.getEmail())){
-            System.out.println("User with email"+user.getEmail()+"already exists.");
-            return ;// Exit the method if email exists
+        if(emailExists(user.getEmail())) {
+            System.out.println("User with email "+user.getEmail()+" already exists.");
+            return;
         }
-        try {
-            String requete = "INSERT INTO user(nom, prenom, email, pwd, nbrVoyage, role, hash,salt,image_url)" +
-                    "VALUES (? , ? , ? , ? , ? , ? , ?, ?, ?)";
 
+        try {
+            String requete = "INSERT INTO user(nom, prenom, email, pwd, nbrVoyage, role, hash, salt, image_url, voice_features) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             String hashedPassword = ps.hashPassword(user.getPwd(), salt);
+
+            // Convert voice features to JSON
+            String voiceFeaturesJson = new Gson().toJson(user.getVoiceFeatures());
+
             pst.setString(1, user.getNom());
             pst.setString(2, user.getPrenom());
             pst.setString(3, user.getEmail());
@@ -207,10 +213,14 @@ public class UserService implements IUserService {
             pst.setString(7, hashedPassword);
             pst.setBytes(8, salt);
             pst.setString(9, user.getImage_url());
+            System.out.println("Voice features to store: " + voiceFeaturesJson);
+            pst.setString(10, voiceFeaturesJson);  // Add voice features
+
             pst.executeUpdate();
-            System.out.println("sucess!");
+            System.out.println("User created successfully!");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error creating user: " + e.getMessage());
+            throw e;
         }
     }
 
@@ -230,6 +240,29 @@ public class UserService implements IUserService {
                 user.setRole(rs.getString("role"));
                 user.setNbrVoyage(rs.getInt("nbrVoyage"));
                 user.setImage_url(rs.getString("image_url"));
+                return user;
+            }
+        }
+        return null;
+    }
+    public User getUserByEmail(String email) throws SQLException {
+        String query = "SELECT * FROM user WHERE email = ?";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+            pst.setString(1, email);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setUser_id(rs.getInt("user_id"));
+                user.setEmail(rs.getString("email"));
+                user.setNom(rs.getString("nom"));
+                user.setPrenom(rs.getString("prenom"));
+                user.setRole(rs.getString("role"));
+
+                // Add voice features
+                String voiceJson = rs.getString("voice_features");
+                Type type = new TypeToken<List<List<Double>>>(){}.getType();
+                user.setVoiceFeatures(new Gson().fromJson(voiceJson, type));
+
                 return user;
             }
         }

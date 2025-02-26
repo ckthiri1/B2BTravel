@@ -1,4 +1,11 @@
 package Projet.entities;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Converter;
+
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -11,10 +18,35 @@ public class User {
     private Integer nbrVoyage =0;
     private String role;
     private String image_url;
+    @Convert(converter = VoiceFeaturesConverter.class)
+    private List<List<Double>> voiceFeatures; // List of voice samples
+
+    public List<List<Double>> getVoiceFeatures() {
+        return voiceFeatures;
+    }
+    @Converter
+    public static class VoiceFeaturesConverter implements AttributeConverter<List<List<Double>>, String> {
+        private static final Gson gson = new Gson();
+
+        @Override
+        public String convertToDatabaseColumn(List<List<Double>> attribute) {
+            return gson.toJson(attribute);
+        }
+
+        @Override
+        public List<List<Double>> convertToEntityAttribute(String dbData) {
+            return gson.fromJson(dbData, new TypeToken<List<List<Double>>>(){}.getType());
+        }
+    }
 
     public enum Roles {
         user,
         admin
+    }
+
+
+    public void setVoiceFeatures(List<List<Double>> voiceFeatures) {
+        this.voiceFeatures = voiceFeatures;
     }
 
     public User(){}

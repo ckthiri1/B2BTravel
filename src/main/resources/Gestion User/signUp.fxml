@@ -40,6 +40,7 @@
             </ImageView>
 
             <Button fx:id="signUp" layoutX="80.0" layoutY="585.0" mnemonicParsing="false" onAction="#signUp" prefHeight="50.0" prefWidth="340.0" style="-fx-background-color: #03045f; -fx-text-fill: white; -fx-font-size: 16px;" text="S'inscrire" />
+            <Button text="Record Voice (3 samples needed)" onAction="#recordVoiceSample" />
 
             <Button fx:id="UploadImage" layoutX="80.0" layoutY="684.0" mnemonicParsing="false" onAction="#UploadImage" style="-fx-background-color: #0077b6; -fx-text-fill: white;" text="Ajouter image" />
 
