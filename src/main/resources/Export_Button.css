@@ -1,0 +1,16 @@
+/* Style for the export button */
+.export-button {
+    -fx-background-color: #4CAF50; /* Green background */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 14px; /* Medium font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-padding: 10px 20px; /* Padding */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-background-radius: 5px; /* Rounded background */
+    -fx-cursor: hand; /* Pointer cursor on hover */
+}
+
+/* Hover effect for the export button */
+.export-button:hover {
+    -fx-background-color: #45a049; /* Darker green on hover */
+}

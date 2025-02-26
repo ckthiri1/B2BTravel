@@ -1,0 +1,87 @@
+/* dark.css */
+.root {
+    -fx-base: #333333;
+    -fx-background: #000000;
+    -fx-control-inner-background: #1a1a1a;
+    -fx-text-fill: white;
+}
+
+.event-list-container {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.details-container {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.title {
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+.detail {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
+.description {
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}
+
+.export-button {
+    -fx-background-color: #555555;
+    -fx-text-fill: white;
+}
+/* dark.css */
+.event-item {
+    -fx-padding: 10;
+    -fx-background-color: #333333;
+    -fx-border-color: #555555;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.event-label {
+    -fx-text-fill: white;
+}
+
+.update-button {
+    -fx-background-color: #555555;
+    -fx-text-fill: white;
+}
+
+.delete-button {
+    -fx-background-color: #ff4444;
+    -fx-text-fill: white;
+}
+/* Dark Mode Styles */
+.details-container {
+    -fx-background-color: black;
+    -fx-padding: 10;
+    -fx-border-color: #555555;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.title {
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+.detail {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
+.description {
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+}
+
+.export-button {
+    -fx-background-color: #555555;
+    -fx-text-fill: white;
+}
