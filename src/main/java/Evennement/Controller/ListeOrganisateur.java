@@ -82,7 +82,7 @@ public class ListeOrganisateur {
             stage.setScene(new Scene(root));
             stage.setTitle("Modifier l'organisateur");
             stage.show();
-            stage.setFullScreen(true);
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,7 +111,7 @@ public class ListeOrganisateur {
             stage.setScene(new Scene(root));
             stage.setTitle("Ajouter un Organisateur");
             stage.show();
-            stage.setFullScreen(true);
+
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir l'interface d'ajout.");

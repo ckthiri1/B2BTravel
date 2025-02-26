@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 
+import java.io.IOException;
 
 
 public class SideBarController {
@@ -142,6 +143,26 @@ public class SideBarController {
     @FXML
     void handleMouseExitedLogout() {
         log_out.setStyle("-fx-background-color: #03045f; -fx-background-radius: 20;");
+
+    }
+
+
+    @FXML
+    private void homepageinterface(ActionEvent actionEvent)
+    {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/homepage.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Home page");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
 
     }
 

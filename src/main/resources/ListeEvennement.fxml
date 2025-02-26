@@ -3,18 +3,24 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import java.net.URL?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="798.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Evennement.Controller.ListeEvennement">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Evennement.Controller.ListeEvennement">
+    <stylesheets>
+        <URL value="@vbox.css" />
+    </stylesheets>
     <children>
+
         <!-- Include the Sidebar -->
         <fx:include source="SideBar.fxml" />
 
         <!-- Main Content for Listing Evennements -->
-        <AnchorPane layoutX="260.0" prefHeight="1080.0" prefWidth="1656.0" style="-fx-background-color: white;">
+        <AnchorPane layoutX="260.0" prefHeight="1080.0" prefWidth="1671.0">
             <children>
                 <Label layoutX="44.0" layoutY="30.0" text="Liste des Événements">
                     <font>
@@ -22,24 +28,38 @@
                     </font>
                 </Label>
 
+                <!-- Dark Mode Toggle Icon -->
+                <ImageView fx:id="themeIcon" layoutX="1640.0" layoutY="30.0" fitWidth="32.0" fitHeight="32.0"
+                           onMouseClicked="#toggleTheme" pickOnBounds="true" preserveRatio="true" />
+
+                <!-- Search Bar -->
+                <TextField fx:id="searchField" layoutX="632.0" layoutY="30.0" onKeyReleased="#searchEvennements" prefHeight="40.0" prefWidth="300.0" promptText="Rechercher un événement..." />
+                <Button fx:id="btnSearch" layoutX="944.0" layoutY="30.0" mnemonicParsing="false" onAction="#searchEvennements" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #0077b6; -fx-background-radius: 10;" text="Rechercher" textFill="WHITE" />
+
                 <!-- ScrollPane wrapping the VBox -->
-                <ScrollPane layoutX="20.0" layoutY="80.0" prefHeight="967.0" prefWidth="1627.0">
+                <ScrollPane layoutX="20.0" layoutY="80.0" prefHeight="967.0" prefWidth="800.0">
                     <content>
                         <VBox fx:id="eventListContainer" spacing="10.0" style="-fx-padding: 10;">
                             <!-- Events will be added here dynamically -->
                         </VBox>
                     </content>
                 </ScrollPane>
-            <Button fx:id="Ajout" layoutX="1099.0" layoutY="22.0" mnemonicParsing="false" onAction="#interfaceAjout" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Ajouter Evennement" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnLoad" layoutX="1371.0" layoutY="22.0" mnemonicParsing="false" onAction="#loadEvennements" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Charger Les Evennements" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font>
-            </Button>
+
+                <!-- Details VBox on the right side -->
+                <VBox fx:id="detailsContainer" layoutX="840.0" layoutY="80.0" prefHeight="967.0" prefWidth="800.0" spacing="10.0" style="-fx-padding: 10;" stylesheets="vbox.css">
+                    <Button fx:id="exportButton" layoutX="350.0" layoutY="900.0" text="Export to PDF" styleClass="export-button" onAction="#exportToPDF" />
+                </VBox>
+
+                <Button fx:id="Ajout" layoutX="1099.0" layoutY="22.0" mnemonicParsing="false" onAction="#interfaceAjout" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Ajouter Evennement" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="17.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnLoad" layoutX="1371.0" layoutY="22.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #03045f; -fx-background-radius: 20;" text="Charger Les Evennements" textFill="WHITE" onAction="#loadEvennements1">
+                    <font>
+                        <Font name="System Bold" size="17.0" />
+                    </font>
+                </Button>
             </children>
         </AnchorPane>
     </children>
