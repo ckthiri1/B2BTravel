@@ -268,6 +268,24 @@ public class UserService implements IUserService {
         }
         return null;
     }
+    public User getUserByEmaill(String email) throws SQLException {
+        String query = "SELECT * FROM user WHERE email = ?";
+        try (PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query)) {
+            pst.setString(1, email);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setUser_id(rs.getInt("user_id"));
+                user.setEmail(rs.getString("email"));
+                user.setNom(rs.getString("nom"));
+                user.setPrenom(rs.getString("prenom"));
+                user.setRole(rs.getString("role"));
+
+                return user;
+            }
+        }
+        return null;
+    }
 
     @Override
     public void updateEntity(int id, User entity) {

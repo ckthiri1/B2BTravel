@@ -275,7 +275,7 @@ public class Login implements Initializable {
 
             // Check if the user already exists in your system using email
             UserService userService = new UserService();
-            User existingUser = userService.getUserByEmail(emailFromGoogle);
+            User existingUser = userService.getUserByEmaill(emailFromGoogle);
 
             if (existingUser == null) {
                 // Create a new user if not exists
