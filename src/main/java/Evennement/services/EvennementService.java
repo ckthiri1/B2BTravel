@@ -98,7 +98,7 @@ public class EvennementService implements IService<Evennement> {
                 // Retrieve the Organisateur details
                 int IDOr = rs.getInt("IDOr");
                 String nomOr = rs.getString("NomOr");
-                int Contact = rs.getInt("Contact");
+                String Contact = rs.getString("Contact");
 
                 Organisateur organisateur = new Organisateur(IDOr, nomOr, Contact);
 

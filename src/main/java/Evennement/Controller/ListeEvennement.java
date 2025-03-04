@@ -150,7 +150,7 @@ public class ListeEvennement {
 
                 int IDOr = rs.getInt("IDOr");
                 String nomOr = rs.getString("NomOr");
-                int contact = rs.getInt("Contact");
+                String contact = rs.getString("Contact");
 
                 Organisateur organisateur = new Organisateur(IDOr, nomOr, contact);
                 Evennement evennement = new Evennement(nomE, local, desE, dateE, organisateur, eventType);
@@ -209,7 +209,7 @@ public class ListeEvennement {
 
                 int IDOr = rs.getInt("IDOr");
                 String nomOr = rs.getString("NomOr");
-                int contact = rs.getInt("Contact");
+                String contact = rs.getString("Contact");
 
                 Organisateur organisateur = new Organisateur(IDOr, nomOr, contact);
                 Evennement evennement = new Evennement(nomE, local, desE, dateE, organisateur, eventType);

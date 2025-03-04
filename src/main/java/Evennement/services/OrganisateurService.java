@@ -16,7 +16,7 @@ public class OrganisateurService implements IService <Organisateur>{
         try {
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, organisateur.getNomOr());
-            pst.setInt(2, organisateur.getContact());
+            pst.setString(2, organisateur.getContact());
 
 
             pst.executeUpdate();
@@ -33,7 +33,7 @@ public class OrganisateurService implements IService <Organisateur>{
         try {
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, organisateur.getNomOr());
-            pst.setInt(2, organisateur.getContact());
+            pst.setString(2, organisateur.getContact());
             pst.setInt(3, IDOr);
 
             pst.executeUpdate();
@@ -70,7 +70,7 @@ public class OrganisateurService implements IService <Organisateur>{
             while (rs.next()) {
                 int IDOr = rs.getInt("IDOr");
                 String nomOr = rs.getString("NomOr");
-                int contact = rs.getInt("Contact");
+                String contact = rs.getString("Contact");
 
                 Organisateur organisateur = new Organisateur(IDOr, nomOr, contact);
                 organisateurs.add(organisateur);

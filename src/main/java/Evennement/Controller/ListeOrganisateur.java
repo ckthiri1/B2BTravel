@@ -89,17 +89,32 @@ public class ListeOrganisateur {
 
         }
     }
-
     private void deleteOrganisateur(Organisateur organisateur) {
-        if (organisateur != null) {
-            organisateurService.delete(organisateur.getIDOr()); // Delete from the database
-            organisateurListContainer.getChildren().removeIf(node -> {
-                HBox item = (HBox) node;
-                Label nameLabel = (Label) item.getChildren().get(0);
-                return nameLabel.getText().equals("👤 " + organisateur.getNomOr());
-            });
+        if (organisateur == null) {
+            showAlert(Alert.AlertType.WARNING, "Avertissement", "Veuillez sélectionner un organisateur à supprimer.");
+            return;
         }
+
+        // Confirmation alert before deletion
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation de suppression");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Êtes-vous sûr de vouloir supprimer l'organisateur " + organisateur.getNomOr() + " ?");
+
+        // If user confirms, delete the organizer
+        confirmationAlert.showAndWait().ifPresent(response -> {
+            if (response.getButtonData().isDefaultButton()) { // OK Button clicked
+                organisateurService.delete(organisateur.getIDOr()); // Delete from database
+                organisateurListContainer.getChildren().removeIf(node -> {
+                    HBox item = (HBox) node;
+                    Label nameLabel = (Label) item.getChildren().get(0);
+                    return nameLabel.getText().equals("👤 " + organisateur.getNomOr());
+                });
+                showAlert(Alert.AlertType.INFORMATION, "Succès", "L'organisateur a été supprimé avec succès.");
+            }
+        });
     }
+
 
     @FXML
     private void interfaceAjoutO(ActionEvent event) {

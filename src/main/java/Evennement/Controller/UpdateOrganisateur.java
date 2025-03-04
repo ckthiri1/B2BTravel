@@ -53,9 +53,9 @@ public class UpdateOrganisateur {
         }
 
         // Validate contact input (must be a valid integer)
-        int contact;
+        String contact;
         try {
-            contact = Integer.parseInt(contactText);
+            contact = contactText.trim();
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Le contact doit être un nombre valide.");
             return;

@@ -3,17 +3,17 @@ package Evennement.entities;
 public class Organisateur {
     private int IDOr;
     private String NomOr;
-    private int Contact;
+    private String Contact;
 
 
 
         // Constructor
-        public Organisateur(int IDOr, String nomOr, int contact) {
+        public Organisateur(int IDOr, String nomOr, String contact) {
             this.IDOr = IDOr;
             NomOr = nomOr;
             this.Contact = contact;
         }
-        public Organisateur(String  NomOr, int contact) {
+        public Organisateur(String  NomOr, String contact) {
             this.NomOr = NomOr;
             this.Contact = contact;
 
@@ -36,11 +36,11 @@ public class Organisateur {
             this.NomOr = nomOr;
         }
 
-        public int getContact() {
+        public String getContact() {
             return Contact;
         }
 
-        public void setContact(int contact) {
+        public void setContact(String contact) {
             this.Contact = contact;
         }
 
