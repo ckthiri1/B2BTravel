@@ -1,48 +1,16 @@
 package Reclamation.entities;
 
 import java.time.LocalDate;
-import Reclamation.entities.Reclamation;
-import javafx.beans.binding.BooleanExpression;
-import javafx.beans.value.ObservableValue;
 
 public class Reponse {
     private int IDRep;
     private String DescriptionRep;
     private LocalDate DateRep;
     private int IDR;  // Clé étrangère vers la réclamation
+    private String reclamationTitre; // Titre de la réclamation associée
 
     // Constructeurs
     public Reponse() {}
-
-    // This property holds the response description.
-    private String reclamationTitre;
-
-    // Constructor used for display purposes.
-    public Reponse(String reclamationTitre, String descriptionRep) {
-        this.reclamationTitre = reclamationTitre;
-        this.DescriptionRep = descriptionRep;
-    }
-
-    public Reponse(int IDRep, String descriptionRep, String reclamationTitre) {
-        this.IDRep = IDRep;
-        DescriptionRep = descriptionRep;
-        this.reclamationTitre = reclamationTitre;
-    }
-
-
-    public String getReclamationTitre() {
-        return reclamationTitre;
-    }
-
-
-
-    public Reponse(int IDRep, String DescriptionRep, LocalDate DateRep,String Titre, int IDR) {
-        this.IDRep = IDRep;
-        this.DescriptionRep = DescriptionRep;
-        this.DateRep = DateRep;
-        Titre = Titre;
-        this.IDR = IDR;
-    }
 
     public Reponse(String DescriptionRep, LocalDate DateRep, int IDR) {
         this.DescriptionRep = DescriptionRep;
@@ -50,8 +18,14 @@ public class Reponse {
         this.IDR = IDR;
     }
 
+    public Reponse(int IDRep, String DescriptionRep, LocalDate DateRep, String reclamationTitre) {
+        this.IDRep = IDRep;
+        this.DescriptionRep = DescriptionRep;
+        this.DateRep = DateRep;
+        this.reclamationTitre = reclamationTitre;
+    }
 
-    // Getters & Setters
+    // Getters et setters
     public int getIDRep() {
         return IDRep;
     }
@@ -60,11 +34,9 @@ public class Reponse {
         this.IDRep = IDRep;
     }
 
-
     public String getDescriptionRep() {
         return DescriptionRep;
     }
-
 
     public void setDescriptionRep(String DescriptionRep) {
         this.DescriptionRep = DescriptionRep;
@@ -86,6 +58,14 @@ public class Reponse {
         this.IDR = IDR;
     }
 
+    public String getReclamationTitre() {
+        return reclamationTitre;
+    }
+
+    public void setReclamationTitre(String reclamationTitre) {
+        this.reclamationTitre = reclamationTitre;
+    }
+
     @Override
     public String toString() {
         return "Reponse{" +
@@ -93,18 +73,8 @@ public class Reponse {
                 ", DescriptionRep='" + DescriptionRep + '\'' +
                 ", DateRep=" + DateRep +
                 ", IDR=" + IDR +
+                ", reclamationTitre='" + reclamationTitre + '\'' +
                 '}';
     }
 
-    public BooleanExpression IDRepProperty() {
-        return null;
-    }
-
-    public ObservableValue<String> DescriptionRepProperty() {
-        return null;
-    }
-
-    public ObservableValue<LocalDate> DateRepProperty() {
-        return null;
-    }
 }

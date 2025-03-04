@@ -16,5 +16,6 @@ Reclamation\entities\Reponse.class
 Reclamation\tests\Mainclass.class
 Reclamation\interfaces\Service.class
 Reclamation\Controller\UpdateReclamationController.class
+Reclamation\Controller\SignatureController.class
 org\example\mainFX.class
 Reclamation\Utils\AnimationUtil.class

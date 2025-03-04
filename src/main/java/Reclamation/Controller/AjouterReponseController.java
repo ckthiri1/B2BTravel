@@ -38,44 +38,35 @@ public class AjouterReponseController {
 
     @FXML
     private void enregistrerReponse() {
-        // Récupérer les valeurs des champs
+        // Retrieve values from fields
         String DescriptionRep = DescriptionRepTextField.getText().trim();
         LocalDate date = datePicker.getValue();
 
-        logger.log(Level.INFO, "Description saisie : " + DescriptionRep);
-        logger.log(Level.INFO, "Date saisie : " + date);
-        logger.log(Level.INFO, "ID de la réclamation : " + this.IDR);
-
-        // Contrôle de saisie : vérifier que tous les champs sont remplis
+        // Check if all fields are filled
         if (DescriptionRep.isEmpty() || date == null) {
             showAlert("Erreur", "Tous les champs doivent être remplis !");
             return;
         }
 
-        // Contrôle de saisie : vérifier si la date est celle d'aujourd'hui
+        // Check if the date is today
         if (!date.isEqual(LocalDate.now())) {
             showAlert("Erreur", "La date doit être celle d'aujourd'hui !");
             return;
         }
 
-        if (this.IDR == 0) {
-            showAlert("Erreur", "Aucune réclamation sélectionnée !");
-            return;
-        }
-
-        // Créer et enregistrer la réponse
+        // Create and save the response
         Reponse reponse = new Reponse(DescriptionRep, date, this.IDR);
         int generatedId = reponseServices.addEntity(reponse);
 
         if (generatedId != -1) {
             showAlert("Succès", "Réponse ajoutée avec succès !");
 
-            // Naviguer vers la liste des réponses
+            // Navigate to the list of responses
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListeReponses.fxml"));
                 Parent root = loader.load();
 
-                // Afficher la nouvelle fenêtre
+                // Display the new window
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.setTitle("Liste des Réponses");

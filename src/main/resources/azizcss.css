@@ -31,3 +31,48 @@
 .delete-button:hover {
     -fx-background-color: #e53935;
 }
+/* azizcss.css */
+
+/* Style pour les boutons */
+.button {
+    -fx-background-color: #4CAF50; /* Vert */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049; /* Vert plus foncé au survol */
+}
+
+/* Style pour les champs de texte */
+.text-field {
+    -fx-prompt-text-fill: #808080; /* Couleur du texte d'invite */
+    -fx-background-color: #f0f0f0; /* Fond gris clair */
+    -fx-border-color: #cccccc; /* Bordure grise */
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Style pour l'en-tête de la table */
+.header-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: #3498db; /* Bleu */
+    -fx-padding: 5px;
+    -fx-border-color: #2980b9; /* Bordure bleue */
+    -fx-border-width: 1px;
+}
+
+/* Style pour les lignes de données */
+.data-row {
+    -fx-background-color: #ffffff; /* Fond blanc */
+    -fx-border-color: #cccccc; /* Bordure grise */
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+}
+
+.data-row:hover {
+    -fx-background-color: #f0f0f0; /* Fond gris clair au survol */
+}
