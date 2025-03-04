@@ -7,6 +7,7 @@ import Projet.tools.PassSecurity;
 import Projet.tools.UserSession;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.lang.reflect.Type;
 import java.security.SecureRandom;
@@ -258,11 +259,29 @@ public class UserService implements IUserService {
                 user.setPrenom(rs.getString("prenom"));
                 user.setRole(rs.getString("role"));
 
-                // Add voice features
+                // Fix voice features parsing
                 String voiceJson = rs.getString("voice_features");
-                Type type = new TypeToken<List<List<Double>>>(){}.getType();
-                user.setVoiceFeatures(new Gson().fromJson(voiceJson, type));
+                if (voiceJson != null && !voiceJson.isBlank()) {
+                    try {
+                        Type type = new TypeToken<List<List<Double>>>(){}.getType();
+                        List<List<Double>> features = new Gson().fromJson(voiceJson, type);
 
+                        // Validate features format
+                        if (features != null) {
+                            for (List<Double> sample : features) {
+                                if (sample.size() != 13) {
+                                    System.err.println("Invalid voice feature sample length: " + sample.size());
+                                    features = null;
+                                    break;
+                                }
+                            }
+                        }
+
+                        user.setVoiceFeatures(features);
+                    } catch (JsonSyntaxException e) {
+                        System.err.println("JSON parsing error for voice features: " + e.getMessage());
+                    }
+                }
                 return user;
             }
         }

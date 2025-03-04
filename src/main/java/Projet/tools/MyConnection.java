@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyConnection {
-    private final String Url = "jdbc:mysql://127.0.0.1:3306/integration";
+    private final String Url = "jdbc:mysql://127.0.0.1:3308/integration";
     private final String Login = "root";
     private final String Pwd = "";
 

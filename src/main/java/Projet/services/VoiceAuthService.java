@@ -1,124 +1,118 @@
 package Projet.services;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import java.io.*;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class VoiceAuthService {
     private static final Gson gson = new Gson();
-    private static final int REQUIRED_FEATURES = 13;
+    private static final int REQUIRED_FEATURES = 39; // 13 MFCC + deltas
 
-    public static List<Double> enrollUser(String pythonPath, File audioFile)
-            throws IOException, InterruptedException, VoiceEnrollmentException {
+    public static List<List<Double>> enrollUser(String pythonPath, List<File> audioFiles)
+            throws VoiceException {
+        List<List<Double>> allFeatures = new ArrayList<>();
 
-        // Validate audio file first
-        if (!audioFile.exists() || audioFile.length() == 0) {
-            throw new VoiceEnrollmentException("Audio file is empty or doesn't exist");
-        }
+        for (File audioFile : audioFiles) {
+            try {
+                Process process = new ProcessBuilder(
+                        pythonPath, "voice_auth.py", "enroll", audioFile.getAbsolutePath()
+                ).redirectErrorStream(true).start();
 
-        try {
-            Process process = new ProcessBuilder(
-                    pythonPath,
-                    "voice_auth.py",
-                    "enroll",
-                    audioFile.getAbsolutePath()  // Only 2 arguments for enrollment
-            ).redirectErrorStream(true).start();
+                StringBuilder output = readOutput(process);
+                int exitCode = process.waitFor(10, TimeUnit.SECONDS) ? process.exitValue() : -1;
 
-            StringBuilder output = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    output.append(line);
+                if (exitCode != 0) {
+                    throw new VoiceException("Enrollment failed: " + output);
                 }
+
+                List<Double> features = parseFeatures(output.toString());
+                validateFeatures(features);
+                allFeatures.add(features);
+            } catch (Exception e) {
+                throw new VoiceException("Failed to process " + audioFile.getName() + ": " + e.getMessage());
             }
-
-            int exitCode = process.waitFor();
-            if (exitCode != 0) {
-                throw new VoiceEnrollmentException(
-                        "Python enrollment failed. Output: " + output.toString()
-                );
-            }
-
-            List<Double> features = parseFeatures(output.toString());
-            validateFeatures(features);
-
-            return features;
-
-        } catch (IOException | InterruptedException e) {
-            throw new VoiceEnrollmentException("Enrollment process failed: " + e.getMessage());
         }
+
+        if (allFeatures.size() < 3) {
+            throw new VoiceException("Minimum 3 good recordings required");
+        }
+
+        return allFeatures;
     }
 
     public static boolean verifyUser(String pythonPath, File audioFile, List<List<Double>> storedFeatures)
-            throws IOException, InterruptedException {
-
-        File jsonTempFile = File.createTempFile("voice_features", ".json");
-        try (FileWriter writer = new FileWriter(jsonTempFile)) {
-            JsonObject jsonData = new JsonObject();
-            JsonArray featuresArray = gson.toJsonTree(storedFeatures).getAsJsonArray();
-            JsonArray labelsArray = new JsonArray();
-            for(int i = 0; i < storedFeatures.size(); i++) {
-                labelsArray.add(0);
-            }
-            jsonData.add("features", featuresArray);
-            jsonData.add("labels", labelsArray);
-            writer.write(gson.toJson(jsonData));
-        }
-
+            throws VoiceException {
         try {
+            File jsonFile = createTempFeaturesFile(storedFeatures);
+
             Process process = new ProcessBuilder(
-                    pythonPath,
-                    "voice_auth.py",
-                    "verify",
-                    audioFile.getAbsolutePath(),
-                    jsonTempFile.getAbsolutePath()  // 3 arguments for verification
+                    pythonPath, "voice_auth.py", "verify",
+                    audioFile.getAbsolutePath(), jsonFile.getAbsolutePath()
             ).redirectErrorStream(true).start();
 
-            StringBuilder output = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    output.append(line);
-                }
-            }
+            StringBuilder output = readOutput(process);
+            int exitCode = process.waitFor(15, TimeUnit.SECONDS) ? process.exitValue() : -1;
 
-            int exitCode = process.waitFor();
+            Files.deleteIfExists(jsonFile.toPath());
+
             if (exitCode != 0) {
-                throw new IOException("Python verification failed. Output: " + output.toString());
+                throw new VoiceException("Verification failed: " + output);
             }
 
-            return Boolean.parseBoolean(output.toString().trim());
-        } finally {
-            jsonTempFile.delete();
+            return "true".equalsIgnoreCase(output.toString().trim());
+        } catch (Exception e) {
+            throw new VoiceException("Verification error: " + e.getMessage());
         }
     }
 
-    private static List<Double> parseFeatures(String json) throws VoiceEnrollmentException {
+    private static File createTempFeaturesFile(List<List<Double>> features) throws IOException {
+        File tempFile = File.createTempFile("voice_", ".json");
+        try (FileWriter writer = new FileWriter(tempFile)) {
+            gson.toJson(features, writer);
+        }
+        return tempFile;
+    }
+
+    private static StringBuilder readOutput(Process process) throws IOException {
+        StringBuilder output = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(process.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line);
+            }
+        }
+        return output;
+    }
+
+    private static List<Double> parseFeatures(String json) throws VoiceException {
         try {
             return gson.fromJson(json, new TypeToken<List<Double>>(){}.getType());
         } catch (JsonSyntaxException e) {
-            throw new VoiceEnrollmentException("Invalid feature format: " + e.getMessage());
+            throw new VoiceException("Invalid feature format: " + e.getMessage());
         }
     }
 
-    private static void validateFeatures(List<Double> features) throws VoiceEnrollmentException {
+    private static void validateFeatures(List<Double> features) throws VoiceException {
         if (features == null || features.size() != REQUIRED_FEATURES) {
-            throw new VoiceEnrollmentException(
-                    "Invalid MFCC features received from Python script. " +
-                            "Expected 13 coefficients, got " + (features == null ? "null" : features.size())
-            );
+            throw new VoiceException("Invalid features count: " +
+                    (features != null ? features.size() : "null"));
         }
 
-        for (Double value : features) {
-            if (value == null || value.isNaN() || value.isInfinite()) {
-                throw new VoiceEnrollmentException("Invalid numerical value in MFCC features");
+        for (Double val : features) {
+            if (val == null || val.isNaN() || val.isInfinite()) {
+                throw new VoiceException("Invalid feature value detected");
             }
         }
+    }
+
+    public static class VoiceException extends Exception {
+        public VoiceException(String message) { super(message); }
     }
 }

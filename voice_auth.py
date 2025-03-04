@@ -3,24 +3,43 @@ import numpy as np
 import json
 import sys
 import traceback
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics.pairwise import cosine_similarity
+from fastdtw import fastdtw
+from scipy.spatial.distance import euclidean
 
-def extract_mfcc(wav_path):
+def extract_features(wav_path):
     try:
-        y, sr = librosa.load(wav_path, sr=16000, mono=True)
-        if len(y) < 16000 * 1:  # Minimum 1 second
-            raise ValueError("Audio too short (minimum 1 second required)")
+        # Load audio with strict parameters
+        y, sr = librosa.load(wav_path, sr=16000, mono=True, duration=7)
+        if len(y) < 16000 * 1.2:
+            raise ValueError("Audio too short (minimum 1.2 seconds)")
 
+        # Advanced voice activity detection
+        y_trimmed = librosa.effects.split(y, top_db=25, frame_length=2048, hop_length=512)
+        if len(y_trimmed) == 0:
+            raise ValueError("No speech detected")
+
+        # Combine non-silent intervals
+        y_processed = np.concatenate([y[start:end] for (start, end) in y_trimmed])
+        if len(y_processed) < 16000 * 0.8:
+            raise ValueError("Insufficient speech content")
+
+        # Extract MFCC with delta features
         mfcc = librosa.feature.mfcc(
-            y=y,
+            y=y_processed,
             sr=sr,
             n_mfcc=13,
             n_fft=2048,
-            hop_length=512
+            hop_length=512,
+            lifter=26
         )
-        return np.mean(mfcc.T, axis=0).tolist()
+        delta = librosa.feature.delta(mfcc)
+        delta2 = librosa.feature.delta(mfcc, order=2)
+
+        # Combine features and normalize
+        features = np.vstack([mfcc, delta, delta2])
+        features = (features - np.mean(features)) / np.std(features)
+
+        return features.T.tolist()
 
     except Exception as e:
         print(f"ERROR: {str(e)}", file=sys.stderr)
@@ -29,34 +48,36 @@ def extract_mfcc(wav_path):
 
 def verify_user(audio_path, stored_samples):
     try:
-        new_sample = extract_mfcc(audio_path)
-        if not stored_samples:
+        # Extract features from new audio
+        new_features = extract_features(audio_path)
+        if not new_features or len(new_features) < 10:
             return False
 
+        # Dynamic Time Warping comparison
         similarities = []
-        for stored_sample in stored_samples:
-            stored_sample = np.array(stored_sample).flatten()[:13]
-            new_sample_flat = np.array(new_sample).flatten()[:13]
+        for stored in stored_samples:
+            try:
+                distance, _ = fastdtw(new_features, stored, dist=euclidean)
+                # Normalize by sequence length
+                norm_distance = distance / min(len(new_features), len(stored))
+                similarity = 1 / (1 + norm_distance)
+                similarities.append(similarity)
+            except Exception as e:
+                print(f"DTW error: {str(e)}")
+                continue
 
-            similarity = cosine_similarity([new_sample_flat], [stored_sample])[0][0]
-            similarities.append(similarity)
+        if not similarities:
+            return False
 
+        # Adaptive thresholding
         avg_similarity = np.mean(similarities)
-        return avg_similarity > 0.65
+        threshold = 0.62 - (0.02 * len(stored_samples))
+        print(f"Similarity: {avg_similarity:.3f} | Threshold: {threshold:.3f}")
+        return avg_similarity > threshold
+
     except Exception as e:
         print(f"Verification error: {str(e)}", file=sys.stderr)
         return False
-
-def train_model(features, labels):
-    try:
-        scaler = StandardScaler()
-        features_scaled = scaler.fit_transform(features)
-        model = KNeighborsClassifier(n_neighbors=3, metric='cosine')
-        model.fit(features_scaled, labels)
-        return model, scaler
-    except Exception as e:
-        print(f"Training error: {str(e)}", file=sys.stderr)
-        sys.exit(1)
 
 if __name__ == "__main__":
     try:
@@ -70,29 +91,14 @@ if __name__ == "__main__":
         audio_path = sys.argv[2]
 
         if operation == "enroll":
-            if len(sys.argv) != 3:
-                print("Enrollment requires 2 arguments: enroll <audio_path>")
-                sys.exit(1)
-
-            features = extract_mfcc(audio_path)
+            features = extract_features(audio_path)
             print(json.dumps(features))
 
         elif operation == "verify":
-            if len(sys.argv) != 4:
-                print("Verification requires 3 arguments: verify <audio_path> <json_path>")
-                sys.exit(1)
-
             with open(sys.argv[3], 'r') as f:
                 stored_data = json.load(f)
-
-            sample = extract_mfcc(audio_path)
-            stored_features = stored_data['features']
-            labels = stored_data['labels']
-
-            model, scaler = train_model(stored_features, labels)
-            sample_scaled = scaler.transform([sample])
-            confidence = model.predict_proba(sample_scaled)[0][0]
-            print("true" if confidence > 0.5 else "false")
+            result = verify_user(audio_path, stored_data)
+            print("true" if result else "false")
 
         else:
             print(f"Invalid operation: {operation}", file=sys.stderr)

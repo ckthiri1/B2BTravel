@@ -112,6 +112,7 @@ public class Login implements Initializable {
         }
     }
 
+
     @FXML
     void loginWithVoice() {
         error.setText("");
@@ -124,10 +125,10 @@ public class Login implements Initializable {
 
         File audioFile = null;
         try {
-            // Record audio
-            audioFile = AudioRecorder.recordVoice(TEMP_AUDIO_PATH, 5);
-            if (!audioFile.exists() || audioFile.length() == 0) {
-                error.setText("Failed to record audio sample");
+            // Record with extended duration
+            audioFile = AudioRecorder.recordVoice(TEMP_AUDIO_PATH, 7); // Increased to 7 seconds
+            if (!isValidAudioFile(audioFile)) {
+                error.setText("Invalid recording - speak clearly for 5+ seconds");
                 return;
             }
 
@@ -139,11 +140,12 @@ public class Login implements Initializable {
             }
 
             List<List<Double>> voiceFeatures = user.getVoiceFeatures();
-            if (voiceFeatures == null || voiceFeatures.isEmpty()) {
-                error.setText("No voice profile registered");
+            if (voiceFeatures == null || voiceFeatures.size() < 3) {
+                error.setText("Voice profile not properly registered");
                 return;
             }
 
+            System.out.println("Starting voice verification...");
             boolean verified = VoiceAuthService.verifyUser(
                     PYTHON_PATH,
                     audioFile,
@@ -156,14 +158,70 @@ public class Login implements Initializable {
                 handleFailedVoiceAttempt();
             }
         } catch (Exception e) {
-            error.setText("Authentication error: " + e.getMessage());
+            error.setText("Authentication failed: " + e.getMessage());
+            e.printStackTrace();
+            // Add debug output
+            System.err.println("DEBUG - Verification error stack trace:");
             e.printStackTrace();
         } finally {
-            if (audioFile != null && audioFile.exists()) {
-                audioFile.delete();
-            }
+            cleanupTempFile(audioFile);
         }
     }
+
+    private boolean isValidAudioFile(File audioFile) {
+        if (audioFile == null || !audioFile.exists()) {
+            System.err.println("Audio file missing");
+            return false;
+        }
+
+        // Enhanced validation
+        long minSize = 1024 * 15; // 15KB
+        long maxSize = 1024 * 1024 * 5; // 5MB
+
+        if (audioFile.length() < minSize) {
+            System.err.println("Audio file too small: " + audioFile.length());
+            return false;
+        }
+        if (audioFile.length() > maxSize) {
+            System.err.println("Audio file too large: " + audioFile.length());
+            return false;
+        }
+        return true;
+    }
+
+    private User validateUserAndFeatures(String email) throws SQLException {
+        UserService userService = new UserService();
+        User user = userService.getUserByEmail(email);
+
+        if (user == null) {
+            error.setText("User not found");
+            return null;
+        }
+
+        List<List<Double>> features = user.getVoiceFeatures();
+        if (features == null || features.size() < 3) {
+            error.setText("Voice profile incomplete");
+            return null;
+        }
+
+        return user;
+    }
+
+    private void handleVerificationResult(boolean verified, User user) throws IOException {
+        if (verified) {
+            UserSession.getInstance().setUser(user);
+            redirectToHomePage();
+        } else {
+            handleFailedVoiceAttempt();
+        }
+    }
+
+    private void handleVoiceError(Exception e) {
+        error.setText("Authentication error: " + e.getMessage());
+        System.err.println("Voice auth error:");
+        e.printStackTrace();
+    }
+
     private void handleSuccessfulLogin(User user) throws IOException {
         UserSession.getInstance().setUser(user);
         failedVoiceAttempts = 0;

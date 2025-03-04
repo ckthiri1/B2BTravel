@@ -83,36 +83,40 @@ public class SignUp implements Initializable {
             : "/usr/bin/python3";         // Linux/Mac
     // or full path to python.exe
     private static final String TEMP_AUDIO_PATH = "temp_voice.wav";
-    private List<List<Double>> voiceSamples = new ArrayList<>();
+    private static final int REQUIRED_SAMPLES = 3;
+    private List<List<List<Double>>> voiceSamples = new ArrayList<>();
 
     @FXML
     void recordVoiceSample() {
         try {
-            if (voiceSamples.size() >= 3) {
-                showAlert("Maximum 3 voice samples already recorded");
+            if (voiceSamples.size() >= REQUIRED_SAMPLES) {
+                showAlert("Maximum 3 voice samples recorded");
                 return;
             }
 
             File audioFile = AudioRecorder.recordVoice(TEMP_AUDIO_PATH, 3);
+            List<List<Double>> features = VoiceAuthService.enrollUser(
+                    PYTHON_PATH, audioFile
+            );
 
-            // Verify audio file
-            if (!audioFile.exists() || audioFile.length() == 0) {
-                throw new IOException("Empty or invalid audio file");
+            if (validateFeatures(features)) {
+                voiceSamples.add(features);
+                updateVoiceProgress();
             }
-
-            List<Double> features = VoiceAuthService.enrollUser(PYTHON_PATH, audioFile);
-
-            // Validate features
-            if (features.size() != 13) {
-                throw new Exception("Invalid feature vector size: " + features.size());
-            }
-
-            voiceSamples.add(features);
-            showSuccessMessage("Voice sample " + voiceSamples.size() + "/3 recorded");
-
         } catch (Exception e) {
-            showAlert("Voice recording error: " + e.getMessage());
+            showAlert("Recording error: " + e.getMessage());
         }
+    }
+
+    private boolean validateFeatures(List<List<Double>> features) {
+        return features != null &&
+                features.size() >= 10 &&
+                features.get(0).size() == 39;
+    }
+
+    private void updateVoiceProgress() {
+        int progress = voiceSamples.size() * 100 / REQUIRED_SAMPLES;
+        // Update UI progress indicator
     }
 
     private boolean isPasswordVisible = false;
@@ -161,7 +165,7 @@ public class SignUp implements Initializable {
 
     @FXML
     void signUp(ActionEvent event) throws SQLException, FileNotFoundException {
-        if(!validateInputsAndProceed()) return;
+        if(!validateInputsAndProceed()|| voiceSamples.size() < REQUIRED_SAMPLES) return;
         if(voiceSamples.size() < 3) {
             showAlert("Please record 3 voice samples");
             return;
