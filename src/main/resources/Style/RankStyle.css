@@ -1,0 +1,156 @@
+/* styles.css */
+
+/* Dialog styling */
+.dialog-pane {
+    -fx-background-color: #e3e3e3;
+    -fx-padding: 20;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #13117D;
+    -fx-padding: 10;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Content area styling */
+.dialog-pane > .content {
+    -fx-padding: 20;
+}
+
+/* Grid styling */
+.grid {
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+    -fx-padding: 20;
+}
+
+/* Label styling */
+.label1 {
+    -fx-font-family: "System";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* Text field styling */
+.text-field1 {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 5 10;
+    -fx-font-size: 14px;
+}
+.label {
+    -fx-font-family: "System";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* Text field styling */
+.text-field {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 5 10;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused {
+    -fx-border-color: #13117D;
+    -fx-border-width: 2;
+}
+
+.text-field1:focused {
+    -fx-border-color: #13117D;
+    -fx-border-width: 2;
+}
+
+/* Text area styling */
+.text-area {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-font-size: 14px;
+}
+
+.text-area:focused {
+    -fx-border-color: #13117D;
+    -fx-border-width: 2;
+}
+
+.text-area .content {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+}
+
+/* Button styling */
+.button {
+    -fx-background-radius: 10;
+    -fx-padding: 8 15;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.button.update-button {
+    -fx-background-color: #03045f;
+    -fx-text-fill: white;
+}
+
+.button.update-button:hover {
+    -fx-background-color: #13117D;
+}
+
+.button.cancel-button {
+    -fx-background-color: #f6f6f6;
+    -fx-text-fill: #333333;
+}
+
+.button.cancel-button:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+/* Alert dialog styling */
+.alert {
+    -fx-background-color: #e3e3e3;
+}
+
+.alert .header-panel {
+    -fx-background-color: #13117D;
+}
+
+.alert .header-panel .label {
+    -fx-text-fill: white;
+}
+
+.alert .content-panel {
+    -fx-padding: 15;
+}
+
+.alert .button-bar {
+    -fx-padding: 10;
+}
+
+/* Scroll bar styling */
+.scroll-bar {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 0;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #13117D;
+    -fx-background-radius: 5;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #03045f;
+}
